@@ -34,7 +34,7 @@
   pointer-events: none;
 }
 .hero-text { position: relative; z-index: 1; min-width: 0; }
-.hero h1 { margin: var(--sp-3) 0 var(--sp-3); font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.1rem); line-height: 1.12; }
+.hero h1 { margin: var(--sp-3) 0 var(--sp-6); font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.1rem); line-height: 1.12; }
 .hero h1 em { font-style: italic; color: var(--accent-strong); }
 .hero-text > p { color: var(--text-2); font-size: var(--fs-lg); max-width: 520px; margin-bottom: var(--sp-6); }
 

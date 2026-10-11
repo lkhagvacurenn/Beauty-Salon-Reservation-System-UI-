@@ -119,9 +119,8 @@
       /* Hero + search */
       '<section class="hero" aria-labelledby="hero-title">' +
         '<div class="hero-text">' +
-          '<span class="eyebrow"><i data-lucide="sparkles"></i>Улаанбаатарын гоо сайхны салонууд нэг дор</span>' +
-          '<h1 id="hero-title" class="display">Гоо сайхны цагаа <em>хэдхэн товшилтоор</em> захиалаарай</h1>' +
-          "<p>Bloom дээр салон, үйлчилгээ, үнэ, сэтгэгдлийг харьцуулж, ажилтны сул цагийг шууд харан цаг захиалах боломжтой.</p>" +
+          '<span class="eyebrow"><i data-lucide="sparkles"></i>Бүх үйлчилгээ нэг дор</span>' +
+          '<h1 id="hero-title" class="display">Өөрт ойроос, <em>хамгийн хялбараар</em></h1>' +
           '<form class="search-card" id="hero-search" role="search">' +
             '<div class="search-field">' +
               '<label for="hero-q">Юу хайж байна вэ?</label>' +

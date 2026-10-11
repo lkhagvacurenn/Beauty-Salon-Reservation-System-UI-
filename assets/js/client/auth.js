@@ -121,7 +121,7 @@
     el.innerHTML =
       '<div class="auth">' +
         '<aside class="auth-art"><div class="auth-art-inner">' + UI.logo({ href: "#/home" }) +
-          '<h2 class="display">Гоо сайхны цагаа<br><em>хэдхэн товшилтоор</em></h2>' +
+          '<h2 class="display">Өөрт ойроос,<br><em>хамгийн хялбараар</em></h2>' +
           '<ul><li><i data-lucide="search"></i>Ойролцоох салон, сул цагийг нэг дороос</li><li><i data-lucide="timer"></i>Хямдралтай цаг, промо кодын хөнгөлөлт</li><li><i data-lucide="calendar-check"></i>Захиалгаа хаанаас ч удирдах</li></ul>' +
           '<span class="auth-petal p1"></span><span class="auth-petal p2"></span></div></aside>' +
         '<section class="auth-card card">' +
