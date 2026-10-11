@@ -3,12 +3,12 @@
    ========================================================= */
 
 /* ---------- Logo ---------- */
-.logo { display: inline-flex; align-items: center; gap: var(--sp-2); color: var(--text); text-decoration: none; }
+.logo { display: inline-flex; align-items: center; gap: var(--sp-2); color: var(--text); text-decoration: none; flex-shrink: 0; }
 .logo:hover { text-decoration: none; }
 .logo img { height: 36px; width: auto; object-fit: contain; }
 .logo .logo-word { display: flex; flex-direction: column; gap: 3px; line-height: 1.1; }
-.logo .logo-word b { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; }
-.logo .logo-word span { font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-2); }
+.logo .logo-word b { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; letter-spacing: .01em; line-height: 1; }
+.logo .logo-word span { font-size: .6rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-strong); white-space: nowrap; }
 .logo .logo-combo { display: inline-flex; align-items: center; gap: var(--sp-2); }
 .logo .logo-symbol { display: none; }
 /* Symbol on phones, combination from tablet up (header context) */
@@ -142,7 +142,10 @@
 .stat-card .stat-trend { font-size: var(--fs-xs); font-weight: 700; color: var(--success); }
 
 /* ---------- Avatar ---------- */
-.avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: var(--fs-sm); background: var(--primary-soft); color: var(--accent-strong); flex-shrink: 0; }
+.avatar { position: relative; overflow: hidden; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: var(--fs-sm); background: var(--primary-soft); color: var(--accent-strong); flex-shrink: 0; }
+
+.avatar > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.avatar.has-photo { color: transparent; }
 
 /* ---------- Tables ---------- */
 .table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface); }

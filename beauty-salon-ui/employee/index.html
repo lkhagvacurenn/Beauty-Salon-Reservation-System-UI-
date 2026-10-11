@@ -16,27 +16,46 @@
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/business.css">
+  <link rel="stylesheet" href="../assets/css/employee.css">
 </head>
 <body data-base="../">
-  <!-- Pages: one <section data-page="id"> per menu item.
-       Menu items without a section show a "coming in Phase N" placeholder. -->
-  <div id="pages"></div>
+  <!-- Pages: one <section data-page="id"> per menu item (rendered by assets/js/employee/). -->
+  <div id="pages">
+    <section data-page="today"></section>
+    <section data-page="schedule"></section>
+    <section data-page="bookings"></section>
+    <section data-page="payment"></section>
+  </div>
 
-  <script>
-    window.APP = {
-      id: "employee", kind: "dashboard", title: "Employee · Ажилтан", phase: 4,
-      user: { name: "Анужин Г.", role: "Үсчин · Bloom Beauty", initials: "АГ" },
-      nav: [
-        { id: "today",    label: "Өнөөдөр",          icon: "house" },
-        { id: "schedule", label: "Миний хуваарь",    icon: "calendar-days",  short: "Хуваарь" },
-        { id: "bookings", label: "Миний захиалга",   icon: "clipboard-list", short: "Захиалга" },
-        { id: "payment",  label: "Үлдэгдэл төлбөр",  icon: "qr-code",        short: "Төлбөр" }
-      ],
-      bottomNav: ["today", "schedule", "bookings", "payment"]
-    };
-  </script>
   <script src="../assets/vendor/lucide.min.js"></script>
   <script src="../assets/js/ui.js"></script>
+  <!-- Same demo store as the business owner (bloom-biz) -->
+  <script src="../assets/js/client/data.js"></script>
+  <script src="../assets/js/client/data-extra.js"></script>
+  <script src="../assets/js/client/engine.js"></script>
+  <script src="../assets/js/business/biz-data.js"></script>
+  <script src="../assets/js/business/biz-core.js"></script>
+  <script src="../assets/js/employee/emp-core.js"></script>
+  <script>
+    /* The signed-in specialist comes from the shared store (demo switch on the Today page) */
+    (function () {
+      var e = EMP.me();
+      window.APP = {
+        id: "employee", kind: "dashboard", title: "Employee · Ажилтан", phase: 4,
+        user: { name: e.name, role: e.role + " · " + BIZ.state.salon.name, initials: e.initials, photo: e.photo },
+        nav: [
+          { id: "today",    label: "Өнөөдөр",          icon: "house" },
+          { id: "schedule", label: "Миний хуваарь",    icon: "calendar-days",  short: "Хуваарь" },
+          { id: "bookings", label: "Миний захиалга",   icon: "clipboard-list", short: "Захиалга" },
+          { id: "payment",  label: "Үлдэгдэл төлбөр",  icon: "qr-code",        short: "Төлбөр" }
+        ],
+        bottomNav: ["today", "schedule", "bookings", "payment"]
+      };
+    })();
+  </script>
+  <script src="../assets/js/employee/emp-pages.js"></script>
+  <script src="../assets/js/employee/emp-pay.js"></script>
   <script src="../assets/js/shell.js"></script>
 </body>
 </html>

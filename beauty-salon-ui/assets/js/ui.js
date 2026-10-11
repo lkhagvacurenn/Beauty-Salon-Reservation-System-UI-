@@ -6,42 +6,34 @@
   // Pages inside client/, business/ ... set <body data-base="../">
   var BASE = document.body.getAttribute("data-base") || "";
 
-  /* ----- Logo config -----------------------------------------
-     Symbol logo: supplied asset.
-     Combination logo: NOT supplied yet. Until it is, a labelled
-     placeholder is built from the symbol + wordmark text.
-     To use the real file: put it in assets/logo/ and set
-     `combination` to its file name, e.g. "logo-combination.png".  */
+  /* ----- Logo -------------------------------------------------
+     Symbol: the supplied flower image (assets/logo/logo-symbol.png).
+     Combination: the same symbol + the "Bloom" wordmark, coded in
+     HTML/CSS so it stays sharp and follows the light/dark theme.  */
   var LOGO = {
     symbol: "assets/logo/logo-symbol.png",
-    combination: null,
-    wordmark: "Beauty Salon",
-    tagline: "Цаг захиалга"
+    wordmark: "Bloom"
   };
 
-  function combinationHTML(opts) {
-    if (LOGO.combination) {
-      return '<img class="logo-combo" src="' + BASE + LOGO.combination + '" alt="Beauty Salon Reservation System">';
-    }
+  function combinationHTML() {
     return (
-      '<span class="logo-combo" data-placeholder="combination-logo" title="Combination logo placeholder: replace with the supplied file">' +
+      '<span class="logo-combo">' +
         '<img src="' + BASE + LOGO.symbol + '" alt="">' +
-        '<span class="logo-word"><b>' + LOGO.wordmark + '</b><span>' + LOGO.tagline + '</span></span>' +
-        (opts && opts.tag ? '<span class="logo-placeholder-tag">Logo placeholder</span>' : "") +
+        '<span class="logo-word"><b>' + LOGO.wordmark + '</b></span>' +
       "</span>"
     );
   }
 
   /**
-   * logo({ href, responsive, tag })
+   * logo({ href, responsive })
    * responsive: symbol on phones, combination on tablet/desktop.
    */
   function logo(opts) {
     opts = opts || {};
     var href = opts.href || BASE + "index.html";
     return (
-      '<a class="logo" href="' + href + '"' + (opts.responsive ? " data-responsive" : "") + ' aria-label="Beauty Salon Reservation System">' +
-        combinationHTML(opts) +
+      '<a class="logo" href="' + href + '"' + (opts.responsive ? " data-responsive" : "") + ' aria-label="Bloom">' +
+        combinationHTML() +
         '<img class="logo-symbol" src="' + BASE + LOGO.symbol + '" alt="">' +
       "</a>"
     );
@@ -103,8 +95,8 @@
     if (!ov) return;
     ov.classList.remove("is-open");
     ov.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-    if (lastFocus) lastFocus.focus();
+    if (!document.querySelector(".overlay.is-open")) document.body.style.overflow = "";
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
   }
   document.addEventListener("click", function (e) {
     var opener = e.target.closest("[data-open-modal]");
@@ -136,6 +128,7 @@
           '<button class="btn btn-danger" id="confirm-yes"></button></div></div>';
       document.body.appendChild(ov);
     }
+    document.body.appendChild(ov); /* stay above any modal opened after it */
     ov.querySelector("#confirm-title").textContent = opts.title || "Та итгэлтэй байна уу?";
     ov.querySelector("#confirm-text").textContent = opts.text || "";
     var yes = ov.querySelector("#confirm-yes");
@@ -144,7 +137,18 @@
     openModal(id);
   }
 
+  /* ----- Avatar: real photo when there is one, initials otherwise.
+     If the photo fails to load it removes itself and the initials show. */
+  function avatar(p, cls, style) {
+    p = p || {};
+    var ini = p.initials || (p.name || "?").split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 2).toUpperCase();
+    var src = String(p.photo || "").replace(/"/g, "&quot;");
+    return '<span class="avatar' + (cls ? " " + cls : "") + (src ? " has-photo" : "") + '"' + (style ? ' style="' + style + '"' : "") + ">" + ini +
+      (src ? '<img src="' + src + '" alt="" onerror="this.parentNode.classList.remove(\'has-photo\');this.remove()">' : "") + "</span>";
+  }
+
   window.UI = {
+    avatar: avatar,
     BASE: BASE,
     LOGO: LOGO,
     logo: logo,

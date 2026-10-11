@@ -16,11 +16,21 @@
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/business.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
 <body data-base="../">
   <!-- Pages: one <section data-page="id"> per menu item.
-       Menu items without a section show a "coming in Phase N" placeholder. -->
-  <div id="pages"></div>
+       Each page is rendered by its script in assets/js/admin/. -->
+  <div id="pages">
+    <section data-page="dashboard"></section>
+    <section data-page="users"></section>
+    <section data-page="salons"></section>
+    <section data-page="bookings"></section>
+    <section data-page="reviews"></section>
+    <section data-page="ads"></section>
+    <section data-page="invoices"></section>
+  </div>
 
   <script>
     window.APP = {
@@ -39,6 +49,22 @@
   </script>
   <script src="../assets/vendor/lucide.min.js"></script>
   <script src="../assets/js/ui.js"></script>
+  <!-- Shared demo data + engine. The admin reads the business owner's
+       store too, so reports, invoices and the fee rule stay in sync. -->
+  <script src="../assets/js/client/data.js"></script>
+  <script src="../assets/js/client/data-extra.js"></script>
+  <script src="../assets/js/client/engine.js"></script>
+  <script src="../assets/js/business/biz-data.js"></script>
+  <script src="../assets/js/business/biz-core.js"></script>
+  <!-- Admin pages (must load before shell.js) -->
+  <script src="../assets/js/admin/adm-data.js"></script>
+  <script src="../assets/js/admin/adm-core.js"></script>
+  <script src="../assets/js/admin/adm-users.js"></script>
+  <script src="../assets/js/admin/adm-salons.js"></script>
+  <script src="../assets/js/admin/adm-bookings.js"></script>
+  <script src="../assets/js/admin/adm-reviews.js"></script>
+  <script src="../assets/js/admin/adm-ads.js"></script>
+  <script src="../assets/js/admin/adm-invoices.js"></script>
   <script src="../assets/js/shell.js"></script>
 </body>
 </html>

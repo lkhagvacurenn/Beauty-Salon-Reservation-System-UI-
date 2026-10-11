@@ -45,14 +45,23 @@
 .app-header .header-nav a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
 .app-header .header-nav a[aria-current="page"] { color: var(--accent-strong); background: var(--primary-soft); }
 .app-header .header-actions { display: flex; align-items: center; gap: var(--sp-2); margin-left: auto; }
-@media (max-width: 1023px) { .app-header .header-nav { display: none; } }
-@media (max-width: 767px)  { .app-header .header-search { display: none; } }
+@media (max-width: 1023px) { .app-header .header-nav, .app-header .header-search { display: none; } }
+/* Desktop: logo left, search centre, menu right */
+@media (min-width: 1024px) {
+  .app-header .inner { gap: var(--sp-6); }
+  .app-header .header-nav { align-items: center; flex-shrink: 0; }
+  .app-header .header-search { flex: 1; max-width: 420px; margin: 0 auto; }
+  .app-header .header-search .input { min-height: 42px; border-radius: var(--r-pill); background: var(--surface-3); }
+  .app-header .logo { flex-shrink: 0; }
+  .app-header .header-theme { margin-left: var(--sp-1); }
+}
+@media (max-width: 1023px) { .app-header .header-actions { margin-left: auto; } }
 
 .client-main {
   max-width: var(--content-max); margin: 0 auto;
   padding: var(--sp-6) var(--sp-4) var(--sp-16);
 }
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .client-main { padding-bottom: calc(var(--bottom-nav-h) + var(--sp-16)); }
 }
 
@@ -72,7 +81,9 @@
 .bottom-nav a .lucide { width: 22px; height: 22px; }
 .bottom-nav a[aria-current="page"] { color: var(--accent-strong); }
 .bottom-nav a[aria-current="page"] .lucide { stroke-width: 2.4; }
-@media (max-width: 767px) { .bottom-nav { display: flex; } }
+@media (max-width: 1023px) { .bottom-nav { display: flex; } }
+/* Dashboards (employee) keep the bottom bar for phones only */
+@media (min-width: 768px) { .dash ~ .bottom-nav { display: none; } }
 
 /* ---------- Dashboard shell (business / employee / admin) ---------- */
 .dash { display: grid; grid-template-columns: var(--sidebar-w) 1fr; min-height: calc(100vh - var(--demo-bar-h)); }
@@ -166,3 +177,37 @@
 }
 :root[data-theme="dark"] .demo-bar .demo-switch { border-color: var(--border-strong); }
 .demo-bar .demo-switch option { background: var(--surface); color: var(--text); }
+
+/* ---------- Client header extras ---------- */
+.app-header .header-nav a { white-space: nowrap; }
+@media (min-width: 1024px) and (max-width: 1239px) {
+  .app-header .header-nav a { padding: 8px 10px; }
+  .app-header .header-nav a .lucide { display: none; }
+}
+.account-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 4px 10px 4px 4px; border-radius: var(--r-pill);
+  border: 1px solid var(--border); background: var(--surface); color: var(--text); font-weight: 700; font-size: var(--fs-sm);
+}
+.account-name { white-space: nowrap; }
+.account-btn:hover { background: var(--surface-2); }
+.menu-wrap { position: relative; }
+.menu {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 300; min-width: 230px;
+  padding: 6px; border-radius: var(--r-lg); background: var(--surface);
+  border: 1px solid var(--border); box-shadow: var(--shadow-lg);
+}
+.menu-head { padding: 10px 12px 12px; border-bottom: 1px solid var(--border); margin-bottom: 6px; }
+.menu-head b { display: block; font-size: var(--fs-sm); }
+.menu-head span { font-size: var(--fs-xs); color: var(--text-2); }
+.menu a, .menu button {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  min-height: 42px; padding: 0 12px; border: 0; border-radius: var(--r-md);
+  background: transparent; color: var(--text); font-size: var(--fs-sm); font-weight: 600; text-align: left;
+}
+.menu a:hover, .menu button:hover { background: var(--surface-2); text-decoration: none; }
+.menu .lucide { width: 18px; height: 18px; color: var(--text-2); }
+
+@media (min-width: 1024px) { .hide-desktop { display: none !important; } }
+@media (max-width: 1023px) { .hide-tablet-down { display: none !important; } }
+@media (max-width: 1023px) { .client-body .toast-stack { bottom: calc(var(--bottom-nav-h) + var(--sp-4)); } }

@@ -39,8 +39,8 @@
 .welcome-logo .logo .logo-combo { flex-direction: column; gap: var(--sp-3); align-items: center; }
 .welcome-logo .logo img { height: 112px; filter: drop-shadow(0 12px 24px rgba(222, 130, 156, .35)); }
 .welcome-logo .logo .logo-word { align-items: center; }
-.welcome-logo .logo .logo-word b { font-size: 1.6rem; }
-.welcome-logo .logo .logo-word span { font-size: .75rem; }
+.welcome-logo .logo .logo-word b { font-size: 2.6rem; }
+.welcome-logo .logo .logo-word span { font-size: .72rem; }
 .welcome-logo { animation: rise .7s var(--ease) both; }
 
 .welcome-title {

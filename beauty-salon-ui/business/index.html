@@ -16,16 +16,27 @@
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/business.css">
 </head>
 <body data-base="../">
   <!-- Pages: one <section data-page="id"> per menu item.
-       Menu items without a section show a "coming in Phase N" placeholder. -->
-  <div id="pages"></div>
+       Each page is rendered by its script in assets/js/business/. -->
+  <div id="pages">
+    <section data-page="dashboard"></section>
+    <section data-page="bookings"></section>
+    <section data-page="salon"></section>
+    <section data-page="services"></section>
+    <section data-page="employees"></section>
+    <section data-page="promotions"></section>
+    <section data-page="reviews"></section>
+    <section data-page="reports"></section>
+    <section data-page="invoices"></section>
+  </div>
 
   <script>
     window.APP = {
       id: "business", kind: "dashboard", title: "Business Owner · Бизнес эрхлэгч", phase: 3,
-      user: { name: "Солонго Д.", role: "Bloom Beauty · Эзэмшигч", initials: "СД" },
+      user: { name: "Ганцэцэг Батсүх", role: "Сарнай Бьюти Студио · Эзэмшигч", initials: "ГБ" },
       nav: [
         { id: "dashboard", label: "Хяналтын самбар",    icon: "layout-dashboard", group: "Үндсэн" },
         { id: "bookings",  label: "Захиалга",           icon: "calendar-days",    group: "Үндсэн" },
@@ -41,6 +52,20 @@
   </script>
   <script src="../assets/vendor/lucide.min.js"></script>
   <script src="../assets/js/ui.js"></script>
+  <!-- Shared demo data + engine (same salon the client sees) -->
+  <script src="../assets/js/client/data.js"></script>
+  <script src="../assets/js/client/data-extra.js"></script>
+  <script src="../assets/js/client/engine.js"></script>
+  <!-- Business pages (must load before shell.js) -->
+  <script src="../assets/js/business/biz-data.js"></script>
+  <script src="../assets/js/business/biz-core.js"></script>
+  <script src="../assets/js/business/biz-dashboard.js"></script>
+  <script src="../assets/js/business/biz-bookings.js"></script>
+  <script src="../assets/js/business/biz-salon.js"></script>
+  <script src="../assets/js/business/biz-services.js"></script>
+  <script src="../assets/js/business/biz-employees.js"></script>
+  <script src="../assets/js/business/biz-marketing.js"></script>
+  <script src="../assets/js/business/biz-finance.js"></script>
   <script src="../assets/js/shell.js"></script>
 </body>
 </html>

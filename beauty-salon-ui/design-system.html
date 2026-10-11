@@ -76,7 +76,7 @@
     <!-- Logo -->
     <section>
       <h2>Лого</h2>
-      <p class="lead">Утсан дээр тэмдэг лого, таблет болон компьютер дээр бүтэн лого. Бүтэн (combination) лого ирээгүй тул түр орлуулагч ашиглаж байна.</p>
+      <p class="lead">Утсан дээр тэмдэг лого, таблет болон компьютер дээр бүтэн лого. "Bloom" нэрийг HTML/CSS-ээр бичсэн тул горим солиход өнгө нь дагаж өөрчлөгдөнө.</p>
       <div class="grid grid-2">
         <div class="logo-box light" id="logo-light"></div>
         <div class="logo-box dark" id="logo-dark"></div>
@@ -276,7 +276,7 @@
     document.getElementById("ds-logo").outerHTML = UI.logo({ href: "index.html", responsive: true });
     document.getElementById("theme-slot").outerHTML = UI.themeToggle();
     var logoDemo = '<div class="row" style="gap:40px;flex-wrap:wrap;justify-content:center">' +
-      '<div class="center">' + UI.logo({ href: "index.html", tag: true }) + '<div class="xs" style="opacity:.7;margin-top:8px">Combination (tablet, desktop)</div></div>' +
+      '<div class="center">' + UI.logo({ href: "index.html" }) + '<div class="xs" style="opacity:.7;margin-top:8px">Combination (tablet, desktop)</div></div>' +
       '<div class="center"><img class="sym" src="assets/logo/logo-symbol.png" alt="Symbol logo"><div class="xs" style="opacity:.7;margin-top:8px">Symbol (phone)</div></div></div>';
     document.getElementById("logo-light").innerHTML = logoDemo;
     document.getElementById("logo-dark").innerHTML = logoDemo;

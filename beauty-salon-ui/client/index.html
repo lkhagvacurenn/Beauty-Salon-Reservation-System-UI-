@@ -4,41 +4,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#FFF9FA">
-  <title>Үйлчлүүлэгч · Beauty Salon UI</title>
+  <title>Bloom · Үйлчлүүлэгч</title>
   <link rel="icon" type="image/png" href="../assets/logo/logo-symbol.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap">
 
   <script src="../assets/js/theme.js"></script>
   <link rel="stylesheet" href="../assets/css/tokens.css">
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/client.css">
+  <link rel="stylesheet" href="../assets/css/client-pages.css">
 </head>
-<body data-base="../">
-  <!-- Pages: one <section data-page="id"> per menu item.
-       Menu items without a section show a "coming in Phase N" placeholder. -->
-  <div id="pages"></div>
+<body data-base="../" class="client-body">
+  <!-- One <section data-page="id"> per page. Pages are rendered by
+       assets/js/client/client.js; pages not built yet show a
+       "next step" placeholder from shell.js. -->
+  <div id="pages">
+    <section data-page="home"></section>
+    <section data-page="salons"></section>
+    <section data-page="salon"></section>
+    <section data-page="book"></section>
+    <section data-page="pay"></section>
+    <section data-page="favorites"></section>
+    <section data-page="bookings"></section>
+    <section data-page="profile"></section>
+    <section data-page="login"></section>
+  </div>
 
   <script>
     window.APP = {
       id: "client", kind: "client", title: "Client · Үйлчлүүлэгч", phase: 2,
-      user: { name: "Номин-Эрдэнэ Б.", role: "Үйлчлүүлэгч", initials: "НЭ" },
+      home: "home",   /* the logo opens this page */
+      user: { name: "Номин-Эрдэнэ Батболд", role: "Үйлчлүүлэгч", initials: "НБ" },
       nav: [
-        { id: "home",      label: "Нүүр",           icon: "house" },
-        { id: "salons",    label: "Салон хайх",     icon: "search",         short: "Хайх" },
-        { id: "map",       label: "Газрын зураг",   icon: "map",            short: "Зураг" },
+        { id: "salons",    label: "Үйлчилгээ",      icon: "sparkles" },
         { id: "bookings",  label: "Миний захиалга", icon: "calendar-check", short: "Захиалга" },
-        { id: "favorites", label: "Хадгалсан",      icon: "heart",          header: false },
-        { id: "profile",   label: "Профайл",        icon: "user-round",     header: false }
+        { id: "favorites", label: "Хадгалсан",      icon: "heart" },
+        { id: "profile",   label: "Профайл",        icon: "user-round" }
       ],
-      bottomNav: ["home", "salons", "map", "bookings", "profile"]
+      /* Pages reachable by links but not shown in the menu */
+      routes: [
+        { id: "home",  label: "Нүүр", icon: "house" },
+        { id: "map",   label: "Газрын зураг", icon: "map", redirect: "salons?view=map" },
+        { id: "salon", label: "Салоны дэлгэрэнгүй", icon: "store", parent: "salons" },
+        { id: "book",  label: "Цаг захиалах", icon: "calendar-check", parent: "salons" },
+        { id: "pay",   label: "Урьдчилгаа төлөх", icon: "qr-code", parent: "bookings" },
+        { id: "login", label: "Нэвтрэх", icon: "log-in" }
+      ],
+      bottomNav: ["salons", "bookings", "favorites", "profile"]
     };
   </script>
   <script src="../assets/vendor/lucide.min.js"></script>
   <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/client/data.js"></script>
+  <script src="../assets/js/client/data-extra.js"></script>
+  <script src="../assets/js/client/engine.js"></script>
+  <script src="../assets/js/client/client.js"></script>
+  <script src="../assets/js/client/discover.js"></script>
+  <script src="../assets/js/client/salon.js"></script>
+  <script src="../assets/js/client/booking.js"></script>
+  <script src="../assets/js/client/pay.js"></script>
+  <script src="../assets/js/client/account.js"></script>
+  <script src="../assets/js/client/auth.js"></script>
   <script src="../assets/js/shell.js"></script>
 </body>
 </html>
