@@ -1,0 +1,133 @@
+/* =========================================================
+   Welcome / interface selection screen
+   ========================================================= */
+
+.welcome {
+  position: relative; min-height: 100vh; overflow: hidden;
+  display: flex; flex-direction: column;
+  background: var(--gradient-blush);
+}
+
+/* Soft blossom glows in the background, kept subtle */
+.welcome::before, .welcome::after {
+  content: ""; position: absolute; border-radius: 50%; pointer-events: none; filter: blur(10px);
+}
+.welcome::before {
+  width: 520px; height: 520px; top: -180px; right: -140px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--primary) 38%, transparent) 0%, transparent 70%);
+}
+.welcome::after {
+  width: 440px; height: 440px; bottom: -200px; left: -160px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 70%);
+}
+
+.welcome-top {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: flex-end; gap: var(--sp-2);
+  padding: var(--sp-4) var(--sp-6);
+}
+
+.welcome-hero {
+  position: relative; z-index: 1; flex: 1;
+  width: 100%; max-width: 1180px; margin: 0 auto;
+  padding: var(--sp-6) var(--sp-6) var(--sp-12);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+
+/* Big combination logo */
+.welcome-logo .logo { flex-direction: column; gap: var(--sp-3); }
+.welcome-logo .logo .logo-combo { flex-direction: column; gap: var(--sp-3); align-items: center; }
+.welcome-logo .logo img { height: 112px; filter: drop-shadow(0 12px 24px rgba(222, 130, 156, .35)); }
+.welcome-logo .logo .logo-word { align-items: center; }
+.welcome-logo .logo .logo-word b { font-size: 1.6rem; }
+.welcome-logo .logo .logo-word span { font-size: .75rem; }
+.welcome-logo { animation: rise .7s var(--ease) both; }
+
+.welcome-title {
+  margin: var(--sp-8) 0 var(--sp-3);
+  max-width: 900px;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(1.5rem, 1rem + 2.6vw, 2.9rem);
+  line-height: 1.18; letter-spacing: .02em;
+  animation: rise .7s .08s var(--ease) both;
+}
+.welcome-title .accent { color: var(--accent-strong); }
+.welcome-sub {
+  margin: 0 0 var(--sp-10); color: var(--text-2);
+  font-size: var(--fs-lg); font-weight: 600;
+  animation: rise .7s .14s var(--ease) both;
+}
+
+.iface-grid {
+  width: 100%;
+  display: grid; gap: var(--sp-5);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  text-align: left;
+}
+@media (max-width: 1023px) { .iface-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 599px)  { .iface-grid { grid-template-columns: 1fr; } }
+
+.iface-card {
+  position: relative; display: flex; flex-direction: column; gap: var(--sp-3);
+  padding: var(--sp-6); border-radius: var(--r-xl);
+  background: var(--surface); border: 1px solid var(--border);
+  box-shadow: var(--shadow-md); color: var(--text);
+  transition: transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease), border-color var(--t-med);
+  animation: rise .7s var(--ease) both;
+}
+.iface-card:nth-child(1) { animation-delay: .2s; }
+.iface-card:nth-child(2) { animation-delay: .26s; }
+.iface-card:nth-child(3) { animation-delay: .32s; }
+.iface-card:nth-child(4) { animation-delay: .38s; }
+.iface-card:hover { text-decoration: none; transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+.iface-card:focus-visible { border-radius: var(--r-xl); }
+
+.iface-card .iface-icon {
+  width: 60px; height: 60px; border-radius: var(--r-lg);
+  display: grid; place-items: center;
+  background: var(--primary-soft); color: var(--accent-strong);
+  transition: background var(--t-med), color var(--t-med), transform var(--t-med) var(--ease);
+}
+.iface-card .iface-icon .lucide { width: 28px; height: 28px; }
+.iface-card:hover .iface-icon { background: var(--primary); color: var(--on-primary); transform: rotate(-6deg); }
+
+.iface-card h2 { margin: var(--sp-1) 0 0; font-size: var(--fs-xl); }
+.iface-card .iface-mn { font-size: var(--fs-xs); font-weight: 700; color: var(--accent-strong); letter-spacing: .04em; }
+.iface-card p { margin: 0; font-size: var(--fs-sm); color: var(--text-2); }
+.iface-card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.iface-card li { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); }
+.iface-card li .lucide { width: 16px; height: 16px; color: var(--accent); }
+
+.iface-card .iface-cta {
+  margin-top: auto; padding-top: var(--sp-3);
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-weight: 800; font-size: var(--fs-sm); color: var(--accent-strong);
+}
+.iface-card .iface-cta .lucide { width: 18px; height: 18px; transition: transform var(--t-med) var(--ease); }
+.iface-card:hover .iface-cta .lucide { transform: translateX(4px); }
+
+.iface-card.featured::before {
+  content: "Гол интерфейс"; position: absolute; top: var(--sp-5); right: var(--sp-5);
+  font-size: .68rem; font-weight: 800; letter-spacing: .06em;
+  padding: 3px 10px; border-radius: var(--r-pill);
+  background: var(--primary); color: var(--on-primary);
+}
+
+.welcome-foot {
+  position: relative; z-index: 1;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-2) var(--sp-5);
+  padding: var(--sp-5) var(--sp-6) var(--sp-8);
+  font-size: var(--fs-xs); color: var(--text-2);
+}
+.welcome-foot span { display: inline-flex; align-items: center; gap: 6px; }
+.welcome-foot .lucide { width: 14px; height: 14px; }
+
+@media (max-width: 599px) {
+  .welcome-top { padding: var(--sp-3) var(--sp-4); }
+  .welcome-hero { padding: var(--sp-2) var(--sp-4) var(--sp-8); }
+  .welcome-logo .logo img { height: 84px; }
+  .welcome-sub { font-size: var(--fs-md); margin-bottom: var(--sp-6); }
+  .iface-card { padding: var(--sp-5); }
+}
+
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }

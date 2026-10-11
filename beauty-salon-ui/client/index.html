@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFF9FA">
+  <title>Үйлчлүүлэгч · Beauty Salon UI</title>
+  <link rel="icon" type="image/png" href="../assets/logo/logo-symbol.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap">
+
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+</head>
+<body data-base="../">
+  <!-- Pages: one <section data-page="id"> per menu item.
+       Menu items without a section show a "coming in Phase N" placeholder. -->
+  <div id="pages"></div>
+
+  <script>
+    window.APP = {
+      id: "client", kind: "client", title: "Client · Үйлчлүүлэгч", phase: 2,
+      user: { name: "Номин-Эрдэнэ Б.", role: "Үйлчлүүлэгч", initials: "НЭ" },
+      nav: [
+        { id: "home",      label: "Нүүр",           icon: "house" },
+        { id: "salons",    label: "Салон хайх",     icon: "search",         short: "Хайх" },
+        { id: "map",       label: "Газрын зураг",   icon: "map",            short: "Зураг" },
+        { id: "bookings",  label: "Миний захиалга", icon: "calendar-check", short: "Захиалга" },
+        { id: "favorites", label: "Хадгалсан",      icon: "heart",          header: false },
+        { id: "profile",   label: "Профайл",        icon: "user-round",     header: false }
+      ],
+      bottomNav: ["home", "salons", "map", "bookings", "profile"]
+    };
+  </script>
+  <script src="../assets/vendor/lucide.min.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/shell.js"></script>
+</body>
+</html>

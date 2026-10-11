@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFF9FA">
+  <title>Design system · Beauty Salon UI</title>
+  <link rel="icon" type="image/png" href="assets/logo/logo-symbol.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap">
+
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <style>
+    .ds { max-width: 1100px; margin: 0 auto; padding: var(--sp-8) var(--sp-4) var(--sp-16); }
+    .ds section { margin-bottom: var(--sp-12); }
+    .ds h2 { font-family: var(--font-display); font-weight: 600; margin-bottom: var(--sp-2); }
+    .ds .lead { color: var(--text-2); margin-bottom: var(--sp-5); }
+    .swatches { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .swatch { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; background: var(--surface); }
+    .swatch .chip-color { height: 64px; border-bottom: 1px solid var(--border); }
+    .swatch div:last-child { padding: 8px 10px; font-size: var(--fs-xs); }
+    .swatch b { display: block; font-size: var(--fs-sm); }
+    .swatch code { color: var(--text-2); }
+    .type-row { display: flex; align-items: baseline; gap: var(--sp-4); padding: var(--sp-3) 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .type-row code { width: 120px; color: var(--text-2); font-size: var(--fs-xs); }
+    .logo-box { display: flex; align-items: center; justify-content: center; min-height: 140px; border-radius: var(--r-lg); border: 1px solid var(--border); }
+    .logo-box.light { background: #FFF9FA; color: #34252F; }
+    .logo-box.dark { background: #19151B; color: #F9F2F5; }
+    .logo-box.dark .logo, .logo-box.light .logo { color: inherit; }
+    .logo-box.dark .logo-word span { color: #C2B1BC; }
+    .logo-box.light .logo-word span { color: #75636D; }
+    .logo-box .logo img { height: 56px; }
+    .logo-box .sym { height: 56px; margin: 0 auto; }
+    .logo-box { padding: var(--sp-6); }
+    .bp { display: grid; gap: var(--sp-3); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @media (max-width: 767px) { .bp { grid-template-columns: 1fr; } }
+    .bp .card b { display: block; font-size: var(--fs-lg); }
+    .now-bp { font-weight: 800; color: var(--accent-strong); }
+  </style>
+</head>
+<body data-base="">
+  <div class="demo-bar">
+    <a class="back-link" href="index.html"><i data-lucide="arrow-left"></i>Back to Welcome</a>
+    <span class="demo-label">UI demo · <b>Cherry Blossom design system</b></span>
+    <span class="spacer"></span>
+  </div>
+
+  <header class="app-header"><div class="inner">
+    <span id="ds-logo"></span>
+    <span class="spacer"></span>
+    <span class="small muted hide-mobile">Одоогийн дэлгэц: <span class="now-bp" id="bp-now"></span></span>
+    <span id="theme-slot"></span>
+  </div></header>
+
+  <main class="ds">
+    <div class="page-head">
+      <div>
+        <h1 class="display">Дизайн систем</h1>
+        <p>Дөрвөн интерфейс бүгд ижил өнгө, үсэг, товч, карт, хүснэгт ашиглана. Баруун дээд буланд горимоо солиод шалгаарай.</p>
+      </div>
+    </div>
+
+    <!-- Colours -->
+    <section>
+      <h2>Өнгө</h2>
+      <p class="lead">Cherry Blossom палитр. Утгууд <code>assets/css/tokens.css</code> файлд байна; горим солиход автоматаар өөрчлөгдөнө.</p>
+      <div class="swatches" id="swatches"></div>
+    </section>
+
+    <!-- Logo -->
+    <section>
+      <h2>Лого</h2>
+      <p class="lead">Утсан дээр тэмдэг лого, таблет болон компьютер дээр бүтэн лого. Бүтэн (combination) лого ирээгүй тул түр орлуулагч ашиглаж байна.</p>
+      <div class="grid grid-2">
+        <div class="logo-box light" id="logo-light"></div>
+        <div class="logo-box dark" id="logo-dark"></div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section>
+      <h2>Үсгийн хэв</h2>
+      <p class="lead">Manrope (үндсэн текст) ба Playfair Display (гарчиг). Хоёулаа кирилл үсэг дэмждэг.</p>
+      <div class="type-row"><code>Display</code><span class="display" style="font-size:var(--fs-3xl)">Гоо сайхны салон</span></div>
+      <div class="type-row"><code>H2 · 28px</code><span style="font-size:var(--fs-2xl);font-weight:700">Санал болгох салонууд</span></div>
+      <div class="type-row"><code>H3 · 22px</code><span style="font-size:var(--fs-xl);font-weight:700">Үйлчилгээ сонгох</span></div>
+      <div class="type-row"><code>Body · 16px</code><span>Та өөрт тохирох цагаа сонгоод захиалгаа баталгаажуулна уу.</span></div>
+      <div class="type-row"><code>Small · 14px</code><span class="small muted">Сүхбаатар дүүрэг, 1-р хороо · 45,000₮-өөс</span></div>
+    </section>
+
+    <!-- Buttons -->
+    <section>
+      <h2>Товч</h2>
+      <p class="lead">Нэг дэлгэцэнд нэг үндсэн (ягаан) товч. Бусад үйлдэл хоёрдогч эсвэл ghost товч.</p>
+      <div class="row-wrap">
+        <button class="btn btn-primary" data-toast="Цаг захиалга амжилттай үүслээ"><i data-lucide="calendar-check"></i>Цаг захиалах</button>
+        <button class="btn btn-secondary" data-toast="Хадгалсан салонд нэмэгдлээ"><i data-lucide="heart"></i>Хадгалах</button>
+        <button class="btn btn-ghost" data-toast="Газрын зураг 2-р шатанд нэмэгдэнэ" data-type="info"><i data-lucide="map-pin"></i>Газрын зураг</button>
+        <button class="btn btn-danger" id="demo-delete"><i data-lucide="trash-2"></i>Устгах</button>
+        <button class="btn btn-primary" disabled>Идэвхгүй</button>
+      </div>
+      <div class="row-wrap mt-4">
+        <button class="btn btn-primary btn-sm" data-toast="Жижиг товч дарагдлаа" data-type="info">Жижиг</button>
+        <button class="btn btn-primary btn-lg" data-toast="Том товч дарагдлаа" data-type="info">Том товч</button>
+        <button class="icon-btn" aria-label="Шүүлтүүр" data-toast="Шүүлтүүр 2-р шатанд нэмэгдэнэ" data-type="info"><i data-lucide="sliders-horizontal"></i></button>
+        <button class="icon-btn" aria-label="Хуваалцах" data-toast="Холбоос хуулагдлаа"><i data-lucide="share-2"></i></button>
+      </div>
+    </section>
+
+    <!-- Forms -->
+    <section>
+      <h2>Маягт</h2>
+      <p class="lead">Шошготой талбар, тайлбар, алдааны мессеж. "Шалгах" дээр дарж алдааны төлөвийг харна уу.</p>
+      <form class="card grid grid-2" id="demo-form" novalidate>
+        <div class="field">
+          <label for="f-name">Нэр</label>
+          <input class="input" id="f-name" placeholder="Жишээ: Номин-Эрдэнэ">
+          <span class="error-text">Нэрээ оруулна уу.</span>
+        </div>
+        <div class="field">
+          <label for="f-phone">Утасны дугаар</label>
+          <input class="input" id="f-phone" inputmode="numeric" placeholder="9911 2233">
+          <span class="hint">8 оронтой дугаар</span>
+          <span class="error-text">Утасны дугаар 8 оронтой байх ёстой.</span>
+        </div>
+        <div class="field">
+          <label for="f-district">Дүүрэг</label>
+          <select class="select" id="f-district">
+            <option>Сүхбаатар</option><option>Чингэлтэй</option><option>Баянгол</option>
+            <option>Баянзүрх</option><option>Хан-Уул</option><option>Сонгинохайрхан</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-search">Хайлт</label>
+          <div class="input-icon"><i data-lucide="search"></i><input class="input" id="f-search" type="search" placeholder="Салон, үйлчилгээ…"></div>
+        </div>
+        <div class="field" style="grid-column:1/-1">
+          <label for="f-note">Нэмэлт тэмдэглэл</label>
+          <textarea class="textarea" id="f-note" placeholder="Мастерт хэлэх зүйл…"></textarea>
+        </div>
+        <div class="row-wrap" style="grid-column:1/-1">
+          <label class="check"><input type="checkbox" checked> Өнөөдөр сул цагтай</label>
+          <label class="check"><input type="checkbox"> Discount Hour</label>
+          <label class="switch"><input type="checkbox" checked><span class="track"></span>Идэвхтэй</label>
+          <span class="spacer"></span>
+          <button class="btn btn-primary" type="submit">Шалгах</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Chips & badges -->
+    <section>
+      <h2>Chip ба төлөв</h2>
+      <p class="lead">Chip-ийг шүүлтүүрт олноор нь сонгоно. Төлөвийн badge нь захиалга, төлбөрийг ялгаж харуулна.</p>
+      <div class="row-wrap" id="chips">
+        <button class="chip" aria-pressed="true"><i data-lucide="scissors"></i>Үс засалт</button>
+        <button class="chip" aria-pressed="false"><i data-lucide="hand"></i>Маникюр</button>
+        <button class="chip" aria-pressed="false"><i data-lucide="eye"></i>Сормуус</button>
+        <button class="chip" aria-pressed="false"><i data-lucide="brush"></i>Нүүр будалт</button>
+        <button class="chip" aria-pressed="false"><i data-lucide="flower-2"></i>Арьс арчилгаа</button>
+      </div>
+      <div class="row-wrap mt-4">
+        <span class="badge badge-warning">Хүлээгдэж буй</span>
+        <span class="badge badge-success">Баталгаажсан</span>
+        <span class="badge badge-info">Үйлчилгээ явагдаж буй</span>
+        <span class="badge badge-success">Дууссан</span>
+        <span class="badge badge-danger">Цуцлагдсан</span>
+        <span class="badge badge-pink">Урьдчилгаа төлсөн</span>
+        <span class="badge">Төлөөгүй</span>
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section>
+      <h2>Карт</h2>
+      <p class="lead">Удирдлагын самбарын статистик карт.</p>
+      <div class="grid grid-4">
+        <div class="card stat-card"><span class="stat-icon"><i data-lucide="calendar-days"></i></span><span class="stat-value">18</span><span class="stat-label">Өнөөдрийн захиалга</span><span class="stat-trend">+12% өчигдрөөс</span></div>
+        <div class="card stat-card"><span class="stat-icon"><i data-lucide="circle-check"></i></span><span class="stat-value">142</span><span class="stat-label">Дууссан (энэ сар)</span><span class="stat-trend">+8%</span></div>
+        <div class="card stat-card"><span class="stat-icon"><i data-lucide="wallet"></i></span><span class="stat-value">6.4сая₮</span><span class="stat-label">Орлого (энэ сар)</span><span class="stat-trend">+15%</span></div>
+        <div class="card stat-card"><span class="stat-icon"><i data-lucide="star"></i></span><span class="stat-value">4.8</span><span class="stat-label">Дундаж үнэлгээ</span><span class="stat-trend">326 сэтгэгдэл</span></div>
+      </div>
+    </section>
+
+    <!-- Table -->
+    <section>
+      <h2>Хүснэгт</h2>
+      <p class="lead">Жижиг дэлгэц дээр хүснэгт хажуу тийш гүйлгэгдэнэ, хуудас өөрөө гүйлгэгдэхгүй.</p>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Үйлчлүүлэгч</th><th>Үйлчилгээ</th><th>Ажилтан</th><th>Цаг</th><th>Захиалга</th><th>Төлбөр</th></tr></thead>
+          <tbody>
+            <tr><td><div class="row"><span class="avatar">НЭ</span>Номин-Эрдэнэ Б.</div></td><td>Үс засалт + угаалга</td><td>Анужин Г.</td><td>10:00–11:00</td><td><span class="badge badge-success">Баталгаажсан</span></td><td><span class="badge badge-pink">Урьдчилгаа</span></td></tr>
+            <tr><td><div class="row"><span class="avatar">ТМ</span>Тэмүүлэн М.</div></td><td>Гель маникюр</td><td>Сарнай О.</td><td>11:30–12:30</td><td><span class="badge badge-warning">Хүлээгдэж буй</span></td><td><span class="badge">Төлөөгүй</span></td></tr>
+            <tr><td><div class="row"><span class="avatar">ОА</span>Оюун-Эрдэнэ А.</div></td><td>Сормуус суулгах</td><td>Мөнхзул Б.</td><td>14:00–15:30</td><td><span class="badge badge-success">Дууссан</span></td><td><span class="badge badge-success">Бүрэн төлсөн</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Overlays -->
+    <section>
+      <h2>Цонх, мэдэгдэл</h2>
+      <p class="lead">Компьютер дээр төвд modal, утсан дээр доороос гарах bottom sheet болно.</p>
+      <div class="row-wrap">
+        <button class="btn btn-secondary" data-open-modal="demo-modal"><i data-lucide="panel-bottom-open"></i>Modal / bottom sheet</button>
+        <button class="btn btn-secondary" data-toast="Амжилттай хадгаллаа"><i data-lucide="circle-check"></i>Амжилт</button>
+        <button class="btn btn-secondary" data-toast="Промо код хүчингүй байна" data-type="error"><i data-lucide="circle-alert"></i>Алдаа</button>
+        <div class="segmented" role="tablist" aria-label="Харагдац" id="seg">
+          <button role="tab" aria-selected="true"><i data-lucide="list"></i>Жагсаалт</button>
+          <button role="tab" aria-selected="false"><i data-lucide="map"></i>Газрын зураг</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- States -->
+    <section>
+      <h2>Хоосон ба ачаалж буй төлөв</h2>
+      <div class="grid grid-2">
+        <div class="empty">
+          <div class="empty-icon"><i data-lucide="calendar-x"></i></div>
+          <h3>Захиалга алга</h3>
+          <p>Танд одоогоор идэвхтэй захиалга байхгүй байна.</p>
+          <button class="btn btn-primary btn-sm" data-toast="Салон хайх хуудас 2-р шатанд" data-type="info">Салон хайх</button>
+        </div>
+        <div class="card stack">
+          <div class="skeleton" style="height:140px"></div>
+          <div class="skeleton" style="height:18px;width:70%"></div>
+          <div class="skeleton" style="height:14px;width:45%"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Breakpoints -->
+    <section>
+      <h2>Дэлгэцийн хэмжээ</h2>
+      <div class="bp">
+        <div class="card"><b>Утас</b><span class="muted small">320–767px · тэмдэг лого, доод цэс, bottom sheet</span></div>
+        <div class="card"><b>Таблет</b><span class="muted small">768–1023px · бүтэн лого, хураангуй sidebar</span></div>
+        <div class="card"><b>Компьютер</b><span class="muted small">1024px+ · бүтэн лого, бүтэн sidebar, өргөн layout</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="overlay sheet-on-mobile" id="demo-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="demo-modal-title">
+      <div class="modal-head">
+        <div><h3 id="demo-modal-title">Шүүлтүүр</h3><p class="small muted" style="margin:4px 0 0">Жишээ цонх</p></div>
+        <button class="icon-btn plain" data-close-modal aria-label="Хаах"><i data-lucide="x"></i></button>
+      </div>
+      <div class="stack">
+        <span class="small" style="font-weight:700">Үйлчилгээний төрөл</span>
+        <div class="row-wrap">
+          <button class="chip" aria-pressed="true">Үс засалт</button>
+          <button class="chip" aria-pressed="false">Хумс</button>
+          <button class="chip" aria-pressed="false">Сормуус</button>
+        </div>
+        <label class="check"><input type="checkbox" checked> Өнөөдөр сул цагтай</label>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" data-close-modal>Болих</button>
+        <button class="btn btn-primary" data-close-modal data-toast="Шүүлтүүр хэрэгжлээ">Хэрэгжүүлэх</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script>
+    document.getElementById("ds-logo").outerHTML = UI.logo({ href: "index.html", responsive: true });
+    document.getElementById("theme-slot").outerHTML = UI.themeToggle();
+    var logoDemo = '<div class="row" style="gap:40px;flex-wrap:wrap;justify-content:center">' +
+      '<div class="center">' + UI.logo({ href: "index.html", tag: true }) + '<div class="xs" style="opacity:.7;margin-top:8px">Combination (tablet, desktop)</div></div>' +
+      '<div class="center"><img class="sym" src="assets/logo/logo-symbol.png" alt="Symbol logo"><div class="xs" style="opacity:.7;margin-top:8px">Symbol (phone)</div></div></div>';
+    document.getElementById("logo-light").innerHTML = logoDemo;
+    document.getElementById("logo-dark").innerHTML = logoDemo;
+
+    // Colour swatches read live from CSS variables, so they follow the theme
+    var TOKENS = [
+      ["--primary", "Primary"], ["--primary-hover", "Primary hover"], ["--accent", "Accent"],
+      ["--accent-strong", "Accent text"], ["--bg", "Background"], ["--surface", "Surface"],
+      ["--surface-2", "Secondary surface"], ["--text", "Primary text"], ["--text-2", "Secondary text"],
+      ["--border", "Border"], ["--success", "Success"], ["--warning", "Warning"], ["--danger", "Danger"], ["--info", "Info"]
+    ];
+    function renderSwatches() {
+      var cs = getComputedStyle(document.documentElement);
+      document.getElementById("swatches").innerHTML = TOKENS.map(function (t) {
+        var v = cs.getPropertyValue(t[0]).trim();
+        return '<div class="swatch"><div class="chip-color" style="background:' + v + '"></div><div><b>' + t[1] + "</b><code>" + v + "</code></div></div>";
+      }).join("");
+    }
+    renderSwatches();
+    new MutationObserver(renderSwatches).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+    function bp() {
+      var w = window.innerWidth;
+      document.getElementById("bp-now").textContent = (w < 768 ? "Утас" : w < 1024 ? "Таблет" : "Компьютер") + " · " + w + "px";
+    }
+    bp(); window.addEventListener("resize", bp);
+
+    document.addEventListener("click", function (e) {
+      var t = e.target.closest("[data-toast]");
+      if (t) UI.toast(t.getAttribute("data-toast"), t.getAttribute("data-type"));
+      var chip = e.target.closest(".chip");
+      if (chip) chip.setAttribute("aria-pressed", chip.getAttribute("aria-pressed") === "true" ? "false" : "true");
+      var tab = e.target.closest("#seg button");
+      if (tab) document.querySelectorAll("#seg button").forEach(function (b) { b.setAttribute("aria-selected", b === tab ? "true" : "false"); });
+    });
+
+    document.getElementById("demo-delete").addEventListener("click", function () {
+      UI.confirm({ title: "Үйлчилгээг устгах уу?", text: "“Гель маникюр” үйлчилгээг устгавал буцаах боломжгүй.", confirmLabel: "Устгах" },
+        function () { UI.toast("Үйлчилгээ устгагдлаа"); });
+    });
+
+    document.getElementById("demo-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var ok = true;
+      var name = document.getElementById("f-name"), phone = document.getElementById("f-phone");
+      [[name, name.value.trim().length > 0], [phone, /^\d{4}\s?\d{4}$/.test(phone.value.trim())]].forEach(function (p) {
+        p[0].closest(".field").classList.toggle("has-error", !p[1]);
+        p[0].setAttribute("aria-invalid", !p[1]);
+        if (!p[1]) ok = false;
+      });
+      UI.toast(ok ? "Маягт зөв бөглөгдлөө" : "Талбаруудаа шалгана уу", ok ? "success" : "error");
+    });
+
+    UI.icons();
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFF9FA">
+  <title>Welcome · Beauty Salon Reservation System UI</title>
+  <link rel="icon" type="image/png" href="assets/logo/logo-symbol.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap">
+
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/welcome.css">
+</head>
+<body data-base="">
+  <div class="welcome">
+    <div class="welcome-top">
+      <a class="btn btn-ghost btn-sm" href="design-system.html"><i data-lucide="palette"></i>Design system</a>
+      <span id="theme-slot"></span>
+    </div>
+
+    <main class="welcome-hero">
+      <div class="welcome-logo" id="welcome-logo"></div>
+
+      <h1 class="welcome-title">WELCOME TO <span class="accent">BEAUTY SALON RESERVATION SYSTEM</span> UI DESIGN</h1>
+      <p class="welcome-sub">Choose which interface you want to explore</p>
+
+      <div class="iface-grid">
+        <a class="iface-card featured" href="client/index.html">
+          <span class="iface-icon"><i data-lucide="sparkles"></i></span>
+          <div>
+            <h2>Client</h2>
+            <span class="iface-mn">Үйлчлүүлэгч</span>
+          </div>
+          <p>Салон хайх, харьцуулах, цаг захиалах, QR-ээр төлбөр төлөх хэрэглэгчийн вэб.</p>
+          <ul>
+            <li><i data-lucide="search"></i>Хайлт, шүүлтүүр, газрын зураг</li>
+            <li><i data-lucide="calendar-check"></i>Цаг захиалах</li>
+            <li><i data-lucide="qr-code"></i>QR төлбөр, сэтгэгдэл</li>
+          </ul>
+          <span class="iface-cta">Explore interface <i data-lucide="arrow-right"></i></span>
+        </a>
+
+        <a class="iface-card" href="business/index.html">
+          <span class="iface-icon"><i data-lucide="store"></i></span>
+          <div>
+            <h2>Business Owner</h2>
+            <span class="iface-mn">Бизнес эрхлэгч</span>
+          </div>
+          <p>Салон, салбар, үйлчилгээ, ажилтан болон захиалгаа нэг дороос удирдах самбар.</p>
+          <ul>
+            <li><i data-lucide="layout-dashboard"></i>Хяналтын самбар</li>
+            <li><i data-lucide="users"></i>Ажилтан, хуваарь</li>
+            <li><i data-lucide="ticket-percent"></i>Промо код, Discount Hour</li>
+          </ul>
+          <span class="iface-cta">Explore interface <i data-lucide="arrow-right"></i></span>
+        </a>
+
+        <a class="iface-card" href="employee/index.html">
+          <span class="iface-icon"><i data-lucide="scissors"></i></span>
+          <div>
+            <h2>Employee</h2>
+            <span class="iface-mn">Ажилтан</span>
+          </div>
+          <p>Өдрийн хуваарь, өөрт ирсэн захиалга, үйлчилгээ дуусгах энгийн интерфейс.</p>
+          <ul>
+            <li><i data-lucide="clock"></i>Өнөөдрийн цагууд</li>
+            <li><i data-lucide="circle-check"></i>Үйлчилгээ дуусгах</li>
+            <li><i data-lucide="qr-code"></i>Үлдэгдэл төлбөрийн QR</li>
+          </ul>
+          <span class="iface-cta">Explore interface <i data-lucide="arrow-right"></i></span>
+        </a>
+
+        <a class="iface-card" href="admin/index.html">
+          <span class="iface-icon"><i data-lucide="shield-check"></i></span>
+          <div>
+            <h2>Platform Administration</h2>
+            <span class="iface-mn">Платформын удирдлага</span>
+          </div>
+          <p>Хэрэглэгч, салоны баталгаажуулалт, сэтгэгдэл, сурталчилгаа, шимтгэлийн хяналт.</p>
+          <ul>
+            <li><i data-lucide="badge-check"></i>Салон батлах</li>
+            <li><i data-lucide="message-square-warning"></i>Сэтгэгдэл хянах</li>
+            <li><i data-lucide="receipt"></i>Платформын нэхэмжлэх</li>
+          </ul>
+          <span class="iface-cta">Explore interface <i data-lucide="arrow-right"></i></span>
+        </a>
+      </div>
+    </main>
+
+    <footer class="welcome-foot">
+      <span><i data-lucide="monitor-smartphone"></i>Responsive: phone · tablet · desktop</span>
+      <span><i data-lucide="moon"></i>Light &amp; dark theme</span>
+      <span><i data-lucide="flask-conical"></i>Prototype with demo data only, no real payments</span>
+    </footer>
+  </div>
+
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script>
+    document.getElementById("welcome-logo").innerHTML = UI.logo({ href: "index.html", tag: true });
+    document.getElementById("theme-slot").outerHTML = UI.themeToggle();
+    UI.icons();
+  </script>
+</body>
+</html>

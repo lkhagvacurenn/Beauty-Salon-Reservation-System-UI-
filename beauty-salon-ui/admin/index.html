@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFF9FA">
+  <title>Платформын удирдлага · Beauty Salon UI</title>
+  <link rel="icon" type="image/png" href="../assets/logo/logo-symbol.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap">
+
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+</head>
+<body data-base="../">
+  <!-- Pages: one <section data-page="id"> per menu item.
+       Menu items without a section show a "coming in Phase N" placeholder. -->
+  <div id="pages"></div>
+
+  <script>
+    window.APP = {
+      id: "admin", kind: "dashboard", title: "Platform Administration · Платформын удирдлага", phase: 5,
+      user: { name: "Админ Бат-Очир", role: "Платформын удирдлага", initials: "БО" },
+      nav: [
+        { id: "dashboard", label: "Хяналтын самбар",      icon: "layout-dashboard", group: "Ерөнхий" },
+        { id: "users",     label: "Хэрэглэгчид",          icon: "users",            group: "Ерөнхий" },
+        { id: "salons",    label: "Салон батлах",         icon: "badge-check",      group: "Хяналт" },
+        { id: "bookings",  label: "Захиалга ба төлбөр",   icon: "calendar-search",  group: "Хяналт" },
+        { id: "reviews",   label: "Сэтгэгдэл хянах",      icon: "message-square-warning", group: "Хяналт" },
+        { id: "ads",       label: "Сурталчилгаа",         icon: "megaphone",        group: "Контент" },
+        { id: "invoices",  label: "Шимтгэл ба нэхэмжлэх", icon: "receipt",          group: "Санхүү" }
+      ]
+    };
+  </script>
+  <script src="../assets/vendor/lucide.min.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <script src="../assets/js/shell.js"></script>
+</body>
+</html>
