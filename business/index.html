@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFF9FA">
+  <title>Бизнес эрхлэгч · Beauty Salon UI</title>
+  <link rel="icon" type="image/png" href="../assets/logo/logo-symbol.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap">
+
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/business.css">
+</head>
+<body data-base="../">
+  <!-- Pages: one <section data-page="id"> per menu item.
+       Each page is rendered by its script in assets/js/business/. -->
+  <div id="pages">
+    <section data-page="dashboard"></section>
+    <section data-page="bookings"></section>
+    <section data-page="salon"></section>
+    <section data-page="services"></section>
+    <section data-page="employees"></section>
+    <section data-page="promotions"></section>
+    <section data-page="reviews"></section>
+    <section data-page="reports"></section>
+    <section data-page="invoices"></section>
+  </div>
+
+  <script>
+    window.APP = {
+      id: "business", kind: "dashboard", title: "Business Owner · Бизнес эрхлэгч", phase: 3,
+      user: { name: "Ганцэцэг Батсүх", role: "Сарнай Бьюти Студио · Эзэмшигч", initials: "ГБ" },
+      nav: [
+        { id: "dashboard", label: "Хяналтын самбар",    icon: "layout-dashboard", group: "Үндсэн" },
+        { id: "bookings",  label: "Захиалга",           icon: "calendar-days",    group: "Үндсэн" },
+        { id: "salon",     label: "Салон ба салбар",    icon: "store",            group: "Удирдлага" },
+        { id: "services",  label: "Үйлчилгээ",          icon: "sparkles",         group: "Удирдлага" },
+        { id: "employees", label: "Ажилтан",            icon: "users",            group: "Удирдлага" },
+        { id: "promotions",label: "Урамшуулал",         icon: "ticket-percent",   group: "Маркетинг" },
+        { id: "reviews",   label: "Сэтгэгдэл",          icon: "star",             group: "Маркетинг" },
+        { id: "reports",   label: "Тайлан",             icon: "chart-column",     group: "Санхүү" },
+        { id: "invoices",  label: "Платформын шимтгэл", icon: "receipt",        group: "Санхүү" }
+      ]
+    };
+  </script>
+  <script src="../assets/vendor/lucide.min.js"></script>
+  <script src="../assets/js/ui.js"></script>
+  <!-- Shared demo data + engine (same salon the client sees) -->
+  <script src="../assets/js/client/data.js"></script>
+  <script src="../assets/js/client/data-extra.js"></script>
+  <script src="../assets/js/client/engine.js"></script>
+  <!-- Business pages (must load before shell.js) -->
+  <script src="../assets/js/business/biz-data.js"></script>
+  <script src="../assets/js/business/biz-core.js"></script>
+  <script src="../assets/js/business/biz-dashboard.js"></script>
+  <script src="../assets/js/business/biz-bookings.js"></script>
+  <script src="../assets/js/business/biz-salon.js"></script>
+  <script src="../assets/js/business/biz-services.js"></script>
+  <script src="../assets/js/business/biz-employees.js"></script>
+  <script src="../assets/js/business/biz-marketing.js"></script>
+  <script src="../assets/js/business/biz-finance.js"></script>
+  <script src="../assets/js/shell.js"></script>
+</body>
+</html>
