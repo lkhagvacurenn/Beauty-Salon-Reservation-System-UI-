@@ -7,7 +7,7 @@
    ========================================================= */
 (function () {
   var D = window.BLOOM_DATA, E = window.Engine;
-  var KEY = "bloom-admin", VERSION = 3;
+  var KEY = "bloom-admin", VERSION = 4;
 
   function rnd(seed) { var s = seed; return function () { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648; }; }
   function pick(r, a) { return a[Math.floor(r() * a.length)]; }
@@ -57,30 +57,39 @@
       invStatus[s.id] = {};
     });
 
+    /* Registration photos: salons send pictures of the salon
+       interior and of their finished work (no certificates).
+       Reuses the shared demo images. */
+    function shots(salonIdx, cats, nIn, nWork) {
+      var src = D.SALONS[salonIdx % D.SALONS.length], inter = (src.gallery || [src.photo]).slice(0, nIn), work = [];
+      D.SALONS.forEach(function (x) { (x.servicePhotos || []).forEach(function (p) { if (cats.indexOf(p.cat) > -1 && work.indexOf(p.src) < 0) work.push(p.src); }); });
+      return { interior: inter, work: work.slice(0, nWork) };
+    }
+
     var applications = [
-      { id: "app1", name: "Гоо Сайхан Ателье", owner: "Оюун-Эрдэнэ Түмэн", regNo: "6789012", phone: "9988-1122", email: "atelier.demo@example.mn", district: "Чингэлтэй",
+      { id: "app1", name: "Гоо Сайхан Ателье", owner: "Оюун-Эрдэнэ Түмэн", phone: "9988-1122", email: "atelier.demo@example.mn", district: "Чингэлтэй",
         address: "Чингэлтэй дүүрэг, 1-р хороо, Жуулчны гудамж 5", cats: ["hair", "makeup"], submitted: day(-1), status: "pending",
         branches: [{ name: "Жуулчны салбар", address: "Чингэлтэй дүүрэг, 1-р хороо, Жуулчны гудамж 5", phone: "9988-1122", hours: "10:00–20:00" }],
         services: [{ name: "Эмэгтэй үс засалт", cat: "hair", duration: 60, price: 42000 }, { name: "Өдрийн будалт", cat: "makeup", duration: 45, price: 50000 }, { name: "Үс будалт", cat: "hair", duration: 120, price: 110000 }],
         employees: [{ name: "Тэгшээ Б.", role: "Үсчин" }, { name: "Сувд Л.", role: "Визажист" }], iban: "MN560005005111222333",
-        docs: [["Улсын бүртгэлийн гэрчилгээ", "ok"], ["Тусгай зөвшөөрөл (гоо сайхан)", "ok"], ["Эзэмшигчийн иргэний үнэмлэх", "ok"]] },
-      { id: "app2", name: "Сэлэнгэ Барбершоп", owner: "Сэлэнгэ Ганзориг", regNo: "6790123", phone: "8899-3344", email: "barber.demo@example.mn", district: "Баянзүрх",
+        photos: shots(2, ["hair", "makeup"], 4, 6) },
+      { id: "app2", name: "Сэлэнгэ Барбершоп", owner: "Сэлэнгэ Ганзориг", phone: "8899-3344", email: "barber.demo@example.mn", district: "Баянзүрх",
         address: "Баянзүрх дүүрэг, 14-р хороо, Нарны зам 77", cats: ["hair"], submitted: day(-3), status: "pending",
         branches: [{ name: "Нарны зам салбар", address: "Баянзүрх дүүрэг, 14-р хороо, Нарны зам 77", phone: "8899-3344", hours: "09:00–21:00" }, { name: "Яармаг салбар", address: "Хан-Уул дүүрэг, 18-р хороо", phone: "8899-3355", hours: "10:00–20:00" }],
         services: [{ name: "Эрэгтэй үс засалт", cat: "hair", duration: 40, price: 25000 }, { name: "Сахал засах", cat: "hair", duration: 20, price: 15000 }],
         employees: [{ name: "Ганзориг С.", role: "Барбер" }, { name: "Тэмүүжин Б.", role: "Барбер" }, { name: "Анар Ц.", role: "Барбер" }], iban: "MN780005005444555666",
-        docs: [["Улсын бүртгэлийн гэрчилгээ", "ok"], ["Тусгай зөвшөөрөл (гоо сайхан)", "missing"], ["Эзэмшигчийн иргэний үнэмлэх", "ok"]] },
-      { id: "app3", name: "Тэнгэр Спа", owner: "Тэнгис Мөнхбат", regNo: "6791234", phone: "7700-5566", email: "tenger.spa.demo@example.mn", district: "Хан-Уул",
+        photos: shots(5, ["hair"], 1, 2) },
+      { id: "app3", name: "Тэнгэр Спа", owner: "Тэнгис Мөнхбат", phone: "7700-5566", email: "tenger.spa.demo@example.mn", district: "Хан-Уул",
         address: "Хан-Уул дүүрэг, 3-р хороо, Чингисийн өргөн чөлөө 24", cats: ["massage", "skin"], submitted: day(-5), status: "pending",
         branches: [{ name: "Төв салбар", address: "Хан-Уул дүүрэг, 3-р хороо, Чингисийн өргөн чөлөө 24", phone: "7700-5566", hours: "11:00–22:00" }],
         services: [{ name: "Бүтэн биеийн массаж", cat: "massage", duration: 60, price: 80000 }, { name: "Нүүрний арчилгаа", cat: "skin", duration: 75, price: 95000 }],
         employees: [{ name: "Мөнхзул Т.", role: "Массажист" }], iban: "MN910005005777888999",
-        docs: [["Улсын бүртгэлийн гэрчилгээ", "ok"], ["Тусгай зөвшөөрөл (гоо сайхан)", "ok"], ["Эзэмшигчийн иргэний үнэмлэх", "ok"]] },
-      { id: "app4", name: "Хос Бьюти", owner: "Хосбаяр Нямдорж", regNo: "6782345", phone: "9900-7788", email: "khos.demo@example.mn", district: "Баянгол",
-        address: "Баянгол дүүрэг, 7-р хороо", cats: ["nails"], submitted: day(-12), status: "rejected", decided: day(-10), reason: "Улсын бүртгэлийн гэрчилгээ уншигдахгүй байна. Дахин илгээнэ үү.",
+        photos: shots(6, ["massage", "skin"], 3, 4) },
+      { id: "app4", name: "Хос Бьюти", owner: "Хосбаяр Нямдорж", phone: "9900-7788", email: "khos.demo@example.mn", district: "Баянгол",
+        address: "Баянгол дүүрэг, 7-р хороо", cats: ["nails"], submitted: day(-12), status: "rejected", decided: day(-10), reason: "Зураг салонтой нийцэхгүй: хийсэн ажлын зургууд интернэтээс авсан зураг шиг байна. Өөрсдийн хийсэн ажлын зургийг илгээнэ үү.",
         branches: [{ name: "7-р хороо салбар", address: "Баянгол дүүрэг, 7-р хороо", phone: "9900-7788", hours: "10:00–19:00" }],
         services: [{ name: "Гель маникюр", cat: "nails", duration: 60, price: 38000 }], employees: [{ name: "Хосоо Н.", role: "Хумсны мастер" }], iban: "MN120005005000111222",
-        docs: [["Улсын бүртгэлийн гэрчилгээ", "unreadable"], ["Тусгай зөвшөөрөл (гоо сайхан)", "ok"], ["Эзэмшигчийн иргэний үнэмлэх", "ok"]] }
+        photos: shots(3, ["nails"], 3, 3) }
     ];
 
     /* Users: customers, salon owners, employees, admins */

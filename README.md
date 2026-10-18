@@ -61,7 +61,7 @@ assets/
   js/admin/adm-data.js     Admin demo store ("bloom-admin"): salons, applications, users, bookings, reviews, ads, activity
   js/admin/adm-core.js     Admin helpers + dashboard
   js/admin/adm-users.js    Users: search, filters, details, activate / deactivate
-  js/admin/adm-salons.js   Salon applications (approve / reject), salon monitoring, suspend
+  js/admin/adm-salons.js   Salon applications checked by salon interior and work photos (approve / reject), salon monitoring, suspend
   js/admin/adm-bookings.js Booking and payment monitoring (read-only)
   js/admin/adm-reviews.js  Review moderation (keep, hide, delete)
   js/admin/adm-ads.js      Ads: image + link in 3 fixed placements, dates, active, ratio check, preview

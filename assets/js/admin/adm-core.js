@@ -87,9 +87,9 @@
       '<div class="grid grid-2" style="margin-top:var(--sp-4)">' +
         '<div class="card"><div class="card-title"><h3>Батлах хүсэлтүүд</h3><a class="btn btn-ghost btn-sm" href="#/salons">Бүгд<i data-lucide="arrow-right"></i></a></div>' +
           (pending.length ? '<ul class="staff-list">' + pending.map(function (a) {
-            var miss = a.docs.filter(function (d) { return d[1] !== "ok"; }).length;
+            var p = a.photos || { interior: [], work: [] }, miss = p.interior.length < 3 || p.work.length < 3;
             return '<li><span class="avatar">' + AD.initials(a.name) + '</span><div class="grow"><b>' + BZ.esc(a.name) + '</b><span class="xs muted">' + BZ.esc(a.owner) + " · " + a.submitted + "</span></div>" +
-              (miss ? '<span class="badge badge-warning no-dot">Баримт дутуу</span>' : '<span class="badge badge-success no-dot">Баримт бүрэн</span>') +
+              (miss ? '<span class="badge badge-warning no-dot">Зураг дутуу</span>' : '<span class="badge badge-success no-dot">Зураг бүрэн</span>') +
               '<button type="button" class="btn btn-secondary btn-sm" data-app="' + a.id + '">Хянах</button></li>';
           }).join("") + "</ul>" : BZ.empty("badge-check", "Хүлээгдэж буй хүсэлт алга", "Шинэ салон бүртгүүлэхэд энд харагдана.")) + "</div>" +
         '<div class="card"><div class="card-title"><h3>Сүүлийн үйл ажиллагаа</h3></div>' +
