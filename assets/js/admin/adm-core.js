@@ -67,7 +67,7 @@
         AD.stat("badge-check", pending.length, "Батлах хүсэлт", pending.length ? "Хамгийн эртнийх " + pending.map(function (a) { return a.submitted; }).sort()[0] : "Хүлээгдэж буй хүсэлт алга", "#/salons") +
         AD.stat("calendar-days", mBk.length, "Энэ сарын захиалга", "Өнөөдөр " + todayN + " захиалга", "#/bookings") +
         AD.stat("circle-check-big", done, "Энэ сард дууссан", mBk.length ? Math.round(done / mBk.length * 100) + "% гүйцэтгэл" : "—", "#/bookings?status=completed") +
-        AD.stat("receipt", BZ.money(cmFee), "Энэ сарын шимтгэл", "Хуримтлагдаж байна · " + BZ.addMonths(cm, 1) + "-01-нд автоматаар суутгана", "#/invoices") +
+        AD.stat("receipt", BZ.money(cmFee), "Энэ сарын шимтгэл", "Хуримтлагдаж байна · " + BZ.addMonths(cm, 1) + "-01-нд QPay-ээр нэхэмжилнэ", "#/invoices") +
       "</div>" +
 
       '<div class="dash-grid">' +
@@ -75,11 +75,11 @@
           '<a class="btn btn-ghost btn-sm" href="#/bookings">Захиалга<i data-lucide="arrow-right"></i></a></div>' + chart() + "</div>" +
         '<div class="card"><div class="card-title"><h3>Платформын шимтгэл</h3><a class="btn btn-ghost btn-sm" href="#/invoices">Дэлгэрэнгүй<i data-lucide="arrow-right"></i></a></div>' +
           '<dl class="sum">' +
-            "<div><dt>" + BZ.monthLabel(pm) + "ын суутгагдсан</dt><dd>" + BZ.money(pmPaid) + "</dd></div>" +
-            "<div><dt>Нийт суутгагдсан</dt><dd>" + BZ.money(totalPaid) + "</dd></div>" +
+            "<div><dt>" + BZ.monthLabel(pm) + "ын төлсөн</dt><dd>" + BZ.money(pmPaid) + "</dd></div>" +
+            "<div><dt>Нийт төлсөн</dt><dd>" + BZ.money(totalPaid) + "</dd></div>" +
             "<div class='total'><dt>" + BZ.monthLabel(cm) + " (хуримтлагдаж буй)</dt><dd>" + BZ.money(cmFee) + "</dd></div>" +
           "</dl>" +
-          '<p class="xs muted" style="margin-top:6px">Сар бүрийн 1-нд салоны холбосон картаас автоматаар суутгана. Шалгах шаардлагагүй.</p>' +
+          '<p class="xs muted" style="margin-top:6px">Сар бүрийн 1-нд салонуудад QPay нэхэмжлэх илгээнэ. Төлбөрийг систем автоматаар шалгана.</p>' +
           '<p class="adm-rule"><i data-lucide="settings-2"></i>Дүрэм: ' + (fee.freeScope === "monthly" ? "сар бүрийн" : "салон бүрийн") + " эхний " + fee.freeLimit + " захиалга үнэгүй, дараа нь " + BZ.money(fee.perBooking) + " / дууссан захиалга</p>" +
         "</div>" +
       "</div>" +

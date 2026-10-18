@@ -180,7 +180,7 @@
         "<div><dt>Эзэмшигч</dt><dd>" + BZ.esc(s.owner) + "</dd></div><div><dt>Регистр</dt><dd>" + (s.regNo || "—") + "</dd></div>" +
         "<div><dt>Утас</dt><dd>" + s.phone + "</dd></div><div><dt>Имэйл</dt><dd>" + BZ.esc(s.email) + "</dd></div>" +
         "<div><dt>Нэгдсэн</dt><dd>" + s.joined + "</dd></div><div><dt>Ангилал</dt><dd>" + s.cats.map(BZ.catName).join(", ") + "</dd></div>" +
-        "<div><dt>Платформын шимтгэл</dt><dd>" + BZ.money(feePaid) + " суутгагдсан · автомат</dd></div>" +
+        "<div><dt>Платформын шимтгэл</dt><dd>" + BZ.money(feePaid) + " төлсөн · QPay</dd></div>" +
       "</dl></section>" + overview(s) +
       (s.status === "suspended" ? '<p class="note warn-note"><i data-lucide="pause-circle"></i>Түр хаасан шалтгаан: ' + BZ.esc(s.suspendReason || "—") + "</p>" : "") +
       '<div class="modal-foot wrap-foot"><a class="btn btn-ghost" href="#/bookings?salon=' + s.id + '" data-close-modal><i data-lucide="calendar-search"></i>Захиалга харах</a>' +

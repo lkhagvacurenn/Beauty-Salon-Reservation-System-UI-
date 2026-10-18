@@ -47,8 +47,8 @@
       }
       months[s.id] = list;
     });
-    /* Platform fee is auto-charged on the 1st of each month, so no stored invoice
-       statuses are needed (key kept for compatibility). The r() calls keep the
+    /* Platform fee invoices are paid through QPay and confirmed by payment/check,
+       so no admin-set statuses are stored (key kept for compatibility). The r() calls keep the
        random sequence (and everything seeded after this) unchanged. */
     var invStatus = {};
     salons.forEach(function (s) {
@@ -165,7 +165,7 @@
       { at: day(-2) + " 11:05", icon: "flag", text: "Систем Эрдэнэ Стайл Хаусын нэг сэтгэгдлийг спам гэж тэмдэглэлээ" },
       { at: day(-3) + " 16:02", icon: "store", text: "Сэлэнгэ Барбершоп салон бүртгэлийн хүсэлт илгээлээ" },
       { at: day(-10) + " 15:44", icon: "circle-x", text: "Хос Бьюти-гийн хүсэлтийг татгалзлаа" },
-      { at: ym(0) + "-01 00:05", icon: "credit-card", text: BZ.monthLabel(ym(-1)) + "ын шимтгэл салонуудын холбосон картаас автоматаар суутгагдлаа" }
+      { at: ym(0) + "-01 00:05", icon: "receipt", text: BZ.monthLabel(ym(-1)) + "ын шимтгэлийн QPay нэхэмжлэх салонуудад илгээгдлээ" }
     ];
     log.sort(function (a, b) { return a.at < b.at ? 1 : a.at > b.at ? -1 : 0; });
     return { version: VERSION, salons: salons, months: months, invStatus: invStatus, applications: applications, users: users, bookings: bookings, reviews: reviews, ads: ads, log: log };
@@ -206,7 +206,7 @@
     for (var k2 in patch) src[k2] = patch[k2]; save();
   }
   function monthsOf(id) { return id === "sarnai" ? BZ.monthly() : state.months[id] || []; }
-  function invoicesOf(id) { return BZ.calcInvoices(monthsOf(id), BIZ.state.fee, id === "sarnai" ? BIZ.state.invoices : state.invStatus[id], id === "sarnai" ? "0142" : String(100 + state.salons.indexOf(salon(id))).padStart(4, "0")); }
+  function invoicesOf(id) { return BZ.calcInvoices(monthsOf(id), BIZ.state.fee, id === "sarnai" ? BIZ.state.invoices : state.invStatus[id], id === "sarnai" ? "0142" : String(100 + state.salons.indexOf(salon(id))).padStart(4, "0"), { autoPaid: id !== "sarnai" }); }
 
   window.ADM = { get state() { return state; }, save: save, log: addLog, salon: salon, allBookings: allBookings, allReviews: allReviews, setReview: setReview,
     monthsOf: monthsOf, invoicesOf: invoicesOf, reset: function () { state = seed(); save(); } };

@@ -9,24 +9,7 @@
   var HOLD = 10 * 60;            // QR valid for 10 minutes
   var st = { ref: null, step: "summary", started: 0, checks: 0, timer: null };
 
-  /* Mock QR pattern (same look as the client deposit QR, clearly marked DEMO) */
-  function qr(ref) {
-    var N = 25, cells = "", seed = 7;
-    for (var i = 0; i < ref.length; i++) seed = (seed * 31 + ref.charCodeAt(i)) >>> 0;
-    function rnd() { seed = (seed * 1103515245 + 12345) >>> 0; return (seed >>> 16) & 1; }
-    function finder(x, y) { return (x < 8 && y < 8) || (x > N - 9 && y < 8) || (x < 8 && y > N - 9); }
-    for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
-      var on;
-      if (finder(x, y)) {
-        var fx = x > N - 9 ? x - (N - 7) : x, fy = y > N - 9 ? y - (N - 7) : y;
-        on = fx >= 0 && fy >= 0 && fx < 7 && fy < 7 && (fx === 0 || fy === 0 || fx === 6 || fy === 6 || (fx > 1 && fx < 5 && fy > 1 && fy < 5));
-      } else if (x > 9 && x < 15 && y > 9 && y < 15) on = false;
-      else on = rnd();
-      if (on) cells += '<rect x="' + x + '" y="' + y + '" width="1" height="1"/>';
-    }
-    return '<svg class="qr-svg" viewBox="-1 -1 ' + (N + 2) + " " + (N + 2) + '" role="img" aria-label="Жишээ QR код, уншуулах боломжгүй">' +
-      '<rect x="-1" y="-1" width="' + (N + 2) + '" height="' + (N + 2) + '" fill="#fff"/><g fill="#34252F">' + cells + '</g></svg><span class="qr-mark"><img src="' + UI.BASE + UI.LOGO.symbol + '" alt=""></span>';
-  }
+  var qr = BZ.qr; // mock QR pattern (shared, clearly marked DEMO)
   function left() { return Math.max(0, HOLD - Math.floor((Date.now() - st.started) / 1000)); }
   function mmss(s) { return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); }
 

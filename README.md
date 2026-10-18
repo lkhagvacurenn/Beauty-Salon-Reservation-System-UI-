@@ -52,7 +52,7 @@ assets/
   js/business/biz-services.js  Services (per-branch prices, deposit, cancellation)
   js/business/biz-employees.js Employees (schedule, breaks, days off, permissions)
   js/business/biz-marketing.js Promo codes, Хямдралтай цаг, reviews
-  js/business/biz-finance.js   Reports (CSV export) and platform fee (auto-charged, read-only)
+  js/business/biz-finance.js   Reports (CSV export) and platform fee (QPay invoice, pay by QR)
   css/employee.css      Employee pages (today, schedule, bookings, balance QR)
   js/employee/emp-core.js  Signed-in specialist, permissions, booking detail and status
   js/employee/emp-pages.js Today, My schedule, My bookings
@@ -131,7 +131,7 @@ The remaining balance QR is a clearly marked demo QR: "Төлбөр шалгах
 
 Signed in as Админ Бат-Очир. Сарнай Бьюти Студио uses the Business Owner's data, so:
 - a review the owner reports ("Админд мэдэгдэх") appears under Сэтгэгдэл хянах, and the admin's decision shows back on the owner's page;
-- the platform fee is charged automatically on the 1st of each month from the salon's linked card (demo "Visa •••• 4821"); the owner and the admin (Платформын шимтгэл) only see a read-only record, no one marks or confirms payments;
+- the platform fee is billed with a QPay invoice on the 1st of each month (due by the 10th). The owner pays it by QR on Платформын шимтгэл ("QPay-ээр төлөх"; demo "Төлбөр шалгах" says not paid on the first press, paid on the second). QPay payment/check confirms it, so the admin only monitors it (Төлсөн / Төлөгдөөгүй / Хугацаа хэтэрсэн). No card is stored or charged;
 - the fee rule the admin saves (amount, free bookings, lifetime or monthly) is the one the owner sees.
 Ads are image + link only (no title, text or button): clicking the image opens the advertiser's site (new tab) or an in-app page (#/…). The admin sets the dates and the active switch; the advertiser name is an optional admin-only note. There are three fixed placements (`BLOOM_DATA.AD_SLOTS` in js/client/data.js), each with a fixed size the advertiser's image must follow:
 - **Нүүр хуудас · хөндлөн урт баннер**: 1200×200 px (6:1), home page above the recommended salons; several live ads rotate every 6 s;

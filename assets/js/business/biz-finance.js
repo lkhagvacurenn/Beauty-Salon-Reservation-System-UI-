@@ -1,7 +1,9 @@
 /* =========================================================
    Business owner: reports (8.7, FR-27) and monthly platform
-   fee (FR-26). The fee is charged to the salon automatically
-   (linked card, 1st of next month), never to the customer. Rule (set by the platform admin,
+   fee (FR-52). On the 1st of the next month the platform sends a
+   QPay invoice; the salon pays it by QR in its bank app by the
+   10th and QPay payment/check confirms it. Never charged to the
+   customer. Rule (set by the platform admin,
    mock): first N completed bookings free, then X₮ per
    completed booking.
    ========================================================= */
@@ -118,12 +120,13 @@
     var curDone = (BZ.monthly().filter(function (m) { return m.ym === BZ.currentMonth(); })[0] || { completed: 0 }).completed;
     var freeUsed = Math.min(f.freeLimit, monthlyScope ? curDone : totalDone);
     var open = inv.filter(function (i) { return i.status === "open"; })[0];
+    var due = inv.filter(BZ.unpaid);
     var paid = inv.filter(function (i) { return i.status === "paid"; });
     var paidSum = paid.reduce(function (s, i) { return s + i.amount; }, 0);
     var last = paid[0];
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Платформын шимтгэл</h2><p>Bloom платформын шимтгэлийг сар бүрийн 1-нд өмнөх сарын дүнгээр салоны холбосон картаас автоматаар суутгана. Нэхэмжлэх төлөх, мэдэгдэх шаардлагагүй. Үйлчлүүлэгчээс авахгүй.</p></div></div>' +
+      '<div class="page-head"><div><h2>Платформын шимтгэл</h2><p>Bloom платформын шимтгэлийн QPay нэхэмжлэхийг сар бүрийн 1-нд өмнөх сарын дүнгээр илгээнэ. Сарын 10-ны дотор банкны аппаараа QR уншуулж төлнө. Төлбөрийг систем QPay-ээс автоматаар шалгана. Үйлчлүүлэгчээс авахгүй.</p></div></div>' +
       '<div class="inv-top">' +
         '<div class="card fee-card"><div class="card-title"><h3>Шимтгэлийн дүрэм</h3><span class="badge badge-info no-dot">Админ тохируулна</span></div>' +
           '<div class="fee-rule"><div><span class="fee-big">' + f.freeLimit + '</span><span class="xs muted">' + (monthlyScope ? "сар бүрийн эхний дууссан захиалга үнэгүй" : "эхний дууссан захиалга үнэгүй") + '</span></div>' +
@@ -132,22 +135,26 @@
           '<span class="xs muted">' + (monthlyScope ? "Энэ сарын үнэгүй эрх. Сар бүрийн 1-нд шинэчлэгдэнэ." : freeUsed >= f.freeLimit ? "Үнэгүй эрх " + BZ.monthLabel(firstBillable()) + "ын дунд дууссан. Үнэгүй эрх нийт хугацаанд нэг удаа олгогдоно (сар бүр шинэчлэгдэхгүй)." : f.freeLimit - freeUsed + " үнэгүй захиалга үлдсэн.") + "</span></div>" +
           '<p class="xs muted" style="margin:0">Цуцлагдсан болон ирээгүй захиалгад шимтгэл тооцохгүй.</p></div>' +
         '<div class="inv-cards">' +
+          due.map(function (i) {
+            var late = i.status === "overdue";
+            return '<div class="card inv-due ' + (late ? "overdue" : "unpaid") + '"><span class="xs muted">' + BZ.monthLabel(i.ym) + "ын шимтгэл · " + (late ? "төлөх хугацаа хэтэрсэн" : "төлөх") + "</span><span class='kpi-value'>" + BZ.money(i.amount) + "</span>" +
+              '<span class="xs">' + i.no + " · " + (late ? "төлөх хугацаа " + i.dueOn + "-нд дууссан" : i.dueOn + "-ны дотор төлнө") + "</span>" +
+              '<button type="button" class="btn btn-primary btn-sm" data-inv-pay="' + i.ym + '"><i data-lucide="qr-code"></i>QPay-ээр төлөх</button></div>';
+          }).join("") +
           (open ? '<div class="card inv-due"><span class="xs muted">' + BZ.monthLabel(open.ym) + " · хуримтлагдаж байна</span><span class='kpi-value'>" + BZ.money(open.amount) + "</span>" +
-            '<span class="xs">' + open.completed + " дууссан захиалга · сарын эцэст автоматаар суутгана (" + open.chargeOn + ")</span></div>" : "") +
-          '<div class="card inv-due"><span class="xs muted">Нийт суутгагдсан</span><span class="kpi-value">' + BZ.money(paidSum) + '</span><span class="xs">' + (last ? "Сүүлд " + last.paidAt + " · " + BZ.money(last.amount) : "Bloom-д нэгдсэнээс хойш") + "</span></div>" +
-          '<div class="card inv-due pay-src"><span class="xs muted">Төлбөрийн эх үүсвэр</span><span class="row-wrap"><i data-lucide="credit-card"></i><b>' + BZ.FEE_CARD + '</b><span class="badge badge-success no-dot">Холбогдсон</span></span>' +
-            '<span class="xs muted">Сар бүрийн 1-нд автоматаар суутгана. Демо карт.</span></div>' +
+            '<span class="xs">' + open.completed + " дууссан захиалга · " + open.issueOn + "-нд QPay нэхэмжлэх ирнэ</span></div>" : "") +
+          '<div class="card inv-due"><span class="xs muted">Нийт төлсөн</span><span class="kpi-value">' + BZ.money(paidSum) + '</span><span class="xs">' + (last ? "Сүүлд " + last.paidAt + " · " + BZ.money(last.amount) + " · QPay" : "Bloom-д нэгдсэнээс хойш") + "</span></div>" +
         "</div>" +
       "</div>" +
       '<h3 class="section-title">Сарын шимтгэл</h3>' +
-      BZ.table(["Нэхэмжлэх", "Сар", { label: "Дууссан", cls: "t-num" }, { label: "Үнэгүй", cls: "t-num" }, { label: "Тооцох", cls: "t-num" }, { label: "Дүн", cls: "t-num" }, "Суутгасан огноо", "Төлөв", { label: "", cls: "t-act" }],
+      BZ.table(["Нэхэмжлэх", "Сар", { label: "Дууссан", cls: "t-num" }, { label: "Үнэгүй", cls: "t-num" }, { label: "Тооцох", cls: "t-num" }, { label: "Дүн", cls: "t-num" }, "Төлсөн огноо", "Төлөв", { label: "", cls: "t-act" }],
         inv.map(function (i) {
           var s = BZ.INV_STATUS[i.status];
           return { cells: ['<span class="mono">' + i.no + "</span>", i.ym.slice(0, 4) + " " + BZ.monthLabel(i.ym), i.completed, i.free, i.billable, "<b>" + BZ.money(i.amount) + "</b>",
-            i.paidAt || '<span class="muted">' + (i.status === "open" ? i.chargeOn + "-нд" : "—") + "</span>", '<span class="badge badge-' + s[1] + '">' + s[0] + "</span>",
-            '<button type="button" class="btn btn-secondary btn-sm" data-inv="' + i.ym + '">Харах</button>'] };
+            i.paidAt || '<span class="muted">' + (i.status === "open" ? i.issueOn + "-нд нэхэмжилнэ" : BZ.unpaid(i) ? i.dueOn + " хүртэл" : "—") + "</span>", '<span class="badge badge-' + s[1] + '">' + s[0] + "</span>",
+            BZ.unpaid(i) ? '<button type="button" class="btn btn-primary btn-sm" data-inv-pay="' + i.ym + '">Төлөх</button>' : '<button type="button" class="btn btn-secondary btn-sm" data-inv="' + i.ym + '">Харах</button>'] };
         })) +
-      '<p class="note"><i data-lucide="info"></i>Энэ нь прототип: шимтгэлийн дүрэм, карт, суутгалт бүгд жишээ мэдээлэл. Бодит төлбөр хийгдэхгүй.</p>';
+      '<p class="note"><i data-lucide="info"></i>Энэ нь прототип: шимтгэлийн дүрэм, QPay нэхэмжлэх, QR бүгд жишээ. Бодит төлбөр хийгдэхгүй.</p>';
   }
   function firstBillable() {
     var used = 0, f = S().fee, hit = null;
@@ -162,26 +169,64 @@
     var body =
       '<div class="inv-head"><div><span class="xs muted">Нэхэмжлэгч</span><b>Блүүм Платформ ХХК</b><span class="xs muted">Bloom захиалгын платформ</span></div>' +
         '<div><span class="xs muted">Төлөгч</span><b>' + S().salon.name + '</b><span class="xs muted">РД ' + S().salon.regNo + "</span></div></div>" +
-      '<div class="bd-status"><span class="badge badge-' + s[1] + '">' + s[0] + "</span>" + (i.paidAt ? '<span class="xs muted">' + i.paidAt + " · " + BZ.FEE_CARD + "</span>" : "") + "</div>" +
+      '<div class="bd-status"><span class="badge badge-' + s[1] + '">' + s[0] + "</span>" + (i.paidAt ? '<span class="xs muted">' + i.paidAt + " · QPay · " + i.bank + "</span>" : "") + "</div>" +
       '<dl class="sum">' +
         "<div><dt>Тайлант сар</dt><dd>" + i.ym.slice(0, 4) + " " + BZ.monthLabel(i.ym) + "</dd></div>" +
         "<div><dt>Дууссан захиалга</dt><dd>" + i.completed + "</dd></div>" +
         "<div><dt>Үнэгүй эрхээр</dt><dd>−" + i.free + "</dd></div>" +
         "<div><dt>Тооцох захиалга</dt><dd>" + i.billable + " × " + f.perBooking + "₮</dd></div>" +
         "<div class='total'><dt>" + (i.status === "open" ? "Одоогийн дүн" : "Шимтгэл") + "</dt><dd>" + BZ.money(i.amount) + "</dd></div>" +
-        "<div><dt>" + (i.status === "paid" ? "Суутгасан огноо" : "Суутгах огноо") + "</dt><dd>" + (i.status === "free" ? "—" : i.chargeOn) + "</dd></div>" +
-        "<div><dt>Төлбөрийн эх үүсвэр</dt><dd>" + BZ.FEE_CARD + "</dd></div>" +
+        (i.status === "free" ? "" : "<div><dt>Нэхэмжлэх илгээх</dt><dd>" + i.issueOn + "</dd></div><div><dt>Төлөх хугацаа</dt><dd>" + i.dueOn + "</dd></div>") +
+        "<div><dt>Төлбөрийн хэлбэр</dt><dd>" + (i.paidAt ? "QPay · " + i.bank : "QPay QR") + "</dd></div>" +
       "</dl>" +
-      (i.status === "open" ? '<p class="note"><i data-lucide="info"></i>Сар дуусаагүй тул дүн өөрчлөгдөж болно. ' + i.chargeOn + "-нд автоматаар суутгана.</p>" : "") +
+      (i.status === "open" ? '<p class="note"><i data-lucide="info"></i>Сар дуусаагүй тул дүн өөрчлөгдөж болно. ' + i.issueOn + "-нд QPay нэхэмжлэх илгээнэ.</p>" : "") +
       '<div class="modal-foot"><button type="button" class="btn btn-ghost" data-print><i data-lucide="printer"></i>Хэвлэх</button><span class="spacer"></span>' +
+        (BZ.unpaid(i) ? '<button type="button" class="btn btn-primary" data-inv-pay="' + i.ym + '"><i data-lucide="qr-code"></i>QPay-ээр төлөх</button>' : "") +
         '<button type="button" class="btn btn-secondary" data-close-modal>Хаах</button></div>';
     BZ.modal("inv-modal", "Нэхэмжлэх " + i.no, body, { sub: "Платформын шимтгэл · " + i.ym });
+  }
+
+  /* QPay payment of a platform fee invoice (demo). "Төлбөр шалгах" calls
+     payment/check: the first check is not paid yet, the second one is. */
+  var pay = { ym: null, checks: 0 };
+  function openPay(ym) {
+    var i = BZ.invoices().filter(function (x) { return x.ym === ym; })[0];
+    if (!i || !BZ.unpaid(i)) return;
+    pay = { ym: ym, checks: 0 };
+    UI.closeModal("inv-modal");
+    BZ.modal("fee-pay", "Шимтгэл төлөх", '<div class="fee-qr">' +
+        '<span class="xs muted">Блүүм Платформ ХХК · ' + i.no + '</span><b class="fee-qr-amt">' + BZ.money(i.amount) + "</b>" +
+        '<div class="qr-box">' + BZ.qr(i.no) + "</div>" +
+        '<p class="small center" style="margin:0">Банкны аппаараа QR уншуулж төлнө үү</p>' +
+        '<p class="xs muted center" style="margin:0">Төлөх хугацаа: ' + i.dueOn + "</p>" +
+        '<p class="qr-msg" id="fee-msg" role="status" aria-live="polite"></p></div>' +
+      '<div class="modal-foot"><button type="button" class="btn btn-secondary" data-close-modal>Дараа төлөх</button>' +
+        '<button type="button" class="btn btn-primary" data-fee-check><i data-lucide="refresh-cw"></i>Төлбөр шалгах</button></div>',
+      { sub: BZ.monthLabel(i.ym) + "ын платформын шимтгэл · демо QR" });
+  }
+  function checkPay(btn) {
+    btn.disabled = true; btn.innerHTML = '<i data-lucide="loader"></i>Шалгаж байна…'; UI.icons();
+    setTimeout(function () {
+      pay.checks++;
+      if (pay.checks < 2) {
+        btn.disabled = false; btn.innerHTML = '<i data-lucide="refresh-cw"></i>Төлбөр шалгах'; UI.icons();
+        document.getElementById("fee-msg").textContent = "Төлбөр хараахан ороогүй байна. Төлсний дараа дахин шалгана уу.";
+        return;
+      }
+      var i = BZ.invoices().filter(function (x) { return x.ym === pay.ym; })[0];
+      S().invoices = S().invoices || {};
+      S().invoices[pay.ym] = { status: "paid", paidAt: BIZ.day(0), bank: BZ.DEP_BANKS[0] };
+      BIZ.save(); UI.closeModal("fee-pay");
+      UI.toast(BZ.monthLabel(pay.ym) + "ын шимтгэл " + BZ.money(i.amount) + " төлөгдлөө", "success"); BZ.refresh();
+    }, 700);
   }
 
   document.addEventListener("click", function (e) {
     var t;
     if ((t = e.target.closest("[data-rp]"))) { rp.period = t.dataset.rp; BZ.refresh(); }
     else if (e.target.closest("[data-csv]")) exportCSV();
+    else if ((t = e.target.closest("[data-inv-pay]"))) openPay(t.dataset.invPay);
+    else if ((t = e.target.closest("[data-fee-check]"))) checkPay(t);
     else if ((t = e.target.closest("[data-inv]"))) openInvoice(t.dataset.inv);
     else if (e.target.closest("[data-print]")) window.print();
   });

@@ -547,6 +547,14 @@ dl.sum .warn { color: var(--warning); }
 .inv-due.unpaid { border-color: var(--warning); background: var(--warning-soft); }
 .inv-due.overdue { border-color: var(--danger); background: var(--danger-soft); }
 .inv-due.ok { align-items: flex-start; }
+/* QPay payment of a platform fee invoice (demo QR) */
+.fee-qr { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); }
+.fee-qr-amt { font-size: var(--fs-2xl); }
+.fee-qr .qr-box { position: relative; width: min(240px, 100%); aspect-ratio: 1; padding: 14px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--border); box-shadow: var(--shadow-md); }
+.fee-qr .qr-svg { width: 100%; height: 100%; display: block; shape-rendering: crispEdges; }
+.fee-qr .qr-mark { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 18%; aspect-ratio: 1; display: grid; place-items: center; border-radius: 8px; background: #fff; }
+.fee-qr .qr-mark img { width: 76%; height: 76%; object-fit: contain; }
+.fee-qr .qr-msg { min-height: 1.2em; margin: 0; font-size: var(--fs-sm); color: var(--warning); text-align: center; }
 .inv-due.ok > .lucide { color: var(--success); }
 .inv-head { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); margin-bottom: var(--sp-4); padding: var(--sp-4); border-radius: var(--r-md); background: var(--surface-3); }
 .inv-head > div { display: flex; flex-direction: column; min-width: 0; }

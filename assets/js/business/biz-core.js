@@ -90,29 +90,62 @@
   }
 
   /* Platform invoices: first N completed bookings free (lifetime, configurable) */
-  function invoices() { return calcInvoices(monthly(), S().fee, S().invoices, "0142"); }
+  function invoices() { return calcInvoices(monthly(), S().fee, S().invoices, "0142"); }  // own salon: previous month stays payable in the demo
   /* Shared with the admin: months [{ym, completed, revenue}], fee rule, stored statuses.
      freeScope "lifetime": the first N completed bookings ever are free.
      freeScope "monthly":  the first N completed bookings of every month are free. */
-  /* The fee is charged automatically to the salon's linked card on the 1st of the
-     following month, so past months are "paid" (or "free" when 0) and the current
-     month is "open". Stored statuses are ignored (kept in the signature for callers). */
-  function calcInvoices(months, f, statuses, suffix) {
-    var used = 0, out = [], cur = currentMonth();
+  /* The fee is billed with a QPay invoice on the 1st of the following month
+     (paid into the platform's account, due by the 10th). The salon pays it by
+     scanning the QR in its bank app; QPay payment/check marks it paid, nobody
+     confirms it by hand. Statuses: open (this month), free (0₮), issued
+     (sent, not paid yet), overdue (past the 10th), paid.
+     `statuses` holds stored payments { ym: { status: "paid", paidAt, bank } }.
+     Older demo months count as paid; the previous month stays unpaid unless
+     `opts.autoPaid` lets a stable demo hash mark it paid (other salons). */
+  function calcInvoices(months, f, statuses, suffix, opts) {
+    var used = 0, out = [], cur = currentMonth(), prev = addMonths(cur, -1), today = E.dateKey(E.today());
+    statuses = statuses || {}; opts = opts || {};
     months.forEach(function (m) {
       if (m.ym > cur) return;
       var free = f.freeScope === "monthly" ? Math.min(m.completed, f.freeLimit) : Math.max(0, Math.min(m.completed, f.freeLimit - used));
       used += free;
       var billable = m.completed - free, amount = billable * f.perBooking;
-      var status = m.ym === cur ? "open" : amount === 0 ? "free" : "paid";
-      var chargeOn = addMonths(m.ym, 1) + "-01";
-      out.push({ ym: m.ym, completed: m.completed, free: free, billable: billable, amount: amount, status: status, chargeOn: chargeOn, paidAt: status === "paid" ? chargeOn : null, revenue: m.revenue, no: "INV-" + m.ym.replace("-", "") + "-" + suffix });
+      var issueOn = addMonths(m.ym, 1) + "-01", dueOn = addMonths(m.ym, 1) + "-10";
+      var stored = statuses[m.ym] || {}, h = hash(suffix + m.ym);
+      var status, paidAt = null, bank = null;
+      if (m.ym === cur) status = "open";
+      else if (amount === 0) status = "free";
+      else if (stored.status === "paid" || m.ym < prev || (opts.autoPaid && h % 3 !== 0)) {
+        status = "paid"; paidAt = stored.paidAt || addMonths(m.ym, 1) + "-0" + (2 + h % 7); bank = stored.bank || DEP_BANKS[h % DEP_BANKS.length];
+      } else status = today > dueOn ? "overdue" : "issued";
+      out.push({ ym: m.ym, completed: m.completed, free: free, billable: billable, amount: amount, status: status, issueOn: issueOn, dueOn: dueOn, paidAt: paidAt, bank: bank,
+        revenue: m.revenue, no: "INV-" + m.ym.replace("-", "") + "-" + suffix });
     });
     return out;
   }
-  var INV_STATUS = { paid: ["Автоматаар суутгагдсан", "success"], open: ["Энэ сар · хуримтлагдаж байна", "info"], free: ["Үнэгүй", "pink"] };
-  /* Demo payment source the fee is auto-charged from (fictional) */
-  var FEE_CARD = "Visa •••• 4821";
+  var INV_STATUS = { paid: ["Төлсөн", "success"], issued: ["Төлөх · нэхэмжлэх илгээсэн", "warning"], overdue: ["Хугацаа хэтэрсэн", "danger"],
+    open: ["Энэ сар · хуримтлагдаж байна", "info"], free: ["Үнэгүй", "pink"] };
+  function unpaid(i) { return i.status === "issued" || i.status === "overdue"; }
+
+  /* Demo QPay QR pattern (not scannable, clearly marked). Shared by the
+     employee balance payment and the owner's platform fee payment. */
+  function qr(key) {
+    var N = 25, cells = "", seed = 7;
+    for (var i = 0; i < key.length; i++) seed = (seed * 31 + key.charCodeAt(i)) >>> 0;
+    function rnd() { seed = (seed * 1103515245 + 12345) >>> 0; return (seed >>> 16) & 1; }
+    function finder(x, y) { return (x < 8 && y < 8) || (x > N - 9 && y < 8) || (x < 8 && y > N - 9); }
+    for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
+      var on;
+      if (finder(x, y)) {
+        var fx = x > N - 9 ? x - (N - 7) : x, fy = y > N - 9 ? y - (N - 7) : y;
+        on = fx >= 0 && fy >= 0 && fx < 7 && fy < 7 && (fx === 0 || fy === 0 || fx === 6 || fy === 6 || (fx > 1 && fx < 5 && fy > 1 && fy < 5));
+      } else if (x > 9 && x < 15 && y > 9 && y < 15) on = false;
+      else on = rnd();
+      if (on) cells += '<rect x="' + x + '" y="' + y + '" width="1" height="1"/>';
+    }
+    return '<svg class="qr-svg" viewBox="-1 -1 ' + (N + 2) + " " + (N + 2) + '" role="img" aria-label="Жишээ QR код, уншуулах боломжгүй">' +
+      '<rect x="-1" y="-1" width="' + (N + 2) + '" height="' + (N + 2) + '" fill="#fff"/><g fill="#34252F">' + cells + '</g></svg><span class="qr-mark"><img src="' + UI.BASE + UI.LOGO.symbol + '" alt=""></span>';
+  }
 
   /* ---------- Free slots for owner-created bookings ---------- */
   function workDay(e, dateKey) {
@@ -263,7 +296,7 @@
     depositMethod: depositMethod, balanceMethod: balanceMethod, method: method,
     get branchFilter() { return branchFilter; }, set branchFilter(v) { branchFilter = v; },
     inBranch: inBranch, branchSelect: branchSelect,
-    between: between, stats: stats, monthly: monthly, invoices: invoices, calcInvoices: calcInvoices, INV_STATUS: INV_STATUS, FEE_CARD: FEE_CARD, currentMonth: currentMonth, addMonths: addMonths,
+    between: between, stats: stats, monthly: monthly, invoices: invoices, calcInvoices: calcInvoices, INV_STATUS: INV_STATUS, unpaid: unpaid, qr: qr, DEP_BANKS: DEP_BANKS, currentMonth: currentMonth, addMonths: addMonths,
     workDay: workDay, freeSlots: freeSlots, barChart: barChart, rankBars: rankBars,
     modal: modal, field: field, input: input, select: select, sw: sw, setErr: setErr, val: val, firstError: firstError, uid: uid,
     readImage: readImage, img: img, empty: empty, downloadCSV: downloadCSV

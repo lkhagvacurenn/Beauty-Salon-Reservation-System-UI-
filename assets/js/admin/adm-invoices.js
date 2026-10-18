@@ -1,10 +1,10 @@
 /* =========================================================
    Bloom platform admin: platform fee and invoices (10.7)
    Read-only report of salon-wise monthly counts: completed,
-   free, billable, fee per booking, total and auto-charge
-   status. The fee is charged automatically to the salon's
-   linked card on the 1st of the next month (no admin review),
-   never to customers. The fee rule is a configurable mock.
+   free, billable, fee per booking, total and payment status.
+   On the 1st of the next month each salon gets a QPay invoice
+   (due by the 10th); QPay payment/check marks it paid, so the
+   admin only monitors. Never charged to customers. The fee rule is a configurable mock.
    ========================================================= */
 (function () {
   var st = { ym: null, filter: "all", salon: "all" };
@@ -20,7 +20,7 @@
     var set = {}; ADM.state.salons.forEach(function (s) { ADM.invoicesOf(s.id).forEach(function (i) { set[i.ym] = 1; }); });
     return Object.keys(set).sort().reverse();
   }
-  var FILTERS = [["all", "Бүгд"], ["paid", "Суутгагдсан"], ["free", "Үнэгүй"], ["open", "Энэ сар"]];
+  var FILTERS = [["all", "Бүгд"], ["issued", "Төлөгдөөгүй"], ["overdue", "Хугацаа хэтэрсэн"], ["paid", "Төлсөн"], ["free", "Үнэгүй"], ["open", "Энэ сар"]];
 
   function render(params) {
     if (params === applied) params = null; else applied = params;
@@ -46,7 +46,7 @@
     var cnt = function (k) { return base.filter(function (r) { return k === "all" || r.inv.status === k; }).length; };
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Платформын шимтгэл</h2><p>Шимтгэлийг сар бүрийн 1-нд өмнөх сарын дүнгээр салоны холбосон картаас автоматаар суутгана. Админ төлбөр шалгах, баталгаажуулах шаардлагагүй. Үйлчлүүлэгчийн төлбөрт шимтгэл нэмэгдэхгүй.</p></div>' +
+      '<div class="page-head"><div><h2>Платформын шимтгэл</h2><p>Сар бүрийн 1-нд салон бүрт өмнөх сарын шимтгэлийн QPay нэхэмжлэх илгээнэ. Салон 10-ны дотор QR-аар төлж, төлбөрийг систем QPay-ээс автоматаар шалгана. Админ баталгаажуулах шаардлагагүй. Үйлчлүүлэгчийн төлбөрт шимтгэл нэмэгдэхгүй.</p></div>' +
         '<button type="button" class="btn btn-secondary" data-inv-csv><i data-lucide="download"></i>CSV татах</button></div>' +
 
       '<div class="card fee-card"><div class="card-title"><div><h3>Шимтгэлийн дүрэм</h3><p class="xs muted" style="margin:2px 0 0">Демо тохиргоо. Бүх салонд адил үйлчилнэ.</p></div>' +
@@ -54,7 +54,7 @@
         '<div class="fee-facts">' +
           "<div><span class='kpi-label'>Нэг захиалгын шимтгэл</span><b>" + BZ.money(fee.perBooking) + "</b><span class='xs muted'>Дууссан захиалга тутамд</span></div>" +
           "<div><span class='kpi-label'>Үнэгүй захиалга</span><b>" + fee.freeLimit + "</b><span class='xs muted'>" + (fee.freeScope === "monthly" ? "Сар бүрийн эхний захиалгууд" : "Салон бүрийн эхний захиалгууд (нэг удаа)") + "</span></div>" +
-          "<div><span class='kpi-label'>Суутгах хугацаа</span><b>Сар бүрийн 1-нд</b><span class='xs muted'>Автоматаар, салоны холбосон картаас</span></div>" +
+          "<div><span class='kpi-label'>Нэхэмжлэх</span><b>Сар бүрийн 1-нд</b><span class='xs muted'>QPay QR, 10-ны дотор төлнө</span></div>" +
         "</div></div>" +
 
       '<div class="adm-filters inv-filters">' +
@@ -69,26 +69,27 @@
         AD.kpi("Дууссан захиалга", sum(list, "completed").toLocaleString("en-US"), list.length + " салон-сар") +
         AD.kpi("Үнэгүй", sum(list, "free").toLocaleString("en-US"), "Шимтгэлгүй захиалга") +
         AD.kpi("Төлбөртэй", sum(list, "billable").toLocaleString("en-US"), "× " + BZ.money(fee.perBooking)) +
-        AD.kpi("Суутгагдсан", BZ.money(amountOf("paid")), "Автоматаар суутгасан") +
-        AD.kpi("Энэ сар хуримтлагдаж буй", BZ.money(amountOf("open")), BZ.addMonths(cm, 1) + "-01-нд суутгана") +
+        AD.kpi("Төлсөн", BZ.money(amountOf("paid")), "QPay-ээр баталгаажсан") +
+        AD.kpi("Төлөгдөөгүй", BZ.money(amountOf("issued") + amountOf("overdue")), "Үүнээс хугацаа хэтэрсэн " + BZ.money(amountOf("overdue"))) +
+        AD.kpi("Энэ сар хуримтлагдаж буй", BZ.money(amountOf("open")), BZ.addMonths(cm, 1) + "-01-нд нэхэмжилнэ") +
       "</div>" +
 
-      BZ.table(["Салон", "Сар", { label: "Дууссан", cls: "t-num" }, { label: "Үнэгүй", cls: "t-num" }, { label: "Төлбөртэй", cls: "t-num" }, { label: "Шимтгэл", cls: "t-num" }, { label: "Дүн", cls: "t-num" }, "Суутгасан огноо", "Төлөв", { label: "", cls: "t-act" }],
+      BZ.table(["Салон", "Сар", { label: "Дууссан", cls: "t-num" }, { label: "Үнэгүй", cls: "t-num" }, { label: "Төлбөртэй", cls: "t-num" }, { label: "Шимтгэл", cls: "t-num" }, { label: "Дүн", cls: "t-num" }, "Төлсөн огноо", "Төлөв", { label: "", cls: "t-act" }],
         list.map(function (r) {
           var i = r.inv, s = BZ.INV_STATUS[i.status];
           return { cells: ["<b>" + BZ.esc(r.salon.name) + '</b><span class="cell-sub mono">' + i.no + "</span>", i.ym.slice(0, 4) + " · " + BZ.monthLabel(i.ym),
             i.completed, i.free, i.billable, BZ.money(fee.perBooking), "<b>" + BZ.money(i.amount) + "</b>",
-            i.paidAt || '<span class="xs muted">' + (i.status === "open" ? i.chargeOn + "-нд" : "—") + "</span>",
+            i.paidAt || '<span class="xs muted">' + (i.status === "open" ? i.issueOn + "-нд нэхэмжилнэ" : BZ.unpaid(i) ? i.dueOn + " хүртэл" : "—") + "</span>",
             '<span class="badge badge-' + s[1] + '">' + s[0] + "</span>",
             '<button type="button" class="btn btn-secondary btn-sm" data-inv="' + r.salon.id + "|" + i.ym + '">Харах</button>'] };
         }), { empty: BZ.empty("receipt", "Мэдээлэл олдсонгүй", "Сар, салон эсвэл төлвөө өөрчилнө үү."), cls: "inv-table" }) +
-      '<p class="note"><i data-lucide="info"></i>Шимтгэлийг сар бүрийн 1-нд салоны холбосон картаас автоматаар суутгана. Админ төлбөр шалгах, баталгаажуулах шаардлагагүй. Демо: бодит төлбөр, картын холболт байхгүй.</p>';
+      '<p class="note"><i data-lucide="info"></i>Шимтгэлийн нэхэмжлэхийг QPay-ээр илгээж, төлбөрийг QPay payment/check-ээр автоматаар баталгаажуулна. Админ төлбөр баталгаажуулах шаардлагагүй. Демо: бодит төлбөр хийгдэхгүй.</p>';
   }
 
   function open(key) {
     var p = key.split("|"), s = ADM.salon(p[0]), i = ADM.invoicesOf(p[0]).filter(function (x) { return x.ym === p[1]; })[0], fee = BIZ.state.fee, k = BZ.INV_STATUS[i.status];
     var html =
-      '<div class="bd-status"><span class="badge badge-' + k[1] + '">' + k[0] + "</span>" + (i.status !== "free" ? '<span class="badge no-dot">' + (i.status === "paid" ? "Суутгасан " : "Суутгах ") + i.chargeOn + "</span>" : "") + "</div>" +
+      '<div class="bd-status"><span class="badge badge-' + k[1] + '">' + k[0] + "</span>" + (i.status === "paid" ? '<span class="badge no-dot">Төлсөн ' + i.paidAt + "</span>" : BZ.unpaid(i) ? '<span class="badge no-dot">Төлөх хугацаа ' + i.dueOn + "</span>" : "") + "</div>" +
       '<section class="bd-sec"><h4><i data-lucide="receipt"></i>' + i.ym.slice(0, 4) + " оны " + BZ.monthLabel(i.ym) + '</h4><dl class="sum">' +
         "<div><dt>Дууссан захиалга</dt><dd>" + i.completed + "</dd></div>" +
         "<div><dt>Үнэгүй (" + (fee.freeScope === "monthly" ? "сарын" : "нийт") + " эхний " + fee.freeLimit + ")</dt><dd class='minus'>−" + i.free + "</dd></div>" +
@@ -96,7 +97,7 @@
         "<div><dt>Нэг захиалгын шимтгэл</dt><dd>" + BZ.money(fee.perBooking) + "</dd></div>" +
         "<div class='total'><dt>" + (i.status === "open" ? "Одоогийн дүн" : "Шимтгэл") + "</dt><dd>" + BZ.money(i.amount) + "</dd></div>" +
       "</dl></section>" +
-      '<p class="note"><i data-lucide="info"></i>' + (i.status === "paid" ? i.paidAt + "-нд салоны холбосон картаас автоматаар суутгагдсан." : i.status === "open" ? "Сар дуусаагүй. " + i.chargeOn + "-нд автоматаар суутгана." : "Шимтгэл тооцогдоогүй тул суутгал хийгдээгүй.") + "</p>" +
+      '<p class="note"><i data-lucide="info"></i>' + (i.status === "paid" ? i.paidAt + "-нд QPay-ээр төлөгдсөн (" + i.bank + ")." : i.status === "issued" ? i.issueOn + "-нд QPay нэхэмжлэх илгээсэн. " + i.dueOn + "-ны дотор төлнө." : i.status === "overdue" ? "Төлөх хугацаа " + i.dueOn + "-нд дууссан. Салонд сануулга илгээгдэнэ." : i.status === "open" ? "Сар дуусаагүй. " + i.issueOn + "-нд QPay нэхэмжлэх илгээнэ." : "Шимтгэл тооцогдоогүй тул нэхэмжлэх илгээгдээгүй.") + "</p>" +
       '<div class="modal-foot"><button type="button" class="btn btn-secondary" data-close-modal>Хаах</button></div>';
     BZ.modal("inv-modal", BZ.esc(s.name), html, { sub: i.no });
   }
@@ -104,7 +105,7 @@
   function editFee() {
     var f = BIZ.state.fee;
     var m = BZ.modal("fee-modal", "Шимтгэлийн дүрэм",
-      BZ.field("fe-per", "Нэг захиалгын шимтгэл", '<div class="input-suffix">' + BZ.input("fe-per", f.perBooking, "number", 'min="0" max="10000" step="10" inputmode="numeric"') + "<span>₮</span></div>", "Дууссан захиалга тутамд салоноос суутгана", true) +
+      BZ.field("fe-per", "Нэг захиалгын шимтгэл", '<div class="input-suffix">' + BZ.input("fe-per", f.perBooking, "number", 'min="0" max="10000" step="10" inputmode="numeric"') + "<span>₮</span></div>", "Дууссан захиалга тутамд салонд нэхэмжилнэ", true) +
       BZ.field("fe-free", "Үнэгүй захиалгын тоо", BZ.input("fe-free", f.freeLimit, "number", 'min="0" max="1000" step="1" inputmode="numeric"'), "", true) +
       '<fieldset class="field"><legend>Үнэгүй захиалга тоолох</legend><div class="radio-list">' +
         '<label class="check"><input type="radio" name="fe-scope" value="lifetime"' + (f.freeScope !== "monthly" ? " checked" : "") + ">Салон бүрийн эхний N захиалга (нэг удаа)</label>" +
