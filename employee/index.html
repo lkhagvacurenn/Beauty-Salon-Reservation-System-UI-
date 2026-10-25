@@ -26,6 +26,9 @@
     <section data-page="schedule"></section>
     <section data-page="bookings"></section>
     <section data-page="payment"></section>
+    <section data-page="time-off"></section>
+    <section data-page="calendar"></section>
+    <section data-page="reports"></section>
   </div>
 
   <script src="../assets/vendor/lucide.min.js"></script>
@@ -48,14 +51,19 @@
           { id: "today",    label: "Өнөөдөр",          icon: "house" },
           { id: "schedule", label: "Миний хуваарь",    icon: "calendar-days",  short: "Хуваарь" },
           { id: "bookings", label: "Миний захиалга",   icon: "clipboard-list", short: "Захиалга" },
-          { id: "payment",  label: "Үлдэгдэл төлбөр",  icon: "qr-code",        short: "Төлбөр" }
-        ],
+          { id: "payment",  label: "Үлдэгдэл төлбөр",  icon: "qr-code",        short: "Төлбөр" },
+          { id: "time-off", label: "Чөлөө",            icon: "calendar-x",     short: "Чөлөө" }
+        ].concat(e.access === "manager" ? [
+          { id: "calendar", label: "Салбарын календарь", icon: "calendar-range", group: "Менежер" },
+          { id: "reports",  label: "Тайлан",             icon: "chart-column",   group: "Менежер" }
+        ] : []),
         bottomNav: ["today", "schedule", "bookings", "payment"]
       };
     })();
   </script>
   <script src="../assets/js/employee/emp-pages.js"></script>
   <script src="../assets/js/employee/emp-pay.js"></script>
+  <script src="../assets/js/employee/emp-extra.js"></script>
   <script src="../assets/js/shell.js"></script>
 </body>
 </html>

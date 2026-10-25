@@ -30,6 +30,10 @@
     <section data-page="reviews"></section>
     <section data-page="ads"></section>
     <section data-page="invoices"></section>
+    <section data-page="payments"></section>
+    <section data-page="stats"></section>
+    <section data-page="categories"></section>
+    <section data-page="activity"></section>
   </div>
 
   <script>
@@ -43,7 +47,11 @@
         { id: "bookings",  label: "Захиалга ба төлбөр",   icon: "calendar-search",  group: "Хяналт" },
         { id: "reviews",   label: "Сэтгэгдэл хянах",      icon: "message-square-warning", group: "Хяналт" },
         { id: "ads",       label: "Сурталчилгаа",         icon: "megaphone",        group: "Контент" },
-        { id: "invoices",  label: "Платформын шимтгэл", icon: "receipt",          group: "Санхүү" }
+        { id: "categories",label: "Үйлчилгээний ангилал", icon: "tags",           group: "Контент" },
+        { id: "invoices",  label: "Платформын шимтгэл", icon: "receipt",          group: "Санхүү" },
+        { id: "payments",  label: "Төлбөр",               icon: "wallet",           group: "Санхүү" },
+        { id: "stats",     label: "Статистик",            icon: "chart-column",     group: "Тайлан" },
+        { id: "activity",  label: "Үйл ажиллагааны лог",  icon: "history",          group: "Тайлан" }
       ]
     };
   </script>
@@ -65,6 +73,7 @@
   <script src="../assets/js/admin/adm-reviews.js"></script>
   <script src="../assets/js/admin/adm-ads.js"></script>
   <script src="../assets/js/admin/adm-invoices.js"></script>
+  <script src="../assets/js/admin/adm-extra.js"></script>
   <script src="../assets/js/shell.js"></script>
 </body>
 </html>

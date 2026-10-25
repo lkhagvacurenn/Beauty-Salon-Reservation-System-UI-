@@ -151,7 +151,7 @@
   function workDay(e, dateKey) {
     var d = E.fromKey(dateKey), sc = e.schedule[d.getDay()], br = branch(e.branch);
     if (!sc || !br.hours[d.getDay()]) return null;
-    if (e.off.some(function (o) { return dateKey >= o.from && dateKey <= o.to; })) return null;
+    if (e.off.some(function (o) { return !o.start && dateKey >= o.from && dateKey <= o.to; })) return null;
     return sc;
   }
   function freeSlots(empId, dateKey, duration, ignoreRef) {
@@ -160,6 +160,7 @@
     var busy = S().bookings.filter(function (b) { return b.employeeId === empId && b.date === dateKey && b.ref !== ignoreRef && b.status !== "cancelled"; })
       .map(function (b) { return [E.toMin(b.time), E.toMin(b.time) + b.duration]; });
     busy.push([E.toMin(sc.break[0]), E.toMin(sc.break[1])]);
+    e.off.forEach(function (o) { if (o.start && o.from === dateKey) busy.push([E.toMin(o.start), E.toMin(o.end)]); });  // hours-only time-off
     var now = new Date(), isToday = dateKey === E.dateKey(E.today()), nowMin = now.getHours() * 60 + now.getMinutes();
     for (var t = E.toMin(sc.start); t + duration <= E.toMin(sc.end); t += 30) {
       if (isToday && t < nowMin) continue;

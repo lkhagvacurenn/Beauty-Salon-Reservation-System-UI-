@@ -43,6 +43,7 @@ assets/
   js/client/pay.js      QPay-style deposit payment (demo QR, timer, statuses)
   js/client/account.js  My bookings (cancel, pay, review) and profile
   js/client/auth.js     Login, sign-up, email code, forgot password (UI only)
+  js/client/notifications.js  Notifications: unread badge, open (marks read), mark all read, empty state
   css/business.css      Business Owner pages (dashboard, calendars, forms)
   js/business/biz-data.js      Demo store for the salon owner ("bloom-biz" in localStorage)
   js/business/biz-core.js      Shared helpers: status labels, charts, tables, modals, free slots, platform fee calculation
@@ -53,10 +54,12 @@ assets/
   js/business/biz-employees.js Employees (schedule, breaks, days off, permissions)
   js/business/biz-marketing.js Promo codes, Хямдралтай цаг, reviews
   js/business/biz-finance.js   Reports (CSV export) and platform fee (QPay invoice, pay by QR)
+  js/business/biz-extra.js     Onboarding status + photo upload, salon profile (cover, logo, legal info), 7-step salon sign-up wizard with email code, add another salon
   css/employee.css      Employee pages (today, schedule, bookings, balance QR)
   js/employee/emp-core.js  Signed-in specialist, permissions, booking detail and status
   js/employee/emp-pages.js Today, My schedule, My bookings
   js/employee/emp-pay.js   Remaining balance payment (demo QR, timer, status check)
+  js/employee/emp-extra.js Time off (full or part day, clash warning), manager branch calendar, manager reports
   css/admin.css         Platform Administration pages (on top of business.css)
   js/admin/adm-data.js     Admin demo store ("bloom-admin"): salons, applications, users, bookings, reviews, ads, activity
   js/admin/adm-core.js     Admin helpers + dashboard
@@ -66,6 +69,7 @@ assets/
   js/admin/adm-reviews.js  Review moderation (keep, hide, delete)
   js/admin/adm-ads.js      Ads: image + link in 3 fixed placements, dates, active, ratio check, preview
   js/admin/adm-invoices.js Fee rule, salon-wise monthly platform fee report (read-only)
+  js/admin/adm-extra.js    Payments (deposit / balance / refund / fee), platform statistics, categories, activity log
   logo/logo-symbol.png  Supplied symbol logo
   ads/*.svg             Fictional seed ad banners (1200×200, 960×120, 300×250)
 banks logo/             Bank app logos used on the client deposit payment page
@@ -120,16 +124,19 @@ BLOOM10, SARNAI15 (Төв салбар), ZAISAN5000 (Зайсан салбар),
 Owner: Ганцэцэг Батсүх, Сарнай Бьюти Студио (same salon the client sees).
 Platform fee rule (mock, set by the admin): first 50 completed bookings free for the salon's whole lifetime, then 100₮ per completed booking. Customers never pay it.
 To reset the owner's demo data, remove "bloom-biz" from localStorage.
+New pages: Бүртгэлийн явц (status, demo switch Батлагдсан / Хянагдаж буй / Татгалзсан, photo upload), Салоны профайл, and the sign-up wizard at `business/index.html#/register` (demo email code 123456). "Шинэ салон нэмэх" on Салоны профайл opens the same wizard without the owner step.
 
 ## Employee demo
 
 Signed in as Хулан Б. (staff). The Today page has a demo switch to view the app as another specialist, for example Анужин Г. (manager) who can also see the whole branch's bookings and add days off.
 Permissions come from Business Owner → Ажилтан → Эрх. Status changes and payments made here also show in the Business Owner interface.
 The remaining balance QR is a clearly marked demo QR: "Төлбөр шалгах" says not paid on the first press and paid on the second.
+Чөлөө (time off) is in the menu for everyone with the permission. Switch to Анужин Г. (manager) on the Today page to see the extra Менежер menu: Салбарын календар and Тайлан.
 
 ## Platform Administration demo
 
 Signed in as Админ Бат-Очир. Сарнай Бьюти Студио uses the Business Owner's data, so:
+New pages: Төлбөрүүд, Статистик, Ангилал (add / edit / hide categories) and Үйлдлийн түүх (every admin action is logged here).
 - a review the owner reports ("Админд мэдэгдэх") appears under Сэтгэгдэл хянах, and the admin's decision shows back on the owner's page;
 - the platform fee is billed with a QPay invoice on the 1st of each month (due by the 10th). The owner pays it by QR on Платформын шимтгэл ("QPay-ээр төлөх"; demo "Төлбөр шалгах" says not paid on the first press, paid on the second). QPay payment/check confirms it, so the admin only monitors it (Төлсөн / Төлөгдөөгүй / Хугацаа хэтэрсэн). No card is stored or charged;
 - the fee rule the admin saves (amount, free bookings, lifetime or monthly) is the one the owner sees.

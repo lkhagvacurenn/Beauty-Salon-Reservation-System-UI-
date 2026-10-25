@@ -146,3 +146,16 @@
 .inv-table td { vertical-align: middle; }
 .inv-table td:first-child { min-width: 180px; }
 .inv-table td:nth-child(2) { white-space: nowrap; }
+
+/* ---------- Added pages: activity log, categories, stats, payments ---------- */
+.u-cell .avatar.sys { background: var(--surface-2, var(--bg-2)); color: var(--text-2); }
+.u-cell .avatar.sys svg { width: 16px; height: 16px; }
+.u-cell .cat-ic { width: 34px; height: 34px; border-radius: var(--r-md, 10px); display: inline-grid; place-items: center; background: var(--primary-soft); color: var(--accent-strong); flex-shrink: 0; }
+.u-cell .cat-ic svg { width: 18px; height: 18px; }
+.badge-neutral { background: var(--surface-2, rgba(127,127,127,.12)); color: var(--text-2); }
+.method-chip { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 999px; font-size: var(--fs-xs); font-weight: 600; border: 1px solid var(--border); }
+.method-chip.m-qpay { color: var(--info); border-color: currentColor; }
+.method-chip.m-cash { color: var(--success); border-color: currentColor; }
+.method-chip.m-card { color: var(--text-2); }
+.stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); margin-top: var(--sp-4); }
+@media (max-width: 1023px) { .stat-grid { grid-template-columns: 1fr; } }

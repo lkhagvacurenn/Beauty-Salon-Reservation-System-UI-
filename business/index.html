@@ -31,6 +31,10 @@
     <section data-page="reviews"></section>
     <section data-page="reports"></section>
     <section data-page="invoices"></section>
+    <section data-page="onboarding"></section>
+    <section data-page="settings"></section>
+    <section data-page="register"></section>
+    <section data-page="new-salon"></section>
   </div>
 
   <script>
@@ -40,6 +44,8 @@
       nav: [
         { id: "dashboard", label: "Хяналтын самбар",    icon: "layout-dashboard", group: "Үндсэн" },
         { id: "bookings",  label: "Захиалга",           icon: "calendar-days",    group: "Үндсэн" },
+        { id: "onboarding",label: "Бүртгэлийн явц",     icon: "list-checks",      group: "Үндсэн" },
+        { id: "settings",  label: "Салоны профайл",     icon: "id-card",          group: "Удирдлага" },
         { id: "salon",     label: "Салон ба салбар",    icon: "store",            group: "Удирдлага" },
         { id: "services",  label: "Үйлчилгээ",          icon: "sparkles",         group: "Удирдлага" },
         { id: "employees", label: "Ажилтан",            icon: "users",            group: "Удирдлага" },
@@ -47,6 +53,10 @@
         { id: "reviews",   label: "Сэтгэгдэл",          icon: "star",             group: "Маркетинг" },
         { id: "reports",   label: "Тайлан",             icon: "chart-column",     group: "Санхүү" },
         { id: "invoices",  label: "Платформын шимтгэл", icon: "receipt",        group: "Санхүү" }
+      ],
+      routes: [
+        { id: "register",  label: "Салоноо бүртгүүлэх", icon: "user-plus" },
+        { id: "new-salon", label: "Шинэ салон нэмэх",   icon: "store" }
       ]
     };
   </script>
@@ -66,6 +76,7 @@
   <script src="../assets/js/business/biz-employees.js"></script>
   <script src="../assets/js/business/biz-marketing.js"></script>
   <script src="../assets/js/business/biz-finance.js"></script>
+  <script src="../assets/js/business/biz-extra.js"></script>
   <script src="../assets/js/shell.js"></script>
 </body>
 </html>
