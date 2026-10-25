@@ -22,7 +22,7 @@
     var can = EMP.perm("editSchedule");
     var sc = e.schedule[new Date().getDay()] || e.schedule[1] || { start: "10:00", end: "19:00" };
     el.innerHTML =
-      '<div class="page-head"><div><h2>Чөлөө</h2><p>Чөлөө, сургалт зэрэг ажиллахгүй цагаа бүртгэнэ. Энэ хугацаанд онлайн захиалга авахгүй.</p></div></div>' +
+      '<div class="page-head"><div><h2>Чөлөө</h2></div></div>' +
       '<div class="to-grid">' +
         '<div class="card"><div class="card-title"><h3>Чөлөө бүртгэх</h3></div>' +
           (can ?
@@ -109,7 +109,7 @@
     }).join("");
     var active = list.filter(function (b) { return b.status !== "cancelled"; });
     el.innerHTML =
-      '<div class="page-head"><div><h2>Салбарын календарь</h2><p>' + BZ.branch(me.branch).name + " · бүх мэргэжилтний өдрийн хуваарь</p></div></div>" +
+      '<div class="page-head"><div><h2>Салбарын календарь</h2><p>' + BZ.branch(me.branch).name + "</p></div></div>" +
       '<div class="cal-head"><h3>' + E.longDate(E.fromKey(cal.date)) + "</h3>" +
         '<div class="cal-nav"><button type="button" class="icon-btn" data-cal-step="-1" aria-label="Өмнөх өдөр"><i data-lucide="chevron-left"></i></button>' +
         '<button type="button" class="btn btn-secondary btn-sm" data-cal-step="0">Өнөөдөр</button>' +
@@ -148,7 +148,7 @@
     var rows = Object.keys(groups).map(function (k) { return groups[k]; }).sort(function (a, b) { return rp.by === "day" ? (a.k < b.k ? 1 : -1) : b.revenue - a.revenue; });
     var label = { day: "Өдөр", service: "Үйлчилгээ", employee: "Ажилтан" }[rp.by];
     el.innerHTML =
-      '<div class="page-head"><div><h2>Тайлан</h2><p>' + BZ.branch(me.branch).name + " · менежерийн тайлан</p></div>" +
+      '<div class="page-head"><div><h2>Тайлан</h2><p>' + BZ.branch(me.branch).name + "</p></div>" +
         '<div class="tab-row">' + BZ.tabs("rprange", [["week", "7 хоног"], ["month", "Энэ сар"], ["30", "30 хоног"]], rp.range) + "</div></div>" +
       '<div class="kpi-grid">' +
         kpi("Захиалга", list.length, "calendar-check") + kpi("Дууссан", done.length, "circle-check") +

@@ -42,7 +42,7 @@
     function esc(e) { if (e.key === "Escape") { e.stopPropagation(); close(); } }
     v.addEventListener("click", close);
     document.addEventListener("keydown", esc, true);
-    document.body.appendChild(v); if (window.lucide) lucide.createIcons();
+    document.body.appendChild(v); UI.icons();
     v.querySelector(".ph-close").focus();
   }
 
@@ -53,7 +53,7 @@
     var el = BZ.el("salons"), S = ADM.state;
     var apps = S.applications, pending = apps.filter(function (a) { return a.status === "pending"; }), rejected = apps.filter(function (a) { return a.status === "rejected"; });
     el.innerHTML =
-      '<div class="page-head"><div><h2>Салон батлах ба хяналт</h2><p>Шинэ бүртгэлийн хүсэлт, бүртгэлтэй салонуудын төлөв</p></div></div>' +
+      '<div class="page-head"><div><h2>Салон батлах ба хяналт</h2></div></div>' +
       '<div class="tab-row">' + BZ.tabs("stab", [["pending", "Хүлээгдэж буй (" + pending.length + ")", "hourglass"], ["salons", "Бүртгэлтэй салон (" + S.salons.length + ")", "store"], ["rejected", "Татгалзсан (" + rejected.length + ")", "circle-x"]], st.tab) + "</div>" +
       (st.tab === "pending" ? appList(pending, "Хүлээгдэж буй хүсэлт алга", "Шинэ салон бүртгүүлэхэд энд харагдана.") :
         st.tab === "rejected" ? appList(rejected, "Татгалзсан хүсэлт алга", "Татгалзсан хүсэлтүүд энд хадгалагдана.") : salonTable());
@@ -70,7 +70,7 @@
         '<ul class="meta-list"><li><i data-lucide="calendar"></i>Илгээсэн ' + a.submitted + (a.status === "rejected" ? " · татгалзсан " + a.decided : "") + "</li>" +
           '<li><i data-lucide="tags"></i>' + a.cats.map(BZ.catName).join(", ") + "</li>" +
           '<li><i data-lucide="git-branch"></i>' + a.branches.length + " салбар · " + a.services.length + " үйлчилгээ · " + a.employees.length + " ажилтан</li>" +
-          '<li><i data-lucide="images"></i>Салоны орчин ' + c.i + " · хийсэн ажил " + c.w + " зураг</li></ul>" +
+          '<li><i data-lucide="images"></i>Салоны орчин ' + c.i + " · хийгдсэн ажлууд " + c.w + " зураг</li></ul>" +
         (a.status === "rejected" ? '<p class="note warn-note"><i data-lucide="message-square-warning"></i>' + BZ.esc(a.reason) + "</p>" : "") +
         '<div class="app-actions"><button type="button" class="btn btn-secondary btn-sm" data-app="' + a.id + '">Дэлгэрэнгүй</button>' +
           (a.status === "pending" ? '<button type="button" class="btn btn-ghost btn-sm danger-text" data-app-reject="' + a.id + '">Татгалзах</button><button type="button" class="btn btn-primary btn-sm" data-app-approve="' + a.id + '"><i data-lucide="check"></i>Батлах</button>' : "") +
@@ -101,7 +101,7 @@
       "</dl></section>" +
       '<section class="bd-sec"><h4><i data-lucide="images"></i>Илгээсэн зураг</h4>' +
         '<p class="xs muted">Салоны дотор орчин болон өөрсдийн хийсэн ажлын зургийг шалгана. Тус бүр ' + MIN + '-аас доошгүй зураг шаардлагатай.</p>' +
-        gallery(a, "interior", "Салоны орчин", "store") + gallery(a, "work", "Хийсэн ажил", "sparkles") + "</section>" +
+        gallery(a, "interior", "Салоны орчин", "store") + gallery(a, "work", "Хийгдсэн ажлууд", "sparkles") + "</section>" +
       overview(a) +
       (a.status === "rejected" ? '<p class="note warn-note"><i data-lucide="message-square-warning"></i>Татгалзсан шалтгаан: ' + BZ.esc(a.reason) + "</p>" : "") +
       '<div class="modal-foot">' + (a.status === "pending" ? '<button type="button" class="btn btn-secondary" data-app-reject="' + a.id + '"><i data-lucide="x"></i>Татгалзах</button><button type="button" class="btn btn-primary" data-app-approve="' + a.id + '"><i data-lucide="check"></i>Батлах</button>'
@@ -110,14 +110,14 @@
     m.querySelectorAll("[data-ph]").forEach(function (b) {
       b.addEventListener("click", function () {
         var k = b.getAttribute("data-ph").split(":");
-        viewPhoto(a.photos[k[0]][+k[1]], (k[0] === "interior" ? "Салоны орчин " : "Хийсэн ажил ") + (+k[1] + 1));
+        viewPhoto(a.photos[k[0]][+k[1]], (k[0] === "interior" ? "Салоны орчин " : "Хийгдсэн ажлууд ") + (+k[1] + 1));
       });
     });
   }
 
   function approve(id) {
     var a = app(id), c = photoCheck(a);
-    UI.confirm({ title: a.name + "-г батлах уу?", text: (c.ok ? "" : "Анхаар: зураг дутуу байна (салоны орчин " + c.i + "/" + MIN + ", хийсэн ажил " + c.w + "/" + MIN + "). ") + "Батлагдсаны дараа салон платформд нэвтэрч, захиалга авч эхэлнэ.", confirmLabel: "Батлах" }, function () {
+    UI.confirm({ title: a.name + "-г батлах уу?", text: (c.ok ? "" : "Анхаар: зураг дутуу байна (салоны орчин " + c.i + "/" + MIN + ", хийгдсэн ажлууд " + c.w + "/" + MIN + "). ") + "Батлагдсаны дараа салон платформд нэвтэрч, захиалга авч эхэлнэ.", confirmLabel: "Батлах" }, function () {
       var S = ADM.state;
       a.status = "approved"; a.decided = BIZ.day(0);
       var id2 = "new-" + a.id;

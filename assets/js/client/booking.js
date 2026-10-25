@@ -87,7 +87,7 @@
   function stepServices() {
     var list = E.branchServices(st.salon, st.branch);
     var el = eligible();
-    return '<h2 class="step-title">Үйлчилгээ сонгоно уу</h2><p class="step-sub">' + st.branch.name + "-ын үнэ. Хэд хэдэн үйлчилгээ сонгож болно, нэг ажилтан дараалан хийнэ.</p>" +
+    return '<h2 class="step-title">Үйлчилгээ сонгоно уу</h2>' +
       '<div class="option-list">' + list.map(function (x) {
         var on = st.services.indexOf(x.id) > -1;
         var dh = D.DISCOUNT_HOURS.filter(function (h) { return h.salonId === st.salon.id && h.serviceId === x.id; })[0];
@@ -110,7 +110,7 @@
         '<span class="option-body"><b>' + title + '</b><span class="xs muted">' + sub + "</span>" + (extra || "") + "</span>" +
         '<span class="option-check"><i data-lucide="check"></i></span></button>';
     }
-    return '<h2 class="step-title">Ажилтан сонгоно уу</h2><p class="step-sub">Сонгосон үйлчилгээг хийдэг ажилчид. "Хамаагүй" сонговол хамгийн олон сул цагтай ажилтанд оноогдоно.</p>' +
+    return '<h2 class="step-title">Ажилтан сонгоно уу</h2>' +
       '<div class="option-list">' +
         opt("any", "Хамаагүй", "Сул цагтай аль ч ажилтан", '<span class="option-icon"><i data-lucide="users"></i></span>', '<span class="badge badge-success no-dot">Илүү олон сул цаг</span>') +
         el.map(function (e) {

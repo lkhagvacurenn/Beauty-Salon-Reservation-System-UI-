@@ -23,7 +23,7 @@
     var cats = S().salon.cats;
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Үйлчилгээ</h2><p>Үнэ салбар бүрээр, хугацаа, урьдчилгаа, цуцлалтын нөхцөл</p></div>' +
+      '<div class="page-head"><div><h2>Үйлчилгээ</h2></div>' +
         '<button type="button" class="btn btn-primary" data-svc-new><i data-lucide="plus"></i>Үйлчилгээ нэмэх</button></div>' +
       '<div class="biz-toolbar wrap">' +
         '<label class="input-icon grow-sm"><i data-lucide="search"></i><span class="sr-only">Хайх</span><input class="input" id="svc-q" type="search" placeholder="Үйлчилгээ хайх" value="' + BZ.esc(st.q) + '"></label>' +

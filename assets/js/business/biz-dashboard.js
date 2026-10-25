@@ -48,7 +48,7 @@
 
       '<div class="dash-grid">' +
         /* Chart */
-        '<div class="card"><div class="card-title"><div><h3>Сүүлийн 14 хоногийн орлого</h3><p class="xs muted" style="margin:2px 0 0">Дууссан захиалгын дүн, өдрөөр</p></div>' +
+        '<div class="card"><div class="card-title"><div><h3>Сүүлийн 14 хоногийн орлого</h3></div>' +
           '<a class="btn btn-ghost btn-sm" href="#/reports">Тайлан<i data-lucide="arrow-right"></i></a></div>' + chart(list) + "</div>" +
         /* Today timeline */
         '<div class="card"><div class="card-title"><h3>Өнөөдөр</h3><a class="btn btn-ghost btn-sm" href="#/bookings?view=day">Хуваарь<i data-lucide="arrow-right"></i></a></div>' + timeline(todays) + "</div>" +

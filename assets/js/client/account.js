@@ -97,7 +97,7 @@
     }
     if (st === "confirmed" || st === "pending_payment") {
       actions += '<button class="btn btn-ghost btn-sm" type="button" data-cancel="' + bk.ref + '"><i data-lucide="calendar-x"></i>Цуцлах</button>';
-      if (st === "confirmed") actions += '<a class="btn btn-ghost btn-sm" href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(E.branch(s, bk.branchId).address + ", Улаанбаатар") + '" target="_blank" rel="noopener"><i data-lucide="navigation"></i>Чиглэл</a>';
+      if (st === "confirmed") actions += '<a class="btn btn-ghost btn-sm" href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(E.branch(s, bk.branchId).address + ", Улаанбаатар") + '" target="_blank" rel="noopener"><i data-lucide="map-pin"></i>Байршил</a>';
     }
     if (st === "completed") {
       actions += rv
@@ -116,7 +116,7 @@
           '<li><i data-lucide="clock"></i>' + (w.rel ? "<b>" + w.rel + "</b> · " : "") + w.long + ", " + bk.time + "–" + w.end + "</li>" +
           '<li><i data-lucide="user-round"></i>' + bk.employeeName + "</li>" +
           '<li><i data-lucide="wallet"></i>' + B.money(bk.total) + (bk.deposit ? ' <span class="muted">· урьдчилгаа ' + B.money(bk.deposit) + (bk.paidAt ? " төлсөн" : "") + "</span>" : "") + "</li>" +
-          (st === "cancelled" ? '<li class="muted"><i data-lucide="info"></i>' + (bk.cancelledBy || "Та") + " цуцалсан" + (bk.cancelReason ? ": " + bk.cancelReason : "") + "</li>" : "") +
+          (st === "cancelled" ? '<li class="muted"><i data-lucide="info"></i>' + (bk.cancelledBy ? bk.cancelledBy + " цуцалсан" : "Цуцалсан") + (bk.cancelReason ? ": " + bk.cancelReason : "") + "</li>" : "") +
         "</ul>" +
         '<div class="bk-actions">' + actions + '<button class="link-btn" type="button" data-detail="' + bk.ref + '">Дэлгэрэнгүй</button></div>' +
       "</div></article>";
@@ -142,7 +142,7 @@
       cancelled: ["calendar-x", "Цуцлагдсан захиалга алга", "Цуцалсан эсвэл төлбөрийн хугацаа дууссан захиалга энд харагдана.", ""]
     }[tab];
     el.innerHTML =
-      '<div class="page-head"><div><h1 class="display">Миний захиалга</h1><p>Захиалгаа харах, цуцлах, төлөх, сэтгэгдэл бичих.</p></div>' +
+      '<div class="page-head"><div><h1 class="display">Миний захиалга</h1></div>' +
         '<a class="btn btn-primary btn-sm" href="#/salons"><i data-lucide="plus"></i>Шинэ захиалга</a></div>' +
       '<div class="segmented bk-tabs" role="tablist" aria-label="Захиалгын төрөл">' + TABS.map(function (t) {
         return '<button type="button" role="tab" aria-selected="' + (tab === t[0]) + '" data-bk-tab="' + t[0] + '">' + t[1] + ' <span class="tab-count">' + groups[t[0]].length + "</span></button>";
@@ -320,7 +320,7 @@
 
   function myReviews() {
     var rv = reviews(), refs = Object.keys(rv);
-    if (!refs.length) return '<div class="empty"><div class="empty-icon"><i data-lucide="message-square-heart"></i></div><h3>Сэтгэгдэл алга</h3><p>Дууссан захиалга бүрт нэг удаа сэтгэгдэл бичих боломжтой.</p><a class="btn btn-primary btn-sm" href="#/bookings?tab=past">Дууссан захиалга</a></div>';
+    if (!refs.length) return '<div class="empty"><div class="empty-icon"><i data-lucide="message-square-heart"></i></div><h3>Сэтгэгдэл алга</h3><a class="btn btn-primary btn-sm" href="#/bookings?tab=past">Дууссан захиалга</a></div>';
     return '<h2 class="h-sm">Миний сэтгэгдэл</h2><ul class="review-list">' + refs.map(function (ref) {
       var r = rv[ref], bk = find(ref) || {};
       return '<li class="review"><div class="review-head"><span class="avatar"><i data-lucide="store" class="icon-sm"></i></span>' +
@@ -390,7 +390,7 @@
       var reason = (document.querySelector('[data-reason][aria-pressed="true"]') || {}).dataset;
       patch(t.dataset.cancelYes, { status: "cancelled", cancelledBy: "Та", cancelReason: reason ? reason.reason : "", cancelledAt: E.dateKey(new Date()) });
       UI.closeModal("bk-cancel"); tab = "cancelled"; renderBookings();
-      UI.toast("Захиалга цуцлагдлаа. Цаг бусад хүнд нээгдлээ.", "info"); return;
+      UI.toast("Захиалга цуцлагдлаа.", "info"); return;
     }
     if ((t = e.target.closest("[data-review]"))) return openReview(t.dataset.review);
     if ((t = e.target.closest("[data-review-edit]"))) return openReview(t.dataset.reviewEdit, true);

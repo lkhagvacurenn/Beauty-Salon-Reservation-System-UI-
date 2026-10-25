@@ -669,3 +669,15 @@ dl.sum .warn { color: var(--warning); }
 .wz-otp p { margin: 0; }
 .otp { display: flex; gap: 8px; }
 .otp .input { width: 46px; height: 54px; text-align: center; font-size: var(--fs-lg); font-weight: 700; padding: 0; }
+
+/* Invoice not issued yet */
+.inv-pending { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: var(--sp-4); background: var(--surface-3); border-style: dashed; }
+.inv-pending > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.inv-illu { flex: 0 0 96px; width: 96px; height: 80px; }
+.inv-illu .ii-bg { fill: var(--primary-soft); }
+.inv-illu .ii-paper { fill: var(--surface); stroke: var(--accent); stroke-width: 2.5; stroke-linejoin: round; }
+.inv-illu .ii-line { stroke: var(--border-strong); stroke-width: 3.5; stroke-linecap: round; fill: none; }
+.inv-illu .ii-clock { fill: var(--surface); stroke: var(--accent-strong); stroke-width: 2.5; }
+.inv-illu .ii-hand { fill: none; stroke: var(--accent-strong); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.inv-illu .ii-spark { fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linecap: round; }
+@media (max-width: 479px) { .inv-pending { flex-direction: column; align-items: flex-start; } }

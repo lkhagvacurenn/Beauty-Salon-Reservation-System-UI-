@@ -46,10 +46,10 @@
     var cnt = function (k) { return base.filter(function (r) { return k === "all" || r.inv.status === k; }).length; };
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Платформын шимтгэл</h2><p>Сар бүрийн 1-нд салон бүрт өмнөх сарын шимтгэлийн QPay нэхэмжлэх илгээнэ. Салон 10-ны дотор QR-аар төлж, төлбөрийг систем QPay-ээс автоматаар шалгана. Админ баталгаажуулах шаардлагагүй. Үйлчлүүлэгчийн төлбөрт шимтгэл нэмэгдэхгүй.</p></div>' +
+      '<div class="page-head"><div><h2>Платформын шимтгэл</h2></div>' +
         '<button type="button" class="btn btn-secondary" data-inv-csv><i data-lucide="download"></i>CSV татах</button></div>' +
 
-      '<div class="card fee-card"><div class="card-title"><div><h3>Шимтгэлийн дүрэм</h3><p class="xs muted" style="margin:2px 0 0">Демо тохиргоо. Бүх салонд адил үйлчилнэ.</p></div>' +
+      '<div class="card fee-card"><div class="card-title"><div><h3>Шимтгэлийн дүрэм</h3></div>' +
           '<button type="button" class="btn btn-secondary btn-sm" data-fee-edit><i data-lucide="settings-2"></i>Өөрчлөх</button></div>' +
         '<div class="fee-facts">' +
           "<div><span class='kpi-label'>Нэг захиалгын шимтгэл</span><b>" + BZ.money(fee.perBooking) + "</b><span class='xs muted'>Дууссан захиалга тутамд</span></div>" +

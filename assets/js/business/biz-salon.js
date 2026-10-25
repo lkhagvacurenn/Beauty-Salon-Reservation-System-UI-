@@ -13,7 +13,7 @@
   function render() {
     var s = S().salon, el = BZ.el("salon"), cm = BZ.currentMonth();
     el.innerHTML =
-      '<div class="page-head"><div><h2>Салон ба салбар</h2><p>Салоны ерөнхий мэдээлэл, салбар, цагийн хуваарь, дансны мэдээлэл</p></div>' +
+      '<div class="page-head"><div><h2>Салон ба салбар</h2></div>' +
         '<button type="button" class="btn btn-primary" data-branch-new><i data-lucide="plus"></i>Салбар нэмэх</button></div>' +
 
       '<div class="card salon-card">' +

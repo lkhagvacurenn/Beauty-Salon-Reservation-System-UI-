@@ -13,13 +13,13 @@
   function u(id) { return "https://images.unsplash.com/" + id + "?auto=format&fit=crop&w=900&q=70"; }
 
   var CATEGORIES = [
-    { id: "hair",    name: "Үс засалт",     icon: "scissors" },
-    { id: "nails",   name: "Хумс",          icon: "hand" },
-    { id: "makeup",  name: "Нүүр будалт",   icon: "brush" },
-    { id: "lashes",  name: "Сормуус",       icon: "eye" },
-    { id: "brows",   name: "Хөмсөг",        icon: "sparkle" },
-    { id: "skin",    name: "Арьс арчилгаа", icon: "droplets" },
-    { id: "massage", name: "Массаж",        icon: "hand-heart" }
+    { id: "hair",    name: "Үс засалт",     icon: "cat-hair" },
+    { id: "nails",   name: "Хумс",          icon: "cat-nails" },
+    { id: "makeup",  name: "Нүүр будалт",   icon: "cat-makeup" },
+    { id: "lashes",  name: "Сормуус",       icon: "cat-lashes" },
+    { id: "brows",   name: "Хөмсөг",        icon: "cat-brows" },
+    { id: "skin",    name: "Арьс арчилгаа", icon: "cat-skin" },
+    { id: "massage", name: "Массаж",        icon: "cat-massage" }
   ];
 
   var DISTRICTS = ["Сүхбаатар", "Чингэлтэй", "Баянгол", "Баянзүрх", "Хан-Уул", "Сонгинохайрхан"];

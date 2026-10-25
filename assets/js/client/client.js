@@ -104,7 +104,7 @@
   /* ---------- Home page ---------- */
   function sectionHead(title, sub, link) {
     return (
-      '<div class="section-head"><div><h2>' + title + "</h2>" + (sub ? "<p>" + sub + "</p>" : "") + "</div>" +
+      '<div class="section-head"><div><h2>' + title + "</h2></div>" +
       (link ? '<a class="see-all" href="' + link[1] + '">' + link[0] + '<i data-lucide="arrow-right"></i></a>' : "") +
       "</div>"
     );
@@ -188,8 +188,8 @@
                     }).join("") +
                   "</div>" +
                   '<div class="row-wrap featured-actions">' +
-                    '<a class="btn btn-primary" href="#/book?id=' + f.id + '"><i data-lucide="calendar-check"></i>Цаг захиалах</a>' +
-                    '<a class="btn btn-secondary" href="#/salon?id=' + f.id + '">Дэлгэрэнгүй</a>' +
+                    '<a class="btn btn-primary btn-sm" href="#/book?id=' + f.id + '">Цаг захиалах</a>' +
+                    '<a class="btn btn-secondary btn-sm" href="#/salon?id=' + f.id + '">Дэлгэрэнгүй</a>' +
                   "</div>" +
                 "</div>" +
               "</article>"
@@ -226,7 +226,7 @@
       /* Recommended */
       '<section class="home-section">' +
         sectionHead("Танд санал болгох салонууд", "Үнэлгээ өндөр, сул цагтай салонууд", ["Бүх салон", "#/salons"]) +
-        '<div class="salon-grid">' + recommended.slice(0, 6).map(function (x) { return salonCard(x); }).join("") + "</div>" +
+        '<div class="salon-grid">' + recommended.slice(0, 5).map(function (x) { return salonCard(x); }).join("") + "</div>" +
       "</section>" +
 
       footer();
@@ -268,7 +268,7 @@
   /* opts.host: wrap the slot in <section class="..."> (hidden with it if every image fails); opts.cls: extra class */
   function adSlot(place, opts) {
     opts = opts || {};
-    var slot = D.AD_SLOTS && D.AD_SLOTS[place], list = liveAds(place);
+    var slot = D.AD_SLOTS && D.AD_SLOTS[place], list = opts.ads || liveAds(place);
     if (!slot || !list.length) return "";
     var html = '<div class="bad bad-' + place + (opts.cls ? " " + opts.cls : "") + '" data-bad="' + place + '" style="--bad-w:' + slot.w + 'px">' +
       '<div class="bad-frame" style="aspect-ratio:' + slot.w + " / " + slot.h + '">' +
@@ -302,7 +302,7 @@
     box.querySelectorAll("[data-bad-dot]").forEach(function (d, j) { d.setAttribute("data-bad-dot", j); d.setAttribute("aria-label", (j + 1) + "-р сурталчилгаа"); });
     var left = box.querySelectorAll(".bad-slide").length;
     if (left < 2) { var dd = box.querySelector(".bad-dots"); if (dd) dd.remove(); }
-    if (!left) { box.hidden = true; var host = box.closest(".bad-host"); if (host) host.hidden = true; }
+    if (!left) { box.hidden = true; var host = box.closest(".bad-host"); if (host && !host.querySelector(".bad:not([hidden])")) host.hidden = true; }
     else showAd(box, 0);
   }
   setInterval(function () {
@@ -313,14 +313,22 @@
       showAd(box, (+box.getAttribute("data-i") || 0) + 1);
     });
   }, 6000);
-  window.BloomAd = { slot: adSlot, live: liveAds, fail: adFail };
+  /* Every live ad of a slot as its own block, stacked one under another */
+  function adStack(place, opts) {
+    opts = opts || {};
+    var list = liveAds(place);
+    if (!list.length) return "";
+    return '<section class="' + (opts.host || "") + ' bad-host bad-stack" aria-label="Сурталчилгаа">' +
+      list.map(function (a) { return adSlot(place, { ads: [a], cls: opts.cls }); }).join("") + "</section>";
+  }
+  window.BloomAd = { slot: adSlot, stack: adStack, live: liveAds, fail: adFail };
 
   /* ---------- Favourites page ---------- */
   function renderFavorites() {
     var el = document.querySelector('[data-page="favorites"]');
     var list = Favorites.all().map(salonById).filter(Boolean);
     el.innerHTML =
-      '<div class="page-head"><div><h1 class="display">Хадгалсан салонууд</h1><p>Зүрхэн тэмдэг дарж хадгалсан салонууд энд харагдана.</p></div>' +
+      '<div class="page-head"><div><h1 class="display">Хадгалсан салонууд</h1></div>' +
       (list.length ? '<span class="badge badge-pink no-dot">' + list.length + " салон</span>" : "") + "</div>" +
       (list.length
         ? '<div class="salon-grid">' + list.map(function (x) { return salonCard(x); }).join("") + "</div>"

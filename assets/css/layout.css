@@ -211,3 +211,19 @@
 @media (min-width: 1024px) { .hide-desktop { display: none !important; } }
 @media (max-width: 1023px) { .hide-tablet-down { display: none !important; } }
 @media (max-width: 1023px) { .client-body .toast-stack { bottom: calc(var(--bottom-nav-h) + var(--sp-4)); } }
+
+/* Page-switch loading bar (shell.js routeLoader) */
+#route-loader {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 3000; height: 3px; pointer-events: none;
+  transform: scaleX(0); transform-origin: 0 50%; opacity: 0;
+  background: linear-gradient(90deg, var(--primary), var(--accent-strong));
+  box-shadow: 0 0 10px var(--primary);
+}
+#route-loader.is-run { animation: route-load .8s var(--ease) forwards; }
+@keyframes route-load {
+  0% { opacity: 1; transform: scaleX(0); }
+  55% { opacity: 1; transform: scaleX(.75); }
+  85% { opacity: 1; transform: scaleX(1); }
+  100% { opacity: 0; transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce) { #route-loader.is-run { animation-duration: .01s; } }

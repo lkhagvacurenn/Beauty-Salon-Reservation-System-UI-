@@ -22,7 +22,7 @@
     var blocked = users.filter(function (u) { return u.status === "blocked"; }).length;
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Хэрэглэгчид</h2><p>Платформын бүх бүртгэлтэй хэрэглэгч, үүрэг ба төлөв</p></div>' +
+      '<div class="page-head"><div><h2>Хэрэглэгчид</h2></div>' +
         '<button type="button" class="btn btn-secondary" data-users-csv><i data-lucide="download"></i>CSV татах</button></div>' +
       '<div class="kpi-grid">' +
         AD.kpi("Нийт хэрэглэгч", users.length, users.filter(function (u) { return u.joined.slice(0, 7) === BZ.currentMonth(); }).length + " энэ сард бүртгүүлсэн") +

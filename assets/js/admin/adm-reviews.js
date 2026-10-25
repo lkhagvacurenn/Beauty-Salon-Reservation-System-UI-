@@ -20,7 +20,7 @@
     var avg = all.length ? all.reduce(function (s, r) { return s + r.rating; }, 0) / all.length : 0;
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Сэтгэгдэл хянах</h2><p>Зөвхөн дууссан захиалгад үлдээсэн сэтгэгдэл. Үйлчлүүлэгч өөрийн сэтгэгдлийг засаж, устгана. Салон засах, устгах эрхгүй. Админ аль ч сэтгэгдлийг устгана.</p></div></div>' +
+      '<div class="page-head"><div><h2>Сэтгэгдэл хянах</h2></div></div>' +
       '<div class="kpi-grid">' +
         AD.kpi("Нийт сэтгэгдэл", all.length, "Бүх салон") + AD.kpi("Дундаж үнэлгээ", avg.toFixed(1) + " / 5", "Платформын дундаж") +
         AD.kpi("Шийдвэр хүлээж буй", n("reported"), "Мэдэгдсэн сэтгэгдэл") + AD.kpi("Нуусан", n("hidden"), "Үйлчлүүлэгчдэд харагдахгүй") +

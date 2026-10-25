@@ -175,9 +175,21 @@
     });
     return { id: parts[0] || homeId(), params: params };
   }
+  /* Thin progress bar at the top of the window while a page switches */
+  var lastPage = null;
+  function routeLoader() {
+    var b = document.getElementById("route-loader");
+    if (!b) {
+      b = document.createElement("div");
+      b.id = "route-loader"; b.setAttribute("aria-hidden", "true");
+      document.body.appendChild(b);
+    }
+    b.classList.remove("is-run"); void b.offsetWidth; b.classList.add("is-run");
+  }
   function route() {
     var h = parseHash();
     var n = findRoute(h.id) || findRoute(homeId());
+    if (n.id !== lastPage) { lastPage = n.id; routeLoader(); }
     if (n.redirect) { location.replace("#/" + n.redirect); return; }
     document.querySelectorAll("[data-page]").forEach(function (p) {
       p.hidden = p.getAttribute("data-page") !== n.id;

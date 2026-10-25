@@ -31,7 +31,7 @@
     var owed = EMP.mine().filter(EMP.owes).sort(function (a, b) { return (a.date + a.time) < (b.date + b.time) ? 1 : -1; });
     var live = EMP.mine().filter(function (b) { return b.status === "in_progress" && !b.balancePaid; });
     var paid = EMP.mine().filter(function (b) { return b.date === t && b.status === "completed" && b.balancePaid; });
-    return '<div class="emp-head"><div><h2>Үлдэгдэл төлбөр</h2><p class="muted small" style="margin:0">Үйлчилгээ дууссаны дараа үлдэгдлийг бэлэн, карт эсвэл QR-аар авна</p></div></div>' +
+    return '<div class="emp-head"><div><h2>Үлдэгдэл төлбөр</h2></div></div>' +
       '<ol class="pay-how"><li><span>1</span>Захиалгаа сонгоно</li><li><span>2</span>Төлбөрийн хэлбэр сонгоно: QR, карт, бэлэн</li><li><span>3</span>Төлбөрөө шалгана</li></ol>' +
       '<div class="emp-sec-head"><h3>Төлбөр хүлээгдэж буй</h3><span class="badge badge-warning no-dot">' + owed.length + "</span></div>" +
       (owed.length ? '<div class="owe-list">' + owed.map(oweCard).join("") + "</div>" : BZ.empty("circle-check-big", "Хүлээгдэж буй төлбөр алга", "Бүх үйлчлүүлэгч үлдэгдлээ төлсөн байна.")) +

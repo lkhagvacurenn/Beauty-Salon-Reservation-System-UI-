@@ -122,9 +122,10 @@
 }
 
 /* ---------- Salon card ---------- */
-.salon-grid { display: grid; gap: var(--sp-5); grid-template-columns: repeat(3, minmax(0, 1fr)); }
-@media (max-width: 1023px) { .salon-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 599px)  { .salon-grid { grid-template-columns: 1fr; } }
+.salon-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1279px) { .salon-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 1023px) { .salon-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 767px)  { .salon-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); } }
 
 .salon-card {
   position: relative; display: flex; flex-direction: column; overflow: hidden;
@@ -316,3 +317,49 @@
   .client-footer { grid-template-columns: 1fr; }
   .client-footer nav { justify-content: flex-start; }
 }
+
+/* Compact salon card: fits 5 in a row on desktop, 2 on phones */
+.salon-card { border-radius: var(--r-md); }
+.salon-card-media .cover { aspect-ratio: 4 / 3; }
+.salon-card .cover > .lucide { width: 32px; height: 32px; }
+.salon-card .media-tag { left: 8px; top: 8px; padding: 2px 8px; font-size: .68rem; }
+.salon-card .media-tag .lucide { width: 12px; height: 12px; }
+.salon-card .fav-btn { right: 8px; top: 8px; width: 32px; height: 32px; }
+.salon-card .fav-btn .lucide { width: 16px; height: 16px; }
+.salon-card-body { gap: 6px; padding: var(--sp-3); }
+.salon-card h3 { font-size: var(--fs-sm); }
+.salon-card .rating { font-size: var(--fs-xs); }
+.salon-card .rating .lucide { width: 13px; height: 13px; }
+.salon-card .salon-loc { font-size: var(--fs-xs); }
+.salon-card .salon-loc .lucide { width: 13px; height: 13px; }
+.salon-card .salon-cats span { font-size: .65rem; padding: 1px 6px; }
+.salon-card .salon-cats span:nth-child(n+3) { display: none; }
+.salon-card-foot { flex-direction: column; align-items: stretch; gap: 6px; }
+.salon-card .price-from { font-size: var(--fs-md); }
+.salon-card-foot .btn { width: 100%; justify-content: center; }
+.salon-card .next-slot, .salon-card .match-line { font-size: .7rem; }
+.salon-card .slot-row { gap: 4px; }
+.salon-card .slot-chip { min-height: 26px; padding: 0 8px; font-size: .7rem; }
+@media (max-width: 767px) {
+  .salon-card-body { padding: 10px; }
+  .salon-card .salon-cats { display: none; }
+}
+
+/* Stacked ads (salon detail): every live creative, one under another */
+.bad-stack { display: flex; flex-direction: column; gap: var(--sp-3); }
+
+/* Compact featured cards: photo on the left, key facts on the right */
+.featured-row { gap: var(--sp-4); }
+.featured-card { display: grid; grid-template-columns: 42% minmax(0, 1fr); border-radius: var(--r-md); }
+.featured-media .cover { aspect-ratio: auto; height: 100%; min-height: 170px; }
+.featured-card .media-tag { left: 8px; top: 8px; padding: 2px 8px; font-size: .68rem; }
+.featured-card .fav-btn { left: 8px; right: auto; top: auto; bottom: 8px; width: 32px; height: 32px; }
+.featured-card .fav-btn .lucide { width: 16px; height: 16px; }
+.featured-body { gap: 6px; padding: var(--sp-3); }
+.featured-body h3 { font-size: var(--fs-md); }
+.featured-body > p, .featured-services { display: none; }
+.featured-body .row { gap: 6px; }
+.featured-body .row .small { font-size: var(--fs-xs); }
+.featured-facts { font-size: var(--fs-xs); gap: 4px; }
+.featured-facts .lucide { width: 13px; height: 13px; margin-top: 2px; }
+.featured-actions { gap: 6px; }

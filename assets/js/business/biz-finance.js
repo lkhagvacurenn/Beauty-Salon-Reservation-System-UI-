@@ -40,7 +40,7 @@
         }).join("") + '</div><span class="spacer"></span>' + BZ.branchSelect("rp-branch") + "</div>" +
 
       '<div class="kpi-grid">' +
-        kpi("Нийт захиалга", st.total, online + " онлайн · " + (st.total - online) + " утсаар/биечлэн") +
+        kpi("Нийт захиалга", st.total, online + " онлайн · " + (st.total - online) + " бусад") +
         kpi("Дууссан", st.completed, st.total ? Math.round(st.completed / st.total * 100) + "% гүйцэтгэл" : "—") +
         kpi("Цуцлагдсан / ирээгүй", lost, st.total ? Math.round(lost / st.total * 100) + "% · " + st.no_show + " ирээгүй" : "—") +
         kpi("Орлого", BZ.money(st.revenue), "Дууссан захиалгаар") +
@@ -48,7 +48,7 @@
         kpi("Платформын шимтгэл", BZ.money(fee), st.completed + " × " + S().fee.perBooking + "₮ (салон төлнө)") +
       "</div>" +
 
-      '<div class="card" style="margin-top:var(--sp-4)"><div class="card-title"><div><h3>Сарын орлогын хандлага</h3><p class="xs muted" style="margin:2px 0 0">Дууссан захиалгын орлого, бүх салбар</p></div></div>' + trend() + "</div>" +
+      '<div class="card" style="margin-top:var(--sp-4)"><div class="card-title"><div><h3>Сарын орлогын хандлага</h3></div></div>' + trend() + "</div>" +
 
       '<div class="grid grid-2" style="margin-top:var(--sp-4)">' +
         '<div class="card"><div class="card-title"><h3>Үйлчилгээгээр</h3></div>' + bySvc(list, st) + "</div>" +
@@ -113,6 +113,13 @@
   }
 
   /* ================= Platform fee (auto-charged monthly) ================= */
+  /* Receipt + clock: the month's QPay invoice is not issued yet */
+  var INV_ILLU = '<svg class="inv-illu" viewBox="0 0 120 100" aria-hidden="true">' +
+    '<circle class="ii-bg" cx="58" cy="52" r="42"/>' +
+    '<path class="ii-paper" d="M36 20h38a4 4 0 0 1 4 4v56l-6-4-6 4-6-4-6 4-6-4-6 4-6-4-4 3V24a4 4 0 0 1 4-4z"/>' +
+    '<path class="ii-line" d="M44 34h26M44 44h20M44 54h12"/>' +
+    '<circle class="ii-clock" cx="82" cy="68" r="15"/><path class="ii-hand" d="M82 60v8l6 4"/>' +
+    '<path class="ii-spark" d="M20 30l4-4M18 44h5M100 24l3-3M104 34h5"/></svg>';
   function renderInvoices() {
     var el = BZ.el("invoices"), f = S().fee, inv = BZ.invoices().slice().reverse();
     var totalDone = BZ.monthly().reduce(function (s, m) { return s + m.completed; }, 0);
@@ -126,12 +133,12 @@
     var last = paid[0];
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Платформын шимтгэл</h2><p>Bloom платформын шимтгэлийн QPay нэхэмжлэхийг сар бүрийн 1-нд өмнөх сарын дүнгээр илгээнэ. Сарын 10-ны дотор банкны аппаараа QR уншуулж төлнө. Төлбөрийг систем QPay-ээс автоматаар шалгана. Үйлчлүүлэгчээс авахгүй.</p></div></div>' +
+      '<div class="page-head"><div><h2>Платформын шимтгэл</h2></div></div>' +
       '<div class="inv-top">' +
         '<div class="card fee-card"><div class="card-title"><h3>Шимтгэлийн дүрэм</h3><span class="badge badge-info no-dot">Админ тохируулна</span></div>' +
-          '<div class="fee-rule"><div><span class="fee-big">' + f.freeLimit + '</span><span class="xs muted">' + (monthlyScope ? "сар бүрийн эхний дууссан захиалга үнэгүй" : "эхний дууссан захиалга үнэгүй") + '</span></div>' +
-          '<div><span class="fee-big">' + f.perBooking + '₮</span><span class="xs muted">дараагийн дууссан захиалга тутамд</span></div></div>' +
-          '<div class="free-meter"><div class="row-wrap" style="justify-content:space-between"><span class="xs">Үнэгүй эрх ашигласан</span><b class="xs">' + freeUsed + " / " + f.freeLimit + "</b></div>" + BZ.progress(freeUsed / f.freeLimit * 100) +
+          '<div class="fee-rule"><div><span class="fee-big">' + f.freeLimit + '</span><span class="xs muted">' + (monthlyScope ? "сар бүрийн эхний захиалга үнэгүй" : "эхний захиалга үнэгүй") + '</span></div>' +
+          '<div><span class="fee-big">' + f.perBooking + '₮</span><span class="xs muted">дараагийн захиалга тутамд</span></div></div>' +
+          '<div class="free-meter"><div class="row-wrap" style="justify-content:space-between"><span class="xs">Үнэгүй эрх</span><b class="xs">' + freeUsed + " / " + f.freeLimit + "</b></div>" + BZ.progress(freeUsed / f.freeLimit * 100) +
           '<span class="xs muted">' + (monthlyScope ? "Энэ сарын үнэгүй эрх. Сар бүрийн 1-нд шинэчлэгдэнэ." : freeUsed >= f.freeLimit ? "Үнэгүй эрх " + BZ.monthLabel(firstBillable()) + "ын дунд дууссан. Үнэгүй эрх нийт хугацаанд нэг удаа олгогдоно (сар бүр шинэчлэгдэхгүй)." : f.freeLimit - freeUsed + " үнэгүй захиалга үлдсэн.") + "</span></div>" +
           '<p class="xs muted" style="margin:0">Цуцлагдсан болон ирээгүй захиалгад шимтгэл тооцохгүй.</p></div>' +
         '<div class="inv-cards">' +
@@ -141,8 +148,8 @@
               '<span class="xs">' + i.no + " · " + (late ? "төлөх хугацаа " + i.dueOn + "-нд дууссан" : i.dueOn + "-ны дотор төлнө") + "</span>" +
               '<button type="button" class="btn btn-primary btn-sm" data-inv-pay="' + i.ym + '"><i data-lucide="qr-code"></i>QPay-ээр төлөх</button></div>';
           }).join("") +
-          (open ? '<div class="card inv-due"><span class="xs muted">' + BZ.monthLabel(open.ym) + " · хуримтлагдаж байна</span><span class='kpi-value'>" + BZ.money(open.amount) + "</span>" +
-            '<span class="xs">' + open.completed + " дууссан захиалга · " + open.issueOn + "-нд QPay нэхэмжлэх ирнэ</span></div>" : "") +
+          (open ? '<div class="card inv-due inv-pending">' + INV_ILLU +
+            '<div><b>Төлбөрийн нэхэмжлэл үүсээгүй байна</b><span class="xs muted">' + BZ.monthLabel(open.ym) + "ын шимтгэл " + BZ.money(open.amount) + " хуримтлагдаж байна. QPay нэхэмжлэл " + open.issueOn + "-нд үүснэ.</span></div></div>" : "") +
           '<div class="card inv-due"><span class="xs muted">Нийт төлсөн</span><span class="kpi-value">' + BZ.money(paidSum) + '</span><span class="xs">' + (last ? "Сүүлд " + last.paidAt + " · " + BZ.money(last.amount) + " · QPay" : "Bloom-д нэгдсэнээс хойш") + "</span></div>" +
         "</div>" +
       "</div>" +

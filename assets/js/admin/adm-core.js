@@ -54,7 +54,7 @@
     var fee = BIZ.state.fee;
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Платформын хяналтын самбар</h2><p>' + E.longDate(E.today()) + " · Bloom платформын ерөнхий төлөв</p></div></div>" +
+      '<div class="page-head"><div><h2>Платформын хяналтын самбар</h2><p>' + E.longDate(E.today()) + "</p></div></div>" +
 
       (pending.length || reported ? '<div class="alerts">' +
         (pending.length ? alert("warning", "store", "<b>" + pending.length + " салон</b> бүртгэлийн хүсэлт хянуулахаар хүлээж байна", "#/salons") : "") +
@@ -71,7 +71,7 @@
       "</div>" +
 
       '<div class="dash-grid">' +
-        '<div class="card"><div class="card-title"><div><h3>Платформын дууссан захиалга</h3><p class="xs muted" style="margin:2px 0 0">Бүх салон, сүүлийн 6 сар</p></div>' +
+        '<div class="card"><div class="card-title"><div><h3>Платформын дууссан захиалга</h3></div>' +
           '<a class="btn btn-ghost btn-sm" href="#/bookings">Захиалга<i data-lucide="arrow-right"></i></a></div>' + chart() + "</div>" +
         '<div class="card"><div class="card-title"><h3>Платформын шимтгэл</h3><a class="btn btn-ghost btn-sm" href="#/invoices">Дэлгэрэнгүй<i data-lucide="arrow-right"></i></a></div>' +
           '<dl class="sum">' +
@@ -98,7 +98,7 @@
           }).join("") + "</ul></div>" +
       "</div>" +
 
-      '<div class="card" style="margin-top:var(--sp-4)"><div class="card-title"><div><h3>Энэ сарын идэвхтэй салонууд</h3><p class="xs muted" style="margin:2px 0 0">Дууссан захиалгын тоогоор</p></div></div>' + topSalons(all, cm) + "</div>";
+      '<div class="card" style="margin-top:var(--sp-4)"><div class="card-title"><div><h3>Энэ сарын идэвхтэй салонууд</h3></div></div>' + topSalons(all, cm) + "</div>";
   }
   function alert(kind, icon, html, href) { return '<a class="alert alert-' + kind + '" href="' + href + '"><i data-lucide="' + icon + '"></i><span>' + html + '</span><i data-lucide="chevron-right" class="end"></i></a>'; }
   function chart() {

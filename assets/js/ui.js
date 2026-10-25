@@ -48,8 +48,27 @@
     );
   }
 
+  /* Bloom's own category icons (24×24, lucide stroke style); also as SVG files in assets/icons/categories/ */
+  var CAT_ICONS = {
+    CatHair: [["circle", { cx: "8", cy: "9", r: "5" }], ["circle", { cx: "8", cy: "9", r: "1.5" }], ["path", { d: "M12.6 7H20v4h-7.4" }], ["path", { d: "M20 7.5h2M20 10.5h2" }], ["path", { d: "M6.5 14 5 21h3.5l1.5-6.3" }]],
+    CatNails: [["rect", { x: "10", y: "2", width: "4", height: "6", rx: "1" }], ["path", { d: "M9 8h6v2H9z" }], ["path", { d: "M8 10h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z" }], ["path", { d: "M9.5 14v4" }]],
+    CatMakeup: [["path", { d: "M10 10V5.5L14 2v8" }], ["rect", { x: "8.5", y: "10", width: "7", height: "3", rx: ".5" }], ["rect", { x: "7", y: "13", width: "10", height: "9", rx: "1" }], ["path", { d: "M12 16v3" }]],
+    CatLashes: [["path", { d: "M2 9c2.5 3.5 6 5.5 10 5.5S19.5 12.5 22 9" }], ["path", { d: "M12 14.5V18" }], ["path", { d: "M7.5 13.5 6 16.5" }], ["path", { d: "M16.5 13.5l1.5 3" }], ["path", { d: "M4 11.8 2 14" }], ["path", { d: "M20 11.8l2 2.2" }]],
+    CatBrows: [["path", { d: "M3 8.5C6 5 11 4 16 5.5l5 2" }], ["path", { d: "M3 15s3.5-4 9-4 9 4 9 4-3.5 4-9 4-9-4-9-4z" }], ["circle", { cx: "12", cy: "15", r: "2" }]],
+    CatSkin: [["path", { d: "M12 2s-3 3.4-3 5.6a3 3 0 0 0 6 0C15 5.4 12 2 12 2z" }], ["rect", { x: "4", y: "12", width: "16", height: "3", rx: "1" }], ["path", { d: "M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" }], ["path", { d: "M9 18h6" }]],
+    CatMassage: [["ellipse", { cx: "12", cy: "19", rx: "8", ry: "2.5" }], ["ellipse", { cx: "12", cy: "13.5", rx: "6", ry: "2.2" }], ["ellipse", { cx: "12", cy: "8.5", rx: "4", ry: "1.8" }], ["path", { d: "M15 5c.6-1.8 2.4-3 5-3-.2 2.6-1.6 4-3.6 4" }]]
+  };
+  var ICON_SET = null;
+  function iconSet() {
+    if (!ICON_SET && window.lucide) {
+      var base = window.lucide.icons.Scissors[1];
+      ICON_SET = Object.assign({}, window.lucide.icons);
+      Object.keys(CAT_ICONS).forEach(function (k) { ICON_SET[k] = ["svg", base, CAT_ICONS[k]]; });
+    }
+    return ICON_SET || {};
+  }
   function icons() {
-    if (window.lucide) window.lucide.createIcons();
+    if (window.lucide) window.lucide.createIcons({ icons: iconSet() });
   }
 
   /* ----- Toast ----- */
@@ -154,6 +173,7 @@
     logo: logo,
     themeToggle: themeToggle,
     icons: icons,
+    iconSet: iconSet,
     toast: toast,
     openModal: openModal,
     closeModal: closeModal,

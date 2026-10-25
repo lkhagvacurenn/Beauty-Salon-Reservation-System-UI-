@@ -68,7 +68,7 @@
     var cats = [];
     list.forEach(function (x) { if (cats.indexOf(x.cat) === -1) cats.push(x.cat); });
     return (
-      '<section class="detail-section" id="sec-services"><div class="section-head"><div><h2>Үйлчилгээ</h2><p>' + BR.name + "-ын үнэ. Нэг дор хэд хэдэн үйлчилгээ сонгож болно.</p></div></div>" +
+      '<section class="detail-section" id="sec-services"><div class="section-head"><div><h2>Үйлчилгээ</h2></div></div>' +
       cats.map(function (c) {
         return '<div class="svc-group"><h3><i data-lucide="' + B.catIcon(c) + '"></i>' + B.catName(c) + "</h3>" +
           '<ul class="svc-list">' + list.filter(function (x) { return x.cat === c; }).map(serviceRow).join("") + "</ul></div>";
@@ -95,7 +95,7 @@
     if (cats.indexOf(workCat) === -1) workCat = "all";
     var list = workList(), shown = workAll ? list : list.slice(0, 9);
     return (
-      '<section class="detail-section" id="sec-works"><div class="section-head"><div><h2>Үйлчилгээний зураг</h2><p>Ажилчдын хийсэн бодит ажлын зураг. Зураг дээр дарж үнэ, ажилтныг харна.</p></div>' +
+      '<section class="detail-section" id="sec-works"><div class="section-head"><div><h2>Үйлчилгээний зураг</h2></div>' +
         '<span class="work-count"><i data-lucide="grid-3x3"></i>' + all.length + " зураг</span></div>" +
       (cats.length > 1 ? '<div class="chip-row work-chips" role="tablist" aria-label="Ангилал">' +
         [["all", "Бүгд", "layout-grid"]].concat(cats.map(function (c) { return [c, B.catName(c), B.catIcon(c)]; })).map(function (c) {
@@ -119,14 +119,14 @@
   function staff() {
     var list = S.employees.filter(function (e) { return e.branch === BR.id; });
     return (
-      '<section class="detail-section" id="sec-staff"><div class="section-head"><div><h2>Ажилчид</h2><p>' + list.length + " ажилтан " + BR.name + "-д ажилладаг.</p></div></div>" +
+      '<section class="detail-section" id="sec-staff"><div class="section-head"><div><h2>Ажилчид</h2></div></div>' +
       '<div class="staff-row">' +
       list.map(function (e) {
         return '<article class="staff-card">' + UI.avatar(e, "avatar-lg") +
           "<b>" + e.name + '</b><span class="xs muted">' + e.role + "</span>" +
           '<span class="row small">' + B.stars(e.rating) + '<span class="muted">· ' + e.years + " жил</span></span>" +
           '<span class="xs muted">' + e.days.map(function (d) { return E.WEEKDAYS[d].slice(0, 2); }).join(", ") + " · " + e.start + "–" + e.end + "</span>" +
-          '<a class="btn btn-secondary btn-sm" href="#/book?id=' + S.id + "&branch=" + BR.id + "&emp=" + e.id + '">Энэ ажилтанд захиалах</a></article>';
+          '<a class="btn btn-secondary btn-sm" href="#/book?id=' + S.id + "&branch=" + BR.id + "&emp=" + e.id + '">Үйлчилгээ авах</a></article>';
       }).join("") +
       "</div></section>"
     );
@@ -145,7 +145,7 @@
     var L = likes();
     var total = S.distribution.reduce(function (a, b) { return a + b; }, 0);
     return (
-      '<section class="detail-section" id="sec-reviews"><div class="section-head"><div><h2>Сэтгэгдэл</h2><p>Зөвхөн үйлчилгээ авч дууссан үйлчлүүлэгч сэтгэгдэл бичнэ.</p></div></div>' +
+      '<section class="detail-section" id="sec-reviews"><div class="section-head"><div><h2>Сэтгэгдэл</h2></div></div>' +
       '<div class="review-summary">' +
         '<div class="review-score"><b>' + S.rating.toFixed(1) + "</b>" + '<span class="stars-row">' + starIcons(S.rating) + "</span>" +
           '<span class="xs muted">' + S.reviews + " сэтгэгдэл</span></div>" +
@@ -164,10 +164,9 @@
           '<span class="stars-row small">' + starIcons(r.rating) + "</span></div>" +
           '<p class="review-text">' + r.text + "</p>" +
           '<div class="row-wrap"><span class="badge badge-success no-dot"><i data-lucide="badge-check"></i>Баталгаажсан захиалга</span>' + (r.mine ? '<span class="badge badge-pink no-dot">Таны сэтгэгдэл</span>' : "") +
-          '<button type="button" class="like-btn" data-like="' + r.id + '" aria-pressed="' + liked + '"><i data-lucide="thumbs-up"></i>Тустай · <b>' + (r.likes + (liked ? 1 : 0)) + "</b></button></div></li>";
+          '<button type="button" class="like-btn" data-like="' + r.id + '" aria-pressed="' + liked + '"><i data-lucide="thumbs-up"></i>Таалагдсан · <b>' + (r.likes + (liked ? 1 : 0)) + "</b></button></div></li>";
       }).join("") +
       "</ul>" +
-      '<p class="note"><i data-lucide="message-square-heart"></i>Та энд үйлчилгээ авсан бол "Миний захиалга" хэсгээс дууссан захиалга бүрт нэг удаа сэтгэгдэл үлдээнэ.</p>' +
       "</section>"
     );
   }
@@ -268,12 +267,12 @@
             '<a href="#sec-services" data-jump="sec-services">Үйлчилгээ</a><a href="#sec-works" data-jump="sec-works">Зураг</a><a href="#sec-staff" data-jump="sec-staff">Ажилчид</a>' +
             '<a href="#sec-reviews" data-jump="sec-reviews">Сэтгэгдэл</a><a href="#sec-info" data-jump="sec-info">Цаг, байршил</a></div>' +
           services() + works() + staff() + reviews() + info() +
-          BloomAd.slot("salon", { host: "detail-ad-main" }) +
+          BloomAd.stack("salon", { host: "detail-ad-main" }) +
         "</div>" +
-        /* Side column: booking box, then the 300×250 ad right below it (desktop) */
+        /* Side column: booking box, then the 300×250 ads stacked below it (desktop) */
         '<div class="detail-side">' +
           '<aside class="book-box" id="book-box" aria-label="Захиалгын товч">' + bookBox() + "</aside>" +
-          BloomAd.slot("salon", { host: "detail-ad-side" }) +
+          BloomAd.stack("salon", { host: "detail-ad-side" }) +
         "</div>" +
       "</div>" +
       '<div id="mobile-bar">' + mobileBar() + "</div>" +

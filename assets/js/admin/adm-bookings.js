@@ -39,7 +39,7 @@
     var payOpts = {}; ADM.allBookings().forEach(function (b) { payOpts[BZ.payState(b)[0]] = 1; });
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Захиалга ба төлбөр</h2><p>Бүх салоны захиалга, урьдчилгаа ба үлдэгдэл төлбөрийн төлөв</p></div>' +
+      '<div class="page-head"><div><h2>Захиалга ба төлбөр</h2></div>' +
         '<button type="button" class="btn btn-secondary" data-bk-csv><i data-lucide="download"></i>CSV татах</button></div>' +
       '<div class="kpi-grid">' +
         AD.kpi("Захиалга", s.total, s.upcoming + " хүлээгдэж буй") +
@@ -80,7 +80,7 @@
     var b = ADM.allBookings().filter(function (x) { return x.ref === ref; })[0];
     var bal = b.status === "cancelled" ? 0 : b.balancePaid ? 0 : Math.max(0, b.total - (b.depositPaid ? b.deposit : 0));
     var html =
-      '<div class="bd-status">' + BZ.statusBadge(b.status) + BZ.payBadge(b) + (b.source === "walkin" ? '<span class="badge no-dot">Утсаар / биечлэн</span>' : '<span class="badge no-dot">Онлайн</span>') + "</div>" +
+      '<div class="bd-status">' + BZ.statusBadge(b.status) + BZ.payBadge(b) + (b.source === "walkin" ? '<span class="badge no-dot">Бусад</span>' : '<span class="badge no-dot">Онлайн</span>') + "</div>" +
       '<section class="bd-sec"><h4><i data-lucide="calendar-days"></i>Захиалга</h4><dl class="sum">' +
         "<div><dt>Салон</dt><dd>" + AD.salonName(b.salonId) + "</dd></div><div><dt>Салбар</dt><dd>" + BZ.esc(b.branch) + "</dd></div>" +
         "<div><dt>Үйлчилгээ</dt><dd>" + BZ.esc(b.service) + "</dd></div><div><dt>Ажилтан</dt><dd>" + BZ.esc(b.employee) + "</dd></div>" +

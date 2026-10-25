@@ -21,7 +21,7 @@
     var el = BZ.el("employees"), today = BIZ.day(0), cm = BZ.currentMonth();
     var list = S().employees.filter(BZ.inBranch).filter(function (e) { return !st.q || e.name.toLowerCase().indexOf(st.q.toLowerCase()) > -1; });
     el.innerHTML =
-      '<div class="page-head"><div><h2>Ажилтан</h2><p>Мэдээлэл, үйлчилгээ, ажлын хуваарь, чөлөө, системийн эрх</p></div>' +
+      '<div class="page-head"><div><h2>Ажилтан</h2></div>' +
         '<button type="button" class="btn btn-primary" data-emp-new><i data-lucide="user-plus"></i>Ажилтан нэмэх</button></div>' +
       '<div class="biz-toolbar wrap"><label class="input-icon grow-sm"><i data-lucide="search"></i><span class="sr-only">Хайх</span><input class="input" id="emp-q" type="search" placeholder="Нэрээр хайх" value="' + BZ.esc(st.q) + '"></label>' + BZ.branchSelect("emp-branch") + "</div>" +
       (list.length ? '<div class="emp-grid">' + list.map(function (e) {

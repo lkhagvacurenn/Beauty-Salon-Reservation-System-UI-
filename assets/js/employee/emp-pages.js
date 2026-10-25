@@ -202,7 +202,7 @@
     });
 
     el.innerHTML =
-      '<div class="emp-head"><div><h2>Миний захиалга</h2><p class="muted small" style="margin:0">Өөрт хуваарилагдсан захиалга, төлөв ба төлбөр</p></div>' +
+      '<div class="emp-head"><div><h2>Миний захиалга</h2></div>' +
         (canAll ? BZ.tabs("escope", [["mine", "Минийх"], ["branch", "Салбарын бүх"]], bst.scope) : "") + "</div>" +
       '<div class="eb-tabs chips" role="group" aria-label="Шүүлтүүр">' + [["today", "Өнөөдөр"], ["upcoming", "Ирэх"], ["done", "Өнгөрсөн"], ["all", "Бүгд"]].map(function (x) {
         return '<button type="button" class="chip" data-ebtab="' + x[0] + '" aria-pressed="' + (bst.tab === x[0]) + '">' + x[1] + ' <span class="chip-count">' + counts[x[0]] + "</span></button>";

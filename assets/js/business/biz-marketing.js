@@ -36,7 +36,7 @@
       .reduce(function (s, b) { return s + b.promoOff + b.discountHour; }, 0);
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Урамшуулал</h2><p>Салбарт хамаарах промо код ба Хямдралтай цаг</p></div>' +
+      '<div class="page-head"><div><h2>Урамшуулал</h2></div>' +
         '<div class="row-wrap">' + BZ.branchSelect("pr-branch") + '<button type="button" class="btn btn-primary" data-promo-new="' + pst.tab + '"><i data-lucide="plus"></i>' + (pst.tab === "codes" ? "Промо код үүсгэх" : "Хямдралтай цаг нэмэх") + "</button></div></div>" +
       '<div class="grid grid-3 stat-grid">' +
         '<div class="card stat-card"><div class="stat-icon"><i data-lucide="ticket-percent"></i></div><div class="stat-value">' + activeCodes + '</div><div class="stat-label">Идэвхтэй промо код</div></div>' +
@@ -229,7 +229,7 @@
     var emps = S().employees.filter(BZ.inBranch);
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Сэтгэгдэл</h2><p>Салон болон ажилтны үнэлгээ. Зөвхөн дууссан захиалгад сэтгэгдэл үлдээнэ.</p></div>' + BZ.branchSelect("rv-branch") + "</div>" +
+      '<div class="page-head"><div><h2>Сэтгэгдэл</h2></div>' + BZ.branchSelect("rv-branch") + "</div>" +
       '<div class="rv-summary">' +
         '<div class="card rv-score"><span class="rv-big">' + avg.toFixed(1) + "</span>" + BZ.stars(avg) + '<span class="xs muted">' + all.length + " сэтгэгдэл</span>" +
           '<ul class="rv-dist">' + dist.map(function (d) {

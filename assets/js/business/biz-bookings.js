@@ -45,7 +45,7 @@
     if (st.emp !== "all" && !emps.some(function (e) { return e.id === st.emp; })) st.emp = "all";
 
     el.innerHTML =
-      '<div class="page-head"><div><h2>Захиалга</h2><p>Захиалгын жагсаалт, хуанли, төлөв ба төлбөрийн мэдээлэл</p></div>' +
+      '<div class="page-head"><div><h2>Захиалга</h2></div>' +
         '<button type="button" class="btn btn-primary" data-new-booking><i data-lucide="plus"></i>Захиалга нэмэх</button></div>' +
       '<div class="biz-toolbar wrap">' +
         BZ.tabs("bview", [["list", "Жагсаалт", "list"], ["day", "Өдөр", "calendar-clock"], ["week", "7 хоног", "calendar-range"], ["month", "Сар", "calendar-days"]], st.view) +
@@ -99,7 +99,7 @@
         rows.map(function (b) {
           var e = BZ.employee(b.employeeId);
           return { attrs: 'data-row="' + b.ref + '"', cells: [
-            '<span class="mono">' + b.ref + "</span>" + (b.source === "walkin" ? ' <span class="badge no-dot xs-badge">Утсаар / биечлэн</span>' : ""),
+            '<span class="mono">' + b.ref + "</span>" + (b.source === "walkin" ? ' <span class="badge no-dot xs-badge">Бусад</span>' : ""),
             "<b>" + BZ.esc(b.customer) + '</b><span class="cell-sub">' + b.phone + "</span>",
             BZ.svcNames(b) + '<span class="cell-sub">' + BZ.branch(b.branchId).name + "</span>",
             e ? e.name : "—",
@@ -222,7 +222,7 @@
     });
 
     var html =
-      '<div class="bd-status">' + BZ.statusBadge(b.status) + BZ.payBadge(b) + (b.source === "walkin" ? '<span class="badge no-dot">Утсаар / биечлэн</span>' : '<span class="badge no-dot">Онлайн</span>') + "</div>" +
+      '<div class="bd-status">' + BZ.statusBadge(b.status) + BZ.payBadge(b) + (b.source === "walkin" ? '<span class="badge no-dot">Бусад</span>' : '<span class="badge no-dot">Онлайн</span>') + "</div>" +
       '<div class="bd-grid">' +
         '<section class="bd-sec"><h4><i data-lucide="user-round"></i>Үйлчлүүлэгч</h4><p><b>' + BZ.esc(b.customer) + "</b></p>" +
           '<p class="bd-line"><a href="tel:' + b.phone.replace(/\D/g, "") + '"><i data-lucide="phone"></i>' + b.phone + "</a></p>" +

@@ -59,9 +59,9 @@
           }).join("") + "</ul>" +
           (p.status === "REJECTED" ? '<div class="modal-foot" style="border:0;padding:0"><button type="button" class="btn btn-primary" data-ob-resubmit><i data-lucide="send"></i>Дахин илгээх</button></div>' : "") +
         "</div>") +
-      '<div class="card"><div class="card-title"><div><h3>Зураг оруулах</h3><p class="xs muted" style="margin:2px 0 0">Админ эдгээр зургаар салоныг шалгана</p></div></div>' +
+      '<div class="card"><div class="card-title"><div><h3>Зураг оруулах</h3></div></div>' +
         media("INTERIOR", "Салоны орчин", "Хүлээлгийн хэсэг, ажлын байр, гадна талын зураг. Бүртгэлийн шалгалтад заавал.") +
-        media("WORK", "Хийсэн ажил", "Өөрсдийн хийсэн үс, хумс, будалтын зураг. Бүртгэлийн шалгалтад заавал.") +
+        media("WORK", "Хийгдсэн ажлууд", "Өөрсдийн хийсэн үс, хумс, будалтын зураг. Бүртгэлийн шалгалтад заавал.") +
         media("GALLERY", "Галерей", "Салоны нүүр хуудсанд харагдах нэмэлт зургууд.") +
       "</div>" +
       (noIban.length ? '<div class="card ob-row ob-iban"><i data-lucide="landmark"></i><div class="grow"><b>Орлогын данс оруулаагүй салбар байна</b><p class="xs muted">QPay төлбөр хүлээн авахын тулд салбар бүрт данс хэрэгтэй.</p></div><a class="btn btn-secondary" href="#/salon">Данс оруулах</a></div>' : "") +
@@ -80,7 +80,7 @@
   function renderSettings() {
     var el = BZ.el("settings"), s = S().salon, p = ext();
     el.innerHTML =
-      '<div class="page-head"><div><h2>Салоны профайл</h2><p>Үйлчлүүлэгчдэд харагдах мэдээлэл, зураг</p></div>' +
+      '<div class="page-head"><div><h2>Салоны профайл</h2></div>' +
         '<a class="btn btn-secondary" href="#/new-salon"><i data-lucide="plus"></i>Шинэ салон нэмэх</a></div>' +
       '<div class="set-grid">' +
         '<div class="card set-side">' +
@@ -160,18 +160,18 @@
         BZ.field("wz-baddr", "Хаяг", BZ.input("wz-baddr", "", "text", 'placeholder="1-р хороо, Энхтайваны өргөн чөлөө 15"'), "Хаягаар Google Maps дээрх байршлыг автоматаар олно", true) +
         '<div class="wz-map"><i data-lucide="map-pin"></i><span>Газрын зураг дээр байршлаа тохируулна (LocationPicker)</span></div>' +
         '<div class="form-grid">' + BZ.field("wz-open", "Нээх цаг", BZ.input("wz-open", "10:00", "time")) + BZ.field("wz-close", "Хаах цаг", BZ.input("wz-close", "20:00", "time")) + "</div>";
-      case "services": return '<h3>Үйлчилгээ</h3><p class="xs muted">Үнэ бүх салбарт ижил тохируулагдана; дараа нь салбар тус бүрээр өөрчилж болно. Хоосон мөрийг алгасна.</p>' +
+      case "services": return '<h3>Үйлчилгээ</h3>' +
         '<div class="wz-rows"><div class="wz-row wz-row-h"><span>Нэр</span><span>Ангилал</span><span>Хугацаа (мин)</span><span>Үнэ (₮)</span><span>Урьдчилгаа (₮)</span><span></span></div>' +
         [["Эмэгтэй үс засалт", "hair", 60, 35000, 10000], ["Гель маникюр", "nails", 60, 38000, 0], ["", "", 30, "", ""]].map(function (r, i) {
           return '<div class="wz-row"><input class="input" value="' + r[0] + '" placeholder="Эмэгтэй үс засалт">' + BZ.select("wz-c" + i, [["", "Сонгох"]].concat(cats), r[1]) +
             '<input class="input" type="number" value="' + r[2] + '"><input class="input" type="number" value="' + r[3] + '"><input class="input" type="number" value="' + r[4] + '">' +
             '<button type="button" class="icon-btn plain" aria-label="Хасах"><i data-lucide="x"></i></button></div>';
         }).join("") + '</div><button type="button" class="btn btn-ghost btn-sm"><i data-lucide="plus"></i>Мөр нэмэх</button>';
-      case "staff": return '<h3>Ажилтан</h3><p class="xs muted">Мэргэжилтнүүдээ одоо эсвэл дараа нэмж болно. Ажлын цаг, нэвтрэх эрхийг бүртгэл батлагдсаны дараа тохируулна.</p>' +
+      case "staff": return '<h3>Ажилтан</h3>' +
         '<div class="wz-rows">' + [["Анужин", "Ганбаатар", "Ахлах үсчин", "anujin@example.mn"], ["", "", "", ""]].map(function (r) {
           return '<div class="wz-row wz-row-4"><input class="input" placeholder="Нэр" value="' + r[0] + '"><input class="input" placeholder="Овог" value="' + r[1] + '"><input class="input" placeholder="Үсчин" value="' + r[2] + '"><input class="input" type="email" placeholder="Имэйл" value="' + r[3] + '"></div>';
         }).join("") + "</div>" + '<button type="button" class="btn btn-ghost btn-sm"><i data-lucide="user-plus"></i>Ажилтан нэмэх</button>';
-      case "bank": return '<h3>Орлогын данс</h3><p class="xs muted">Үйлчлүүлэгчийн QPay төлбөр (урьдчилгаа, үлдэгдэл) энэ дансанд шууд орно. Бүх салбарт ижил данс тохируулагдана.</p><div class="form-grid">' +
+      case "bank": return '<h3>Орлогын данс</h3><div class="form-grid">' +
         BZ.field("wz-bank", "Банк", BZ.select("wz-bank", BZ.DEP_BANKS.map(function (b) { return [b, b]; }), BZ.DEP_BANKS[0]), "", true) +
         BZ.field("wz-iban", "IBAN дансны дугаар", BZ.input("wz-iban", "", "text", 'placeholder="MN12 0005 0059 8765 4321"'), "", true) +
         BZ.field("wz-holder", "Данс эзэмшигч", BZ.input("wz-holder", "", "text", 'placeholder="Сарнай Бьюти ХХК"'), "", true) + "</div>" +
@@ -207,12 +207,12 @@
         '<button type="button" class="btn btn-ghost btn-sm" data-wz-resend>Шинэ код илгээх</button></div></div>';
       return;
     }
-    el.innerHTML = '<div class="page-head"><div><h2>Салоноо Bloom-д бүртгүүлэх</h2><p>7 алхам. Эзэмшигч, салон, салбар, үйлчилгээ, ажилтан, данс. Илгээсний дараа имэйлээ баталгаажуулна.</p></div></div>' + wizard();
+    el.innerHTML = '<div class="page-head"><div><h2>Салоноо Bloom-д бүртгүүлэх</h2></div></div>' + wizard();
   }
   function renderNewSalon() {
     var el = BZ.el("new-salon");
     wz.mode = "new";
-    el.innerHTML = '<div class="page-head"><div><h2>Шинэ салон нэмэх</h2><p>Салон бүр тусдаа шалгагдаж батлагдана. Батлагдтал хэрэглэгчдэд харагдахгүй.</p></div></div>' + wizard();
+    el.innerHTML = '<div class="page-head"><div><h2>Шинэ салон нэмэх</h2></div></div>' + wizard();
   }
   function stepWizard(k) {
     var list = steps();

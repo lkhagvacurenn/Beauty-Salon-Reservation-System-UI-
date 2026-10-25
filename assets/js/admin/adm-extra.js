@@ -50,7 +50,7 @@
     });
     var page = Math.min(act.page, Math.max(1, Math.ceil(list.length / per)));
     el.innerHTML =
-      '<div class="page-head"><div><h2>Үйл ажиллагааны лог</h2><p>Платформ дээр хийгдсэн бүх чухал үйлдлийн бүртгэл (audit log). Зөвхөн харах боломжтой, засах устгах боломжгүй.</p></div></div>' +
+      '<div class="page-head"><div><h2>Үйл ажиллагааны лог</h2></div></div>' +
       '<div class="adm-filters">' +
         '<label class="input-icon grow-sm"><i data-lucide="search"></i><span class="sr-only">Хайх</span><input class="input" id="al-q" type="search" placeholder="Тайлбар, хэрэглэгч" value="' + BZ.esc(act.q) + '"></label>' +
         '<label class="inline-select"><i data-lucide="activity"></i><span class="sr-only">Үйлдэл</span>' + BZ.select("al-action", [["all", "Бүх үйлдэл"]].concat(Object.keys(ACT).map(function (k) { return [k, ACT[k][0]]; })), act.action) + "</label>" +
@@ -89,7 +89,7 @@
   function renderCategories() {
     var el = BZ.el("categories"), cats = catState().slice().sort(function (a, b) { return a.order - b.order; });
     el.innerHTML =
-      '<div class="page-head"><div><h2>Үйлчилгээний ангилал</h2><p>Салонууд үйлчилгээгээ эдгээр ангилалд хамааруулна. Хэрэглэгчийн хайлтын шүүлтүүрт харагдана.</p></div>' +
+      '<div class="page-head"><div><h2>Үйлчилгээний ангилал</h2></div>' +
         '<button type="button" class="btn btn-primary" data-cat-new><i data-lucide="plus"></i>Шинэ ангилал</button></div>' +
       '' + BZ.table(["Ангилал", "Код", { label: "Үйлчилгээ", cls: "t-num" }, { label: "Эрэмбэ", cls: "t-num" }, "Төлөв", { label: "", cls: "t-act" }], cats.map(function (c) {
         return { cells: [
@@ -118,7 +118,7 @@
     var name = BZ.val("cf-name"), cc = BZ.val("cf-code"), icon = BZ.val("cf-icon") || "sparkles", order = BZ.val("cf-order");
     var ok = BZ.setErr("cf-name", name ? "" : "Нэр оруулна уу");
     ok = BZ.setErr("cf-code", /^[a-z_]{2,30}$/.test(cc) ? (!code && catState().some(function (x) { return x.code === cc; }) ? "Энэ код бүртгэлтэй байна" : "") : "Латин жижиг үсэг ба _ (2–30 тэмдэгт)") && ok;
-    ok = BZ.setErr("cf-icon", window.lucide && lucide.icons && !lucide.icons[icon.replace(/(^|-)([a-z])/g, function (m, a, b) { return b.toUpperCase(); })] ? "Lucide дүрсний нэр олдсонгүй (жишээ: scissors)" : "") && ok;
+    ok = BZ.setErr("cf-icon", window.lucide && !UI.iconSet()[icon.replace(/(^|-)([a-z])/g, function (m, a, b) { return b.toUpperCase(); })] ? "Lucide дүрсний нэр олдсонгүй (жишээ: scissors)" : "") && ok;
     ok = BZ.setErr("cf-order", order === "" ? "Тоо оруулна уу" : +order < 0 ? "0-ээс бага байж болохгүй" : "") && ok;
     if (!ok) return BZ.firstError();
     var data = { code: cc, name: name, icon: icon, order: +order, active: BZ.val("cf-active"), desc: BZ.val("cf-desc") };
@@ -157,7 +157,7 @@
       }), { title: title, height: 200, fmt: fmt ? function (v) { return BZ.short(v); } : null });
     };
     el.innerHTML =
-      '<div class="page-head"><div><h2>Статистик</h2><p>Платформын сараар задарсан үзүүлэлт</p></div>' +
+      '<div class="page-head"><div><h2>Статистик</h2></div>' +
         '<div class="tab-row">' + BZ.tabs("strange", [["3", "3 сар"], ["6", "6 сар"], ["12", "12 сар"], ["24", "24 сар"]], String(stx.range)) + "</div></div>" +
       '<div class="kpi-grid">' +
         AD.kpi("Захиалга", sum("total").toLocaleString("en-US"), "Нийт, дууссан, цуцалсан") +
@@ -167,11 +167,11 @@
       "</div>" +
       '<div class="stat-grid">' +
         '<div class="card"><div class="card-title"><div><h3>Захиалга</h3><p class="xs muted" style="margin:2px 0 0">Сараар · дууссан ' + sum("completed") + " · цуцалсан " + sum("cancelled") + "</p></div></div>" + bar("total", "Захиалга") + "</div>" +
-        '<div class="card"><div class="card-title"><div><h3>Орлого</h3><p class="xs muted" style="margin:2px 0 0">Дууссан захиалгын нийт дүн</p></div></div>' + bar("revenue", "Орлого", BZ.money) + "</div>" +
-        '<div class="card"><div class="card-title"><div><h3>Шинэ бүртгэл</h3><p class="xs muted" style="margin:2px 0 0">Хэрэглэгч ба салон эзэмшигч</p></div></div>' + bar("users", "Шинэ хэрэглэгч") + "</div>" +
-        '<div class="card"><div class="card-title"><div><h3>Захиалгын эх сурвалж</h3><p class="xs muted" style="margin:2px 0 0">Бүх салоны онлайн болон walk-in захиалга</p></div></div>' +
-          BZ.rankBars([{ label: "Онлайн (Bloom)", value: online, sub: Math.round(online / Math.max(1, bks.length) * 100) + "%" },
-            { label: "Walk-in (салон дээр бүртгэсэн)", value: bks.length - online, sub: Math.round((bks.length - online) / Math.max(1, bks.length) * 100) + "%" }]) +
+        '<div class="card"><div class="card-title"><div><h3>Орлого</h3></div></div>' + bar("revenue", "Орлого", BZ.money) + "</div>" +
+        '<div class="card"><div class="card-title"><div><h3>Шинэ бүртгэл</h3></div></div>' + bar("users", "Шинэ хэрэглэгч") + "</div>" +
+        '<div class="card"><div class="card-title"><div><h3>Захиалгын суваг</h3></div></div>' +
+          BZ.rankBars([{ label: "Онлайн", value: online, sub: Math.round(online / Math.max(1, bks.length) * 100) + "%" },
+            { label: "Бусад", value: bks.length - online, sub: Math.round((bks.length - online) / Math.max(1, bks.length) * 100) + "%" }]) +
           '<h3 style="margin:var(--sp-5) 0 var(--sp-2)">Шимтгэл</h3>' + bar("fee", "Төлөгдсөн шимтгэл", BZ.money) + "</div>" +
       "</div>" +
       '<h3 style="margin:var(--sp-5) 0 var(--sp-3)">Сараар</h3>' +
@@ -213,7 +213,7 @@
     });
     var paid = list.filter(function (t) { return t.status === "PAID"; }), page = Math.min(px.page, Math.max(1, Math.ceil(list.length / per)));
     el.innerHTML =
-      '<div class="page-head"><div><h2>Төлбөр</h2><p>QPay, бэлэн, картаар хийгдсэн бүх гүйлгээ (зөвхөн харах). QPay төлбөрийг callback биш, payment/check-ээр баталгаажуулдаг.</p></div></div>' +
+      '<div class="page-head"><div><h2>Төлбөр</h2></div></div>' +
       '<div class="kpi-grid">' +
         AD.kpi("Төлөгдсөн дүн", BZ.short(paid.reduce(function (s, t) { return s + (t.kind === "refund" ? 0 : t.amount); }, 0)) + "₮", "Шүүлтүүрт таарсан PAID гүйлгээ") +
         AD.kpi("Гүйлгээ", list.length, "Шүүлтүүрт таарсан") +

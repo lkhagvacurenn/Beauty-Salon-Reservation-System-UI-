@@ -50,7 +50,7 @@
     var list = ads.filter(function (a) { return st.filter === "all" || state(a)[0] === st.filter; });
     var imp = ads.reduce(function (s, a) { return s + (a.impressions || 0); }, 0), clicks = ads.reduce(function (s, a) { return s + (a.clicks || 0); }, 0);
     el.innerHTML =
-      '<div class="page-head"><div><h2>Сурталчилгаа</h2><p>Зар нь зөвхөн зураг ба холбоосоос бүрдэнэ. Зураг дээр дарахад сурталчлагчийн хуудас нээгдэнэ. Зарыг зөвхөн админ оруулна.</p></div>' +
+      '<div class="page-head"><div><h2>Сурталчилгаа</h2></div>' +
         '<button type="button" class="btn btn-primary" data-ad-edit=""><i data-lucide="plus"></i>Шинэ зар</button></div>' +
       '<section class="card ad-slots" aria-labelledby="ad-slots-h"><h3 id="ad-slots-h"><i data-lucide="layout-template"></i>Байршлууд</h3>' +
         '<p class="xs muted">Сурталчлагч зургаа яг энэ хэмжээ, харьцаагаар илгээнэ. Харьцаа зөрвөл зураг тайрагдахгүй, бүтнээрээ багтаж харагдана.</p>' +
